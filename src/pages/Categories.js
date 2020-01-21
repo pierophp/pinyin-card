@@ -24,7 +24,7 @@ const Categories = () => {
         {categories.map(category => (
           <Link to={`cards/${category.id}`}>
             <div className={classes.box}>
-              {category.nameEn} <br /> {category.nameCht}
+              {category.namePt} <br /> {category.nameCht}
             </div>
           </Link>
         ))}
