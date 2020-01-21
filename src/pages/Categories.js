@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import config from '../config';
 import useStyles from './Categories.css.js';
+import { Link } from 'react-router-dom';
 
 const Categories = () => {
   const [categories, setCategories] = React.useState([]);
@@ -17,11 +18,15 @@ const Categories = () => {
   }, []);
 
   return (
-    <div>
+    <div className={classes.container}>
       <h2>Categories</h2>
-      <div className={classes.container}>
+      <div className={classes.categoriesContainer}>
         {categories.map(category => (
-          <div className={classes.box}>{category.nameEn}</div>
+          <Link to={`cards/${category.id}`}>
+            <div className={classes.box}>
+              {category.nameEn} <br /> {category.nameCht}
+            </div>
+          </Link>
         ))}
       </div>
     </div>
