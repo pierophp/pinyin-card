@@ -2,14 +2,16 @@ import React from "react";
 import { HashRouter as Router } from "react-router-dom";
 import AppBarDrawer from "./components/template/AppBarDrawer";
 import Routes from "./components/route/Routes";
-import "./App.css";
+import useStyles from "./App.css.js";
 
 function App() {
+  const classes = useStyles();
+
   return (
-    <div className="App">
+    <div>
       <Router>
         <AppBarDrawer />
-        <div className="AppContainer">
+        <div className={classes.container}>
           <Routes />
         </div>
       </Router>
