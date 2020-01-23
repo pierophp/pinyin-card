@@ -9,7 +9,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Toolbar from '@material-ui/core/Toolbar';
 import MenuIcon from '@material-ui/icons/Menu';
 import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
-import TodayIcon from '@material-ui/icons/Today';
 import React from 'react';
 
 const AppBarDrawer = props => {
