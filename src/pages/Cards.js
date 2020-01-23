@@ -64,7 +64,7 @@ const Cards = () => {
               {ideogramType === 'S' ? card.nameChs : card.nameCht}
             </div>
             <div className={classes.pinyin}>{card.pinyin}</div>
-            {card.audio && <audio src={card.audio} autoPlay></audio>}
+            {card.audioCh && <audio src={card.audioCh} autoPlay></audio>}
           </div>
         </div>
       )}

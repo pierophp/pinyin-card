@@ -115,8 +115,23 @@ const CardCreate = () => {
       </div>
       <div>
         <TextField
-          name="audio"
+          name="audioCh"
           label="Audio Chinese"
+          variant="outlined"
+          autoComplete="off"
+          onChange={handleChange}
+        />
+        <TextField
+          name="audioEn"
+          label="Audio English"
+          variant="outlined"
+          autoComplete="off"
+          onChange={handleChange}
+        />
+
+        <TextField
+          name="audioPt"
+          label="Audio Portuguese"
           variant="outlined"
           autoComplete="off"
           onChange={handleChange}
