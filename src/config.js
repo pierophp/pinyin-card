@@ -3,7 +3,7 @@ const config = {
     apiUrl: 'http://localhost:5000',
   },
   production: {
-    apiUrl: 'http://138.197.224.37:5050',
+    apiUrl: 'https://cards-api.pinzi.org',
   },
 };
 
