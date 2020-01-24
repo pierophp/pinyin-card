@@ -1,9 +1,11 @@
 import React from 'react';
 import useStyles from './CardCreate.css.js';
+import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import axios from 'axios';
+import config from '../config';
 
-const CardCreate = () => {
+const CardCreate = props => {
   const classes = useStyles();
   const [data, setData] = React.useState({});
 
@@ -23,6 +25,13 @@ const CardCreate = () => {
     });
   };
 
+  const save = async () => {
+    const request = data;
+    request.categoryId = parseInt(props.match.params.category, 10);
+
+    await axios.post(`${config.apiUrl}/card`, request);
+  };
+
   return (
     <div className={classes.container}>
       <div>
@@ -30,15 +39,18 @@ const CardCreate = () => {
           name="nameEn"
           label="English"
           variant="outlined"
+          autoComplete="off"
           onChange={handleChange}
+          className={classes.input}
         />
         <TextField
           name="namePt"
           label="Portuguese"
           variant="outlined"
+          autoComplete="off"
           onChange={handleChange}
+          className={classes.input}
         />
-
         {data.nameEn && (
           <a
             href={`https://translate.google.com.br/#view=home&op=translate&sl=en&tl=pt&text=${data.nameEn}`}
@@ -55,6 +67,7 @@ const CardCreate = () => {
           variant="outlined"
           autoComplete="off"
           onChange={handleChange}
+          className={classes.input}
         />
         <TextField
           name="nameChs"
@@ -62,6 +75,7 @@ const CardCreate = () => {
           variant="outlined"
           autoComplete="off"
           onChange={handleChange}
+          className={classes.input}
         />
         <TextField
           name="pinyin"
@@ -69,6 +83,7 @@ const CardCreate = () => {
           variant="outlined"
           autoComplete="off"
           onChange={handleChange}
+          className={classes.input}
         />
 
         {data.nameEn && (
@@ -103,6 +118,7 @@ const CardCreate = () => {
           variant="outlined"
           autoComplete="off"
           onChange={handleChange}
+          className={classes.input}
         />
         {data.nameEn && (
           <a
@@ -120,6 +136,7 @@ const CardCreate = () => {
           variant="outlined"
           autoComplete="off"
           onChange={handleChange}
+          className={classes.input}
         />
         <TextField
           name="audioEn"
@@ -127,6 +144,7 @@ const CardCreate = () => {
           variant="outlined"
           autoComplete="off"
           onChange={handleChange}
+          className={classes.input}
         />
 
         <TextField
@@ -135,6 +153,7 @@ const CardCreate = () => {
           variant="outlined"
           autoComplete="off"
           onChange={handleChange}
+          className={classes.input}
         />
 
         {data.nameCht && (
@@ -142,9 +161,31 @@ const CardCreate = () => {
             href={`https://forvo.com/word/${data.nameCht}/#zh`}
             target="_blank"
           >
-            Forvo
+            Forvo Ch
           </a>
         )}
+
+        {data.nameEn && (
+          <a
+            href={`https://forvo.com/word/${data.nameEn}/#en_usa`}
+            target="_blank"
+          >
+            Forvo En
+          </a>
+        )}
+
+        {data.namePt && (
+          <a href={`https://forvo.com/word/${data.namePt}/#pt`} target="_blank">
+            Forvo Pt
+          </a>
+        )}
+      </div>
+
+      <div>
+        <br />
+        <Button variant="contained" onClick={save}>
+          Save
+        </Button>
       </div>
     </div>
   );
