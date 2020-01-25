@@ -4,7 +4,7 @@ import upperFirst from 'lodash/upperFirst';
 import config from '../config';
 import useStyles from './Cards.css.js';
 
-const Cards = () => {
+const Cards = props => {
   const [cards, setCards] = React.useState([]);
   const [currentCard, setCurrentCard] = React.useState(0);
   const classes = useStyles();
@@ -26,7 +26,11 @@ const Cards = () => {
 
   React.useEffect(() => {
     async function init() {
-      const response = (await axios.get(`${config.apiUrl}/card`)).data;
+      const response = (
+        await axios.get(
+          `${config.apiUrl}/card/category/${props.match.params.category}`
+        )
+      ).data;
       setCards(response);
       setCurrentCard(0);
     }
