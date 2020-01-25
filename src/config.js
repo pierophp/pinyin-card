@@ -1,9 +1,11 @@
 const config = {
   development: {
     apiUrl: 'http://localhost:5000',
+    pinyinApiUrl: 'https://api.pinzi.org',
   },
   production: {
     apiUrl: 'https://cards-api.pinzi.org',
+    pinyinApiUrl: 'https://api.pinzi.org',
   },
 };
 
