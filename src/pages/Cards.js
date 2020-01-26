@@ -1,13 +1,22 @@
-import React from 'react';
 import axios from 'axios';
 import upperFirst from 'lodash/upperFirst';
+import React from 'react';
 import config from '../config';
+import getConfiguration from '../helpers/get.configuration';
 import useStyles from './Cards.css.js';
 
 const Cards = props => {
   const [cards, setCards] = React.useState([]);
   const [currentCard, setCurrentCard] = React.useState(0);
   const classes = useStyles();
+
+  const configuration = getConfiguration();
+
+  const isChinese = ['chs', 'cht'].includes(configuration.learningLanguage);
+  const nameField = `name${upperFirst(configuration.learningLanguage)}`;
+  const audioField = isChinese
+    ? 'audioCh'
+    : `audio${upperFirst(configuration.learningLanguage)}`;
 
   const handleKeyDown = React.useCallback(
     e => {
@@ -31,7 +40,7 @@ const Cards = props => {
           `${config.apiUrl}/card/category/${props.match.params.category}`
         )
       ).data;
-      setCards(response);
+      setCards(response.filter(card => card[nameField]));
       setCurrentCard(0);
     }
 
@@ -48,9 +57,9 @@ const Cards = props => {
   }, [handleKeyDown]);
 
   const card = cards[currentCard];
-  const ideogramType = 'T';
+  const showTranslation = false;
   const language = 'pt';
-  console.log(cards);
+
   return (
     <div>
       {card && (
@@ -59,16 +68,19 @@ const Cards = props => {
           style={{ backgroundImage: `url(${card.image})` }}
         >
           <div className={classes.informationContainer}>
-            <div className={classes.translationTitle}>
-              {card[`name${upperFirst(language)}`]
-                ? card[`name${upperFirst(language)}`]
-                : card.nameEn}
-            </div>
-            <div className={classes.chineseTitle}>
-              {ideogramType === 'S' ? card.nameChs : card.nameCht}
-            </div>
-            <div className={classes.pinyin}>{card.pinyin}</div>
-            {card.audioCh && <audio src={card.audioCh} autoPlay></audio>}
+            {showTranslation && (
+              <div className={classes.translationTitle}>
+                {card[`name${upperFirst(language)}`]
+                  ? card[`name${upperFirst(language)}`]
+                  : card.nameEn}
+              </div>
+            )}
+
+            <div className={classes.title}>{card[nameField]}</div>
+
+            {isChinese && <div className={classes.pinyin}>{card.pinyin}</div>}
+
+            {card.audioCh && <audio src={card[audioField]} autoPlay></audio>}
           </div>
         </div>
       )}

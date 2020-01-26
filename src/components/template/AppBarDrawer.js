@@ -7,8 +7,9 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Toolbar from '@material-ui/core/Toolbar';
+import ChromeReaderModeIcon from '@material-ui/icons/ChromeReaderMode';
 import MenuIcon from '@material-ui/icons/Menu';
-import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
+import SettingsApplicationsIcon from '@material-ui/icons/SettingsApplications';
 import React from 'react';
 
 const AppBarDrawer = props => {
@@ -49,9 +50,19 @@ const AppBarDrawer = props => {
             <List>
               <ListItem button onClick={() => (window.location.hash = '/')}>
                 <ListItemIcon>
-                  <SupervisedUserCircleIcon />
+                  <ChromeReaderModeIcon />
                 </ListItemIcon>
                 <ListItemText primary="Categories" />
+              </ListItem>
+              <Divider />
+              <ListItem
+                button
+                onClick={() => (window.location.hash = '/configuration')}
+              >
+                <ListItemIcon>
+                  <SettingsApplicationsIcon />
+                </ListItemIcon>
+                <ListItemText primary="Configuration" />
               </ListItem>
               <Divider />
             </List>

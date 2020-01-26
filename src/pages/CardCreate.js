@@ -21,6 +21,10 @@ const CardCreate = props => {
     nameCht: '',
     nameChs: '',
     audioCh: '',
+    nameIt: '',
+    audioIt: '',
+    nameFr: '',
+    audioFr: '',
     pinyin: '',
     image: '',
   });
@@ -28,6 +32,8 @@ const CardCreate = props => {
   const audioEnRef = React.createRef();
   const audioPtRef = React.createRef();
   const audioChRef = React.createRef();
+  const audioItRef = React.createRef();
+  const audioFrRef = React.createRef();
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -96,6 +102,8 @@ const CardCreate = props => {
     request.categoryId = parseInt(props.match.params.category, 10);
 
     await axios.post(`${config.apiUrl}/card`, request);
+
+    window.location.hash = `/category/${props.match.params.category}`;
   };
 
   return (
@@ -294,6 +302,120 @@ const CardCreate = props => {
               Get Pinyin
             </a>
           )}
+        </div>
+
+        <div>
+          <TextField
+            name="nameIt"
+            label="Italian"
+            autoComplete="off"
+            onChange={handleChange}
+            onBlur={() => handleForvo('It')}
+            value={data.nameIt}
+            className={classes.input}
+            InputProps={{ tabIndex: '1001' }}
+          />
+
+          <IconButton
+            color="primary"
+            variant="contained"
+            component="a"
+            href={`https://translate.google.com.br/#view=home&op=translate&sl=en&tl=it&text=${data.nameEn}`}
+            target="_blank"
+            disabled={data.nameEn ? false : true}
+          >
+            <GTranslateIcon />
+          </IconButton>
+
+          <TextField
+            name="audioIt"
+            label="Audio Italian"
+            autoComplete="off"
+            onChange={handleChange}
+            value={data.audioIt}
+            className={classes.input}
+            InputProps={{ tabIndex: '2' }}
+          />
+
+          <IconButton
+            color="primary"
+            variant="contained"
+            component="a"
+            href={`https://forvo.com/word/${data.nameIt}/#it`}
+            target="_blank"
+            disabled={data.nameIt ? false : true}
+          >
+            <MusicVideoIcon />
+          </IconButton>
+
+          <audio src={data.audioIt} ref={audioItRef}></audio>
+
+          <IconButton
+            color="primary"
+            variant="contained"
+            component="span"
+            disabled={data.audioIt ? false : true}
+            onClick={() => audioItRef.current.play()}
+          >
+            <PlayCircleOutlineIcon />
+          </IconButton>
+        </div>
+
+        <div>
+          <TextField
+            name="nameFr"
+            label="French"
+            autoComplete="off"
+            onChange={handleChange}
+            onBlur={() => handleForvo('Fr')}
+            value={data.nameFr}
+            className={classes.input}
+            InputProps={{ tabIndex: '1001' }}
+          />
+
+          <IconButton
+            color="primary"
+            variant="contained"
+            component="a"
+            href={`https://translate.google.com.br/#view=home&op=translate&sl=en&tl=fr&text=${data.nameEn}`}
+            target="_blank"
+            disabled={data.nameEn ? false : true}
+          >
+            <GTranslateIcon />
+          </IconButton>
+
+          <TextField
+            name="audioFr"
+            label="Audio French"
+            autoComplete="off"
+            onChange={handleChange}
+            value={data.audioFr}
+            className={classes.input}
+            InputProps={{ tabIndex: '2' }}
+          />
+
+          <IconButton
+            color="primary"
+            variant="contained"
+            component="a"
+            href={`https://forvo.com/word/${data.nameFr}/#fr`}
+            target="_blank"
+            disabled={data.nameFr ? false : true}
+          >
+            <MusicVideoIcon />
+          </IconButton>
+
+          <audio src={data.audioFr} ref={audioFrRef}></audio>
+
+          <IconButton
+            color="primary"
+            variant="contained"
+            component="span"
+            disabled={data.audioFr ? false : true}
+            onClick={() => audioFrRef.current.play()}
+          >
+            <PlayCircleOutlineIcon />
+          </IconButton>
         </div>
 
         <div>

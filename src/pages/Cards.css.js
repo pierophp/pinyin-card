@@ -18,7 +18,7 @@ export default makeStyles(theme => ({
     left: 70,
     bottom: 20,
   },
-  chineseTitle: {
+  title: {
     width: '100%',
     textAlign: 'center',
     color: '#fff',
