@@ -1,5 +1,6 @@
 import axios from 'axios';
 import upperFirst from 'lodash/upperFirst';
+import shuffle from 'lodash/shuffle';
 import React from 'react';
 import config from '../config';
 import getConfiguration from '../helpers/get.configuration';
@@ -44,8 +45,6 @@ const Cards = props => {
   const orientation =
     window.innerWidth > window.innerHeight ? 'landscape' : 'portrait';
 
-  console.log(orientation);
-
   React.useEffect(() => {
     async function init() {
       const response = (
@@ -53,7 +52,7 @@ const Cards = props => {
           `${config.apiUrl}/card/category/${props.match.params.category}`
         )
       ).data;
-      setCards(response.filter(card => card[nameField]));
+      setCards(shuffle(response.filter(card => card[nameField])));
       setCurrentCard(0);
     }
 
