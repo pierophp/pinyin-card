@@ -36,4 +36,15 @@ export default makeStyles(theme => ({
     color: '#fff',
     fontSize: '25px',
   },
+  containerClick: {
+    display: 'flex',
+  },
+  leftClick: {
+    width: '50%',
+    height: 'calc(100vh - 65px)',
+  },
+  rightClick: {
+    width: '50%',
+    height: 'calc(100vh - 65px)',
+  },
 }));

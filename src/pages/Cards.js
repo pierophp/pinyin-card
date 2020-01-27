@@ -18,16 +18,24 @@ const Cards = props => {
     ? 'audioCh'
     : `audio${upperFirst(configuration.learningLanguage)}`;
 
+  const previousCard = () => {
+    if (currentCard > 0) {
+      setCurrentCard(currentCard - 1);
+    }
+  };
+
+  const nextCard = () => {
+    if (currentCard < cards.length - 1) {
+      setCurrentCard(currentCard + 1);
+    }
+  };
+
   const handleKeyDown = React.useCallback(
     e => {
       if (e.key === 'ArrowRight') {
-        if (currentCard < cards.length - 1) {
-          setCurrentCard(currentCard + 1);
-        }
+        nextCard();
       } else if (e.key === 'ArrowLeft') {
-        if (currentCard > 0) {
-          setCurrentCard(currentCard - 1);
-        }
+        previousCard();
       }
     },
     [cards, currentCard]
@@ -67,6 +75,10 @@ const Cards = props => {
           className={classes.cardContainer}
           style={{ backgroundImage: `url(${card.image})` }}
         >
+          <div className={classes.containerClick}>
+            <div className={classes.leftClick} onClick={previousCard}></div>
+            <div className={classes.rightClick} onClick={nextCard}></div>
+          </div>
           <div className={classes.informationContainer}>
             {showTranslation && (
               <div className={classes.translationTitle}>
