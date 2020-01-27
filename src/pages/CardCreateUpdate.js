@@ -74,6 +74,7 @@ const CardCreateUpdate = props => {
     ).data;
 
     if (!response.url) {
+      await handleForvo();
       return;
     }
 
@@ -81,6 +82,12 @@ const CardCreateUpdate = props => {
   };
 
   const handleForvo = async language => {
+    let audioLanguage = language;
+
+    if (['Cht', 'Chs'].includes(language)) {
+      audioLanguage = 'Ch';
+    }
+
     const url = await getForvo(language);
     const dataCopy = JSON.parse(JSON.stringify(data));
     dataCopy[`audio${audioLanguage}`] = url;
@@ -89,8 +96,6 @@ const CardCreateUpdate = props => {
   };
 
   const getPinyin = async () => {
-    await handleForvo();
-
     const url = await getForvo('Cht');
 
     const response = (
@@ -101,6 +106,7 @@ const CardCreateUpdate = props => {
 
     const dataCopy = JSON.parse(JSON.stringify(data));
     if (!dataCopy.nameChs) {
+      await handleForvo();
       dataCopy.nameChs = response.simplified;
     }
 
