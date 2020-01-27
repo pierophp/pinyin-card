@@ -6,9 +6,9 @@ import GTranslateIcon from '@material-ui/icons/GTranslate';
 import axios from 'axios';
 import React from 'react';
 import config from '../config';
-import useStyles from './CategoryCreate.css.js';
+import useStyles from './CategoryCreateUpdate.css.js';
 
-const CategoryCreate = props => {
+const CategoryCreateUpdate = props => {
   const classes = useStyles();
   const [data, setData] = React.useState({
     nameEn: '',
@@ -18,6 +18,22 @@ const CategoryCreate = props => {
     nameIt: '',
     nameFr: '',
   });
+
+  React.useEffect(() => {
+    async function init() {
+      if (!props.match.params.id) {
+        return;
+      }
+
+      const response = (
+        await axios.get(`${config.apiUrl}/category/${props.match.params.id}`)
+      ).data;
+
+      setData(response);
+    }
+
+    init();
+  }, []);
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -32,7 +48,14 @@ const CategoryCreate = props => {
   const save = async () => {
     const request = data;
 
-    await axios.post(`${config.apiUrl}/category`, request);
+    if (props.match.params.id) {
+      await axios.put(
+        `${config.apiUrl}/category/${props.match.params.id}`,
+        request
+      );
+    } else {
+      await axios.post(`${config.apiUrl}/category`, request);
+    }
 
     window.location.hash = `/`;
   };
@@ -175,4 +198,4 @@ const CategoryCreate = props => {
   );
 };
 
-export default CategoryCreate;
+export default CategoryCreateUpdate;

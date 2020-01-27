@@ -9,9 +9,9 @@ import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
 import axios from 'axios';
 import React from 'react';
 import config from '../config';
-import useStyles from './CardCreate.css.js';
+import useStyles from './CardCreateUpdate.css.js';
 
-const CardCreate = props => {
+const CardCreateUpdate = props => {
   const classes = useStyles();
   const [data, setData] = React.useState({
     nameEn: '',
@@ -86,12 +86,22 @@ const CardCreate = props => {
 
   React.useEffect(() => {
     async function init() {
-      const response = (
-        await axios.get(
-          `${config.apiUrl}/category/${props.match.params.category}`
-        )
-      ).data;
-      setCategory(response);
+      if (props.match.params.category) {
+        const categoryResponse = (
+          await axios.get(
+            `${config.apiUrl}/category/${props.match.params.category}`
+          )
+        ).data;
+        setCategory(categoryResponse);
+      }
+
+      if (props.match.params.id) {
+        const cardResponse = (
+          await axios.get(`${config.apiUrl}/card/${props.match.params.id}`)
+        ).data;
+
+        setData(cardResponse);
+      }
     }
 
     init();
@@ -99,11 +109,20 @@ const CardCreate = props => {
 
   const save = async () => {
     const request = data;
-    request.categoryId = parseInt(props.match.params.category, 10);
+    if (props.match.params.category) {
+      request.categoryId = parseInt(props.match.params.category, 10);
+    }
 
-    await axios.post(`${config.apiUrl}/card`, request);
+    if (props.match.params.id) {
+      await axios.put(
+        `${config.apiUrl}/card/${props.match.params.id}`,
+        request
+      );
+    } else {
+      await axios.post(`${config.apiUrl}/card`, request);
+    }
 
-    window.location.hash = `/category/${props.match.params.category}`;
+    window.location.hash = `/category/${request.categoryId}`;
   };
 
   return (
@@ -458,4 +477,4 @@ const CardCreate = props => {
   );
 };
 
-export default CardCreate;
+export default CardCreateUpdate;

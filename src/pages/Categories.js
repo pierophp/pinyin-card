@@ -65,14 +65,21 @@ const Categories = props => {
             {currentCategory.namePt}
           </Typography>
           <div>
+            <Link to={`/cards/${currentCategory.id}`}>
+              <Button color="primary" variant="contained">
+                Start
+              </Button>
+            </Link>
+
             <Link to={`/card-create/${currentCategory.id}`}>
               <Button color="primary" variant="contained">
                 Add card
               </Button>
             </Link>
-            <Link to={`/cards/${currentCategory.id}`}>
+
+            <Link to={`/category-update/${currentCategory.id}`}>
               <Button color="primary" variant="contained">
-                Start
+                Edit Category
               </Button>
             </Link>
           </div>
@@ -87,6 +94,7 @@ const Categories = props => {
                 <TableCell>Pinyin</TableCell>
                 <TableCell>Italian</TableCell>
                 <TableCell>French</TableCell>
+                <TableCell></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -101,6 +109,11 @@ const Categories = props => {
                   <TableCell>{card.pinyin}</TableCell>
                   <TableCell>{card.nameIt}</TableCell>
                   <TableCell>{card.nameFr}</TableCell>
+                  <TableCell>
+                    <Link to={`/card-update/${card.id}`}>
+                      <Typography>Edit</Typography>
+                    </Link>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
