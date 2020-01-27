@@ -4,7 +4,7 @@ export default makeStyles(theme => ({
     backgroundColor: '#000',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center center',
-    height: 'calc(100vh - 65px)',
+    height: 'calc(100vh - 56px)',
     width: '100%',
     position: 'relative',
   },
@@ -46,10 +46,10 @@ export default makeStyles(theme => ({
   },
   leftClick: {
     width: '50%',
-    height: 'calc(100vh - 65px)',
+    height: 'calc(100vh - 56px)',
   },
   rightClick: {
     width: '50%',
-    height: 'calc(100vh - 65px)',
+    height: 'calc(100vh - 56px)',
   },
 }));
