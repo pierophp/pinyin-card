@@ -105,7 +105,6 @@ const CardCreateUpdate = props => {
 
     const dataCopy = JSON.parse(JSON.stringify(data));
     if (!dataCopy.nameChs) {
-      await handleForvo();
       dataCopy.nameChs = response.simplified;
     }
 
