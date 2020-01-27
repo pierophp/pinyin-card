@@ -148,7 +148,8 @@ const CardCreateUpdate = props => {
     <div className={classes.container}>
       <form autoComplete="off">
         <Typography variant="h4" component="h4">
-          Add to "{category.nameEn}":
+          {!props.match.params.id && <>Add to "{category.nameEn}"</>}
+          {props.match.params.id && <>Editing</>}:
         </Typography>
         <div>
           <TextField
