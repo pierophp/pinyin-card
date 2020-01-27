@@ -74,8 +74,7 @@ const CardCreateUpdate = props => {
     ).data;
 
     if (!response.url) {
-      await handleForvo();
-      return;
+      return audio;
     }
 
     return response.url;
