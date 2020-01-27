@@ -41,6 +41,11 @@ const Cards = props => {
     [cards, currentCard]
   );
 
+  const orientation =
+    window.innerWidth > window.innerHeight ? 'landscape' : 'portrait';
+
+  console.log(orientation);
+
   React.useEffect(() => {
     async function init() {
       const response = (
@@ -72,7 +77,7 @@ const Cards = props => {
     <div>
       {card && (
         <div
-          className={classes.cardContainer}
+          className={[classes.cardContainer, classes[orientation]].join(' ')}
           style={{ backgroundImage: `url(${card.image})` }}
         >
           <div className={classes.containerClick}>

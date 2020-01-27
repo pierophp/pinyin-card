@@ -4,10 +4,15 @@ export default makeStyles(theme => ({
     backgroundColor: '#000',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center center',
-    backgroundSize: 'auto 100vh',
     height: 'calc(100vh - 65px)',
     width: '100%',
     position: 'relative',
+  },
+  landscape: {
+    backgroundSize: 'auto 100vh',
+  },
+  portrait: {
+    backgroundSize: '100vw auto',
   },
   informationContainer: {
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
