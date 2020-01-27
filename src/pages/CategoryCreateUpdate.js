@@ -45,6 +45,21 @@ const CategoryCreateUpdate = props => {
     setData(dataCopy);
   };
 
+  const getPinyin = async () => {
+    const response = (
+      await axios.get(
+        `${config.pinyinApiUrl}/cards/convert?ideogram=${data.nameCht}`
+      )
+    ).data;
+
+    const dataCopy = JSON.parse(JSON.stringify(data));
+    if (!dataCopy.nameChs) {
+      dataCopy.nameChs = response.simplified;
+    }
+
+    setData(dataCopy);
+  };
+
   const save = async () => {
     const request = data;
 
@@ -108,6 +123,9 @@ const CategoryCreateUpdate = props => {
             onChange={handleChange}
             value={data.nameCht}
             className={classes.input}
+            onBlur={() => {
+              getPinyin();
+            }}
           />
 
           <IconButton

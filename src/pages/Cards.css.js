@@ -17,7 +17,7 @@ export default makeStyles(theme => ({
   informationContainer: {
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
     width: '150px',
-    height: '100px',
+    height: '75px',
     textAlign: 'center',
     position: 'absolute',
     left: 70,

@@ -85,6 +85,8 @@ const CardCreateUpdate = props => {
   };
 
   const getPinyin = async () => {
+    await handleForvo('Cht');
+
     const response = (
       await axios.get(
         `${config.pinyinApiUrl}/cards/convert?ideogram=${data.nameCht}`
@@ -265,7 +267,6 @@ const CardCreateUpdate = props => {
             onChange={handleChange}
             onBlur={() => {
               getPinyin();
-              handleForvo('Cht');
             }}
             value={data.nameCht}
             className={classes.input}
