@@ -29,6 +29,12 @@ const CardCreateUpdate = props => {
     image: '',
   });
   const [category, setCategory] = React.useState({});
+  const nameInputPtRef = React.createRef();
+  const nameInputChtRef = React.createRef();
+  const nameInputChsRef = React.createRef();
+  const nameInputItRef = React.createRef();
+  const nameInputFrRef = React.createRef();
+
   const audioEnRef = React.createRef();
   const audioPtRef = React.createRef();
   const audioChRef = React.createRef();
@@ -79,9 +85,22 @@ const CardCreateUpdate = props => {
   };
 
   const getPinyin = async () => {
-    await axios.post(`${config.pinyinApiUrl}/unihan/to_pinyin_all`, {
-      ideograms: [data.nameCht],
-    });
+    const response = (
+      await axios.get(
+        `${config.pinyinApiUrl}/cards/convert?ideogram=${data.nameCht}`
+      )
+    ).data;
+
+    const dataCopy = JSON.parse(JSON.stringify(data));
+    if (!dataCopy.nameChs) {
+      dataCopy.nameChs = response.simplified;
+    }
+
+    if (!dataCopy.pinyin) {
+      dataCopy.pinyin = response.pinyin;
+    }
+
+    setData(dataCopy);
   };
 
   React.useEffect(() => {
@@ -141,7 +160,7 @@ const CardCreateUpdate = props => {
             onBlur={() => handleForvo('En')}
             value={data.nameEn}
             className={classes.input}
-            InputProps={{ tabIndex: '1000' }}
+            InputProps={{ inputProps: { tabIndex: 1000 } }}
           />
 
           <TextField
@@ -186,7 +205,8 @@ const CardCreateUpdate = props => {
             onBlur={() => handleForvo('Pt')}
             value={data.namePt}
             className={classes.input}
-            InputProps={{ tabIndex: '1001' }}
+            InputProps={{ inputProps: { tabIndex: 1001 } }}
+            inputRef={nameInputPtRef}
           />
 
           <IconButton
@@ -196,6 +216,9 @@ const CardCreateUpdate = props => {
             href={`https://translate.google.com.br/#view=home&op=translate&sl=en&tl=pt&text=${data.nameEn}`}
             target="_blank"
             disabled={data.nameEn ? false : true}
+            onClick={() => {
+              nameInputPtRef.current.focus();
+            }}
           >
             <GTranslateIcon />
           </IconButton>
@@ -239,9 +262,14 @@ const CardCreateUpdate = props => {
             label="Chinese (Trad.)"
             autoComplete="off"
             onChange={handleChange}
-            onBlur={() => handleForvo('Cht')}
+            onBlur={() => {
+              getPinyin();
+              handleForvo('Cht');
+            }}
             value={data.nameCht}
             className={classes.input}
+            InputProps={{ inputProps: { tabIndex: 1002 } }}
+            inputRef={nameInputChtRef}
           />
 
           <IconButton
@@ -251,6 +279,9 @@ const CardCreateUpdate = props => {
             href={`https://translate.google.com.br/#view=home&op=translate&sl=en&tl=zh-TW&text=${data.nameEn}`}
             target="_blank"
             disabled={data.nameEn ? false : true}
+            onClick={() => {
+              nameInputChtRef.current.focus();
+            }}
           >
             <GTranslateIcon />
           </IconButton>
@@ -263,6 +294,7 @@ const CardCreateUpdate = props => {
             onBlur={() => handleForvo('Chs')}
             value={data.nameChs}
             className={classes.input}
+            inputRef={nameInputChsRef}
           />
           <IconButton
             color="primary"
@@ -271,6 +303,9 @@ const CardCreateUpdate = props => {
             href={`https://translate.google.com.br/#view=home&op=translate&sl=en&tl=zh-CN&text=${data.nameEn}`}
             target="_blank"
             disabled={data.nameEn ? false : true}
+            onClick={() => {
+              nameInputChsRef.current.focus();
+            }}
           >
             <GTranslateIcon />
           </IconButton>
@@ -315,12 +350,6 @@ const CardCreateUpdate = props => {
           >
             <PlayCircleOutlineIcon />
           </IconButton>
-
-          {data.nameCht && (
-            <a href="javascript:void(0)" onClick={getPinyin}>
-              Get Pinyin
-            </a>
-          )}
         </div>
 
         <div>
@@ -332,7 +361,8 @@ const CardCreateUpdate = props => {
             onBlur={() => handleForvo('It')}
             value={data.nameIt}
             className={classes.input}
-            InputProps={{ tabIndex: '1001' }}
+            InputProps={{ inputProps: { tabIndex: 1003 } }}
+            inputRef={nameInputItRef}
           />
 
           <IconButton
@@ -342,6 +372,9 @@ const CardCreateUpdate = props => {
             href={`https://translate.google.com.br/#view=home&op=translate&sl=en&tl=it&text=${data.nameEn}`}
             target="_blank"
             disabled={data.nameEn ? false : true}
+            onClick={() => {
+              nameInputItRef.current.focus();
+            }}
           >
             <GTranslateIcon />
           </IconButton>
@@ -389,7 +422,8 @@ const CardCreateUpdate = props => {
             onBlur={() => handleForvo('Fr')}
             value={data.nameFr}
             className={classes.input}
-            InputProps={{ tabIndex: '1001' }}
+            InputProps={{ inputProps: { tabIndex: 1004 } }}
+            inputRef={nameInputFrRef}
           />
 
           <IconButton
@@ -399,6 +433,9 @@ const CardCreateUpdate = props => {
             href={`https://translate.google.com.br/#view=home&op=translate&sl=en&tl=fr&text=${data.nameEn}`}
             target="_blank"
             disabled={data.nameEn ? false : true}
+            onClick={() => {
+              nameInputFrRef.current.focus();
+            }}
           >
             <GTranslateIcon />
           </IconButton>
@@ -445,6 +482,7 @@ const CardCreateUpdate = props => {
             onChange={handleChange}
             value={data.image}
             className={classes.input}
+            InputProps={{ inputProps: { tabIndex: 1005 } }}
           />
 
           <IconButton
@@ -468,7 +506,7 @@ const CardCreateUpdate = props => {
 
         <div>
           <br />
-          <Button variant="contained" onClick={save}>
+          <Button variant="contained" onClick={save} tabIndex={1006}>
             Save
           </Button>
         </div>
