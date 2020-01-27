@@ -72,15 +72,11 @@ const Categories = props => {
             </Link>
 
             <Link to={`/card-create/${currentCategory.id}`}>
-              <Button color="primary" variant="contained">
-                Add card
-              </Button>
+              <Button variant="contained">Add card</Button>
             </Link>
 
             <Link to={`/category-update/${currentCategory.id}`}>
-              <Button color="primary" variant="contained">
-                Edit Category
-              </Button>
+              <Button variant="contained">Edit Category</Button>
             </Link>
           </div>
 
