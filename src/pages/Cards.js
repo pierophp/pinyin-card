@@ -8,7 +8,28 @@ import useStyles from './Cards.css.js';
 
 const Cards = props => {
   const [cards, setCards] = React.useState([]);
-  const [currentCard, setCurrentCard] = React.useState(0);
+
+  const currentCardReducer = (state, action) => {
+    if (action === 'previous') {
+      if (state === 0) {
+        return state;
+      }
+
+      return state - 1;
+    } else if (action === 'next') {
+      if (state >= cards.length - 1) {
+        return state;
+      }
+
+      return state + 1;
+    }
+  };
+
+  const [currentCard, dispatchCurrentCard] = React.useReducer(
+    currentCardReducer,
+    0
+  );
+
   const classes = useStyles();
 
   const configuration = getConfiguration();
@@ -20,27 +41,20 @@ const Cards = props => {
     : `audio${upperFirst(configuration.learningLanguage)}`;
 
   const previousCard = () => {
-    if (currentCard > 0) {
-      setCurrentCard(currentCard - 1);
-    }
+    dispatchCurrentCard('previous');
   };
 
   const nextCard = () => {
-    if (currentCard < cards.length - 1) {
-      setCurrentCard(currentCard + 1);
-    }
+    dispatchCurrentCard('next');
   };
 
-  const handleKeyDown = React.useCallback(
-    e => {
-      if (e.key === 'ArrowRight') {
-        nextCard();
-      } else if (e.key === 'ArrowLeft') {
-        previousCard();
-      }
-    },
-    [cards, currentCard]
-  );
+  const handleKeyDown = React.useCallback(e => {
+    if (e.key === 'ArrowRight') {
+      nextCard();
+    } else if (e.key === 'ArrowLeft') {
+      previousCard();
+    }
+  }, []);
 
   const orientation =
     window.innerWidth > window.innerHeight ? 'landscape' : 'portrait';
@@ -53,7 +67,6 @@ const Cards = props => {
         )
       ).data;
       setCards(shuffle(response.filter(card => card[nameField])));
-      setCurrentCard(0);
     }
 
     init();
