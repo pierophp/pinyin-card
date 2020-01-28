@@ -62,7 +62,7 @@ const Categories = props => {
       {currentCategory && (
         <div>
           <Typography variant="h4" component="h4">
-            {currentCategory.namePt}
+            {currentCategory.namePt} {`(${cards.length})`}
           </Typography>
           <div>
             <Link to={`/cards/${currentCategory.id}`}>

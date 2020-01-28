@@ -13,7 +13,16 @@ import useStyles from './CardCreateUpdate.css.js';
 
 const CardCreateUpdate = props => {
   const classes = useStyles();
-  const [data, setData] = React.useState({
+
+  const dataReducer = (state, action) => {
+    if (action.type === 'update') {
+      return { ...state, [action.field]: action.value };
+    } else if (action.type === 'state') {
+      return action.state;
+    }
+  };
+
+  const [data, dispatch] = React.useReducer(dataReducer, {
     nameEn: '',
     audioEn: '',
     namePt: '',
@@ -28,6 +37,7 @@ const CardCreateUpdate = props => {
     pinyin: '',
     image: '',
   });
+
   const [category, setCategory] = React.useState({});
   const nameInputPtRef = React.createRef();
   const nameInputChtRef = React.createRef();
@@ -44,11 +54,7 @@ const CardCreateUpdate = props => {
   const handleChange = e => {
     const { name, value } = e.target;
 
-    const dataCopy = JSON.parse(JSON.stringify(data));
-
-    dataCopy[name] = value;
-
-    setData(dataCopy);
+    dispatch({ field: name, value, type: 'update' });
   };
 
   const getForvo = async language => {
@@ -88,10 +94,8 @@ const CardCreateUpdate = props => {
     }
 
     const url = await getForvo(language);
-    const dataCopy = JSON.parse(JSON.stringify(data));
-    dataCopy[`audio${audioLanguage}`] = url;
 
-    setData(dataCopy);
+    dispatch({ field: `audio${audioLanguage}`, value: url, type: 'update' });
   };
 
   const getPinyin = async () => {
@@ -103,18 +107,19 @@ const CardCreateUpdate = props => {
       )
     ).data;
 
-    const dataCopy = JSON.parse(JSON.stringify(data));
-    if (!dataCopy.nameChs) {
-      dataCopy.nameChs = response.simplified;
+    if (!data.nameChs) {
+      dispatch({
+        field: 'nameChs',
+        value: response.simplified,
+        type: 'update',
+      });
     }
 
-    if (!dataCopy.pinyin) {
-      dataCopy.pinyin = response.pinyin;
+    if (!data.pinyin) {
+      dispatch({ field: 'pinyin', value: response.pinyin, type: 'update' });
     }
 
-    dataCopy.audioCh = url;
-
-    setData(dataCopy);
+    dispatch({ field: 'audioCh', value: url, type: 'update' });
   };
 
   React.useEffect(() => {
@@ -133,7 +138,7 @@ const CardCreateUpdate = props => {
           await axios.get(`${config.apiUrl}/card/${props.match.params.id}`)
         ).data;
 
-        setData(cardResponse);
+        dispatch({ state: cardResponse, type: 'state' });
       }
     }
 
