@@ -14,31 +14,29 @@ import useStyles from './CardCreateUpdate.css.js';
 const CardCreateUpdate = props => {
   const classes = useStyles();
 
-  const dataReducer = (state, action) => {
-    if (action.type === 'update') {
-      return { ...state, [action.field]: action.value };
-    } else if (action.type === 'state') {
-      return action.state;
+  const [data, setPartialData] = React.useReducer(
+    (state, partialState) => {
+      return { ...state, ...partialState };
+    },
+    {
+      nameEn: '',
+      audioEn: '',
+      namePt: '',
+      audioPt: '',
+      nameCht: '',
+      nameChs: '',
+      audioCh: '',
+      nameIt: '',
+      audioIt: '',
+      nameFr: '',
+      audioFr: '',
+      pinyin: '',
+      image: '',
     }
-  };
-
-  const [data, dispatch] = React.useReducer(dataReducer, {
-    nameEn: '',
-    audioEn: '',
-    namePt: '',
-    audioPt: '',
-    nameCht: '',
-    nameChs: '',
-    audioCh: '',
-    nameIt: '',
-    audioIt: '',
-    nameFr: '',
-    audioFr: '',
-    pinyin: '',
-    image: '',
-  });
+  );
 
   const [category, setCategory] = React.useState({});
+  const [errors, setErrors] = React.useState({});
   const nameInputPtRef = React.createRef();
   const nameInputChtRef = React.createRef();
   const nameInputChsRef = React.createRef();
@@ -54,7 +52,7 @@ const CardCreateUpdate = props => {
   const handleChange = e => {
     const { name, value } = e.target;
 
-    dispatch({ field: name, value, type: 'update' });
+    setPartialData({ [name]: value });
   };
 
   const getForvo = async language => {
@@ -95,7 +93,7 @@ const CardCreateUpdate = props => {
 
     const url = await getForvo(language);
 
-    dispatch({ field: `audio${audioLanguage}`, value: url, type: 'update' });
+    setPartialData({ [`audio${audioLanguage}`]: url });
   };
 
   const getPinyin = async () => {
@@ -108,18 +106,18 @@ const CardCreateUpdate = props => {
     ).data;
 
     if (!data.nameChs) {
-      dispatch({
-        field: 'nameChs',
-        value: response.simplified,
-        type: 'update',
+      setPartialData({
+        nameChs: response.simplified,
       });
     }
 
     if (!data.pinyin) {
-      dispatch({ field: 'pinyin', value: response.pinyin, type: 'update' });
+      setPartialData({
+        pinyin: response.pinyin,
+      });
     }
 
-    dispatch({ field: 'audioCh', value: url, type: 'update' });
+    setPartialData({ audioCh: url });
   };
 
   React.useEffect(() => {
@@ -138,29 +136,33 @@ const CardCreateUpdate = props => {
           await axios.get(`${config.apiUrl}/card/${props.match.params.id}`)
         ).data;
 
-        dispatch({ state: cardResponse, type: 'state' });
+        setPartialData(cardResponse);
       }
     }
 
     init();
-  }, []);
+  }, [props.match.params.category, props.match.params.id]);
 
   const save = async () => {
-    const request = data;
-    if (props.match.params.category) {
-      request.categoryId = parseInt(props.match.params.category, 10);
-    }
+    try {
+      const request = data;
+      if (props.match.params.category) {
+        request.categoryId = parseInt(props.match.params.category, 10);
+      }
 
-    if (props.match.params.id) {
-      await axios.put(
-        `${config.apiUrl}/card/${props.match.params.id}`,
-        request
-      );
-    } else {
-      await axios.post(`${config.apiUrl}/card`, request);
-    }
+      if (props.match.params.id) {
+        await axios.put(
+          `${config.apiUrl}/card/${props.match.params.id}`,
+          request
+        );
+      } else {
+        await axios.post(`${config.apiUrl}/card`, request);
+      }
 
-    window.location.hash = `/category/${request.categoryId}`;
+      window.location.hash = `/category/${request.categoryId}`;
+    } catch (e) {
+      console.log(e.response);
+    }
   };
 
   return (
