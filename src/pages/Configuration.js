@@ -9,8 +9,7 @@ import React from 'react';
 import getConfiguration from '../helpers/get.configuration';
 import getLanguages from '../helpers/get.languages';
 import useStyles from './Configuration.css.js';
-import Snackbar from '@material-ui/core/Snackbar'; // linha adicionada
-import MuiAlert from '@material-ui/lab/Alert'; // linha adicionada
+import Snackbar from '@material-ui/core/Snackbar';
 
 const languages = getLanguages();
 
@@ -19,8 +18,7 @@ const Configuration = props => {
 
   const [data, setData] = React.useState(getConfiguration());
 
-  // linha adicionada
-  const [open, setOpen] = React.useState(false);
+  const [snackbarOpen, setSnackbarOpen] = React.useState(false);
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -34,16 +32,11 @@ const Configuration = props => {
 
   const save = async () => {
     localStorage.setItem('configuration', JSON.stringify(data));
-    //linhas adicionadas
+
     if (localStorage.getItem('configuration')) {
-      setOpen(true);
+      setSnackbarOpen(true);
     }
   };
-
-  // linhas adicionadas
-  function Alert(props) {
-    return <MuiAlert elevation={6} variant="filled" {...props} />;
-  }
 
   return (
     <div className={classes.container}>
@@ -88,15 +81,12 @@ const Configuration = props => {
         </div>
       </form>
 
-      <div className={classes.root}>
-        <Snackbar
-          open={open}
-          autoHideDuration={6000}
-          onClose={() => setOpen(false)}
-        >
-          Dados gravados com sucesso!
-        </Snackbar>
-      </div>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={2000}
+        onClose={() => setSnackbarOpen(false)}
+        message="Dados gravados com sucesso!"
+      ></Snackbar>
     </div>
   );
 };
