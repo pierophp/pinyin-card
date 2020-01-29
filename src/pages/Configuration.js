@@ -31,9 +31,11 @@ const Configuration = props => {
   };
 
   const save = async () => {
-    localStorage.setItem('configuration', JSON.stringify(data));
+    const parsedConfiguration = JSON.stringify(data);
 
-    if (localStorage.getItem('configuration')) {
+    localStorage.setItem('configuration', parsedConfiguration);
+
+    if (localStorage.getItem('configuration') === parsedConfiguration) {
       setSnackbarOpen(true);
     }
   };
@@ -64,13 +66,6 @@ const Configuration = props => {
             </Select>
             <FormHelperText></FormHelperText>
           </FormControl>
-        </div>
-
-        <div>
-          <div
-            className={classes.image}
-            style={{ backgroundImage: `url(${data.image})` }}
-          ></div>
         </div>
 
         <div>
