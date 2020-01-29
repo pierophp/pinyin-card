@@ -11,7 +11,6 @@ import getLanguages from '../helpers/get.languages';
 import useStyles from './Configuration.css.js';
 import Snackbar from '@material-ui/core/Snackbar'; // linha adicionada
 import MuiAlert from '@material-ui/lab/Alert'; // linha adicionada
-import { makeStyles } from '@material-ui/core/styles'; // linha adicionada
 
 const languages = getLanguages();
 
@@ -45,16 +44,6 @@ const Configuration = props => {
   function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
   }
-
-  // linhas adicionadas
-  const useStyles = makeStyles(theme => ({
-    root: {
-      width: '100%',
-      '& > * + *': {
-        marginTop: theme.spacing(2),
-      },
-    },
-  }));
 
   return (
     <div className={classes.container}>
@@ -105,7 +94,7 @@ const Configuration = props => {
           autoHideDuration={6000}
           onClose={() => setOpen(false)}
         >
-          <Alert severity="success">Dados gravados com sucesso!</Alert>
+          Dados gravados com sucesso!
         </Snackbar>
       </div>
     </div>
