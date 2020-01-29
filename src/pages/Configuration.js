@@ -9,6 +9,7 @@ import React from 'react';
 import getConfiguration from '../helpers/get.configuration';
 import getLanguages from '../helpers/get.languages';
 import useStyles from './Configuration.css.js';
+import Snackbar from '@material-ui/core/Snackbar';
 
 const languages = getLanguages();
 
@@ -16,6 +17,8 @@ const Configuration = props => {
   const classes = useStyles();
 
   const [data, setData] = React.useState(getConfiguration());
+
+  const [snackbarOpen, setSnackbarOpen] = React.useState(false);
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -29,6 +32,10 @@ const Configuration = props => {
 
   const save = async () => {
     localStorage.setItem('configuration', JSON.stringify(data));
+
+    if (localStorage.getItem('configuration')) {
+      setSnackbarOpen(true);
+    }
   };
 
   return (
@@ -73,6 +80,13 @@ const Configuration = props => {
           </Button>
         </div>
       </form>
+
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={2000}
+        onClose={() => setSnackbarOpen(false)}
+        message="Dados gravados com sucesso!"
+      ></Snackbar>
     </div>
   );
 };
