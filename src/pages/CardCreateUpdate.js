@@ -1,5 +1,10 @@
 import Button from '@material-ui/core/Button';
+import FormControl from '@material-ui/core/FormControl';
+import FormHelperText from '@material-ui/core/FormHelperText';
 import IconButton from '@material-ui/core/IconButton';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import GTranslateIcon from '@material-ui/icons/GTranslate';
@@ -36,6 +41,7 @@ const CardCreateUpdate = props => {
   );
 
   const [category, setCategory] = React.useState({});
+  const [categories, setCategories] = React.useState({});
   const [errors, setErrors] = React.useState({});
   const nameInputPtRef = React.createRef();
   const nameInputChtRef = React.createRef();
@@ -132,11 +138,24 @@ const CardCreateUpdate = props => {
       }
 
       if (props.match.params.id) {
-        const cardResponse = (
-          await axios.get(`${config.apiUrl}/card/${props.match.params.id}`)
-        ).data;
+        async function loadCard() {
+          const cardResponse = (
+            await axios.get(`${config.apiUrl}/card/${props.match.params.id}`)
+          ).data;
 
-        setPartialData(cardResponse);
+          setPartialData(cardResponse);
+        }
+
+        loadCard();
+
+        async function loadCategories() {
+          const categoriesResponse = (
+            await axios.get(`${config.apiUrl}/category`)
+          ).data;
+          setCategories(categoriesResponse);
+        }
+
+        loadCategories();
       }
     }
 
@@ -524,6 +543,28 @@ const CardCreateUpdate = props => {
             style={{ backgroundImage: `url(${data.image})` }}
           ></div>
         </div>
+
+        {categories.length > 0 && (
+          <div>
+            <FormControl className={classes.formControl}>
+              <InputLabel id="category-id-label">Category</InputLabel>
+              <Select
+                labelId="category-id-label"
+                id="category-id"
+                value={data.categoryId}
+                name="categoryId"
+                onChange={handleChange}
+              >
+                {categories.map(category => (
+                  <MenuItem key={category.id} value={category.id}>
+                    {category.nameEn}
+                  </MenuItem>
+                ))}
+              </Select>
+              <FormHelperText></FormHelperText>
+            </FormControl>
+          </div>
+        )}
 
         <div>
           <br />
