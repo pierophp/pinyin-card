@@ -8,7 +8,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import upperFirst from 'lodash/upperFirst';
 import React from 'react';
-import { Link } from 'react-router-dom';
 import getConfiguration from '../../helpers/get.configuration';
 
 const useStyles = makeStyles({
@@ -17,13 +16,13 @@ const useStyles = makeStyles({
     margin: '5px 5px',
   },
   media: {
-    height: 140,
+    height: 70,
   },
 });
 
 const ShowCategory = (props: any) => {
   const classes = useStyles();
-  const { category } = props;
+  const { category, user } = props;
   const configuration = getConfiguration();
 
   return (
@@ -57,14 +56,16 @@ const ShowCategory = (props: any) => {
           Learn
         </Button>
 
-        <Button
-          size="small"
-          color="primary"
-          component="a"
-          href={`/#/category-update/${category.id}`}
-        >
-          Edit
-        </Button>
+        {user && user.admin && (
+          <Button
+            size="small"
+            color="primary"
+            component="a"
+            href={`/#/category-update/${category.id}`}
+          >
+            Edit
+          </Button>
+        )}
       </CardActions>
     </Card>
   );

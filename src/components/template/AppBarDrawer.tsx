@@ -8,14 +8,15 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Toolbar from '@material-ui/core/Toolbar';
 import ChromeReaderModeIcon from '@material-ui/icons/ChromeReaderMode';
+import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import MenuIcon from '@material-ui/icons/Menu';
 import SettingsApplicationsIcon from '@material-ui/icons/SettingsApplications';
 import React from 'react';
 
-const AppBarDrawer = props => {
+const AppBarDrawer = (props: any) => {
   const [drawerOpen, setDrawerOpen] = React.useState(false);
 
-  const toggleDrawer = open => event => {
+  const toggleDrawer = (open: any) => (event: any) => {
     if (
       event.type === 'keydown' &&
       (event.key === 'Tab' || event.key === 'Shift')
@@ -63,6 +64,16 @@ const AppBarDrawer = props => {
                   <SettingsApplicationsIcon />
                 </ListItemIcon>
                 <ListItemText primary="Configuration" />
+              </ListItem>
+              <Divider />
+              <ListItem
+                button
+                onClick={() => (window.location.hash = '/login')}
+              >
+                <ListItemIcon>
+                  <AccountBoxIcon />
+                </ListItemIcon>
+                <ListItemText primary="Login" />
               </ListItem>
               <Divider />
             </List>

@@ -5,6 +5,7 @@ import Cards from '../../pages/Cards';
 import Categories from '../../pages/Categories';
 import CategoryCreateUpdate from '../../pages/CategoryCreateUpdate';
 import Configuration from '../../pages/Configuration';
+import Login from '../../pages/Login';
 
 const Routes = () => {
   return (
@@ -21,6 +22,7 @@ const Routes = () => {
       <Route exact path="/card-create/:category" component={CardCreateUpdate} />
       <Route exact path="/card-update/:id" component={CardCreateUpdate} />
       <Route exact path="/configuration" component={Configuration} />
+      <Route exact path="/login" component={Login} />
     </>
   );
 };
