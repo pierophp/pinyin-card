@@ -5,6 +5,8 @@ export default makeStyles(theme => ({
   },
   categoriesContainer: {
     display: 'flex',
+    width: '100%',
+    flexWrap: 'wrap',
   },
   box: {
     border: '1px solid #ccc',
