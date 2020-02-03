@@ -7,6 +7,10 @@ export default makeStyles(theme => ({
     width: '150px',
     margin: '5px 3px !important',
   },
+  inputChinese: {
+    width: '100px',
+    margin: '5px 3px !important',
+  },
   link: {
     margin: '3px 3px !important',
     textDecoration: 'none',

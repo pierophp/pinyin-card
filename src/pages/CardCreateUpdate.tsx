@@ -16,13 +16,13 @@ import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
 import axios from 'axios';
 import React from 'react';
 import config from '../config';
-import useStyles from './CardCreateUpdate.css.js';
+import useStyles from './CardCreateUpdate.css';
 
-const CardCreateUpdate = props => {
+const CardCreateUpdate = (props: any) => {
   const classes = useStyles();
 
   const [data, setPartialData] = React.useReducer(
-    (state, partialState) => {
+    (state: any, partialState: any) => {
       return { ...state, ...partialState };
     },
     {
@@ -39,32 +39,33 @@ const CardCreateUpdate = props => {
       audioFr: '',
       pinyin: '',
       image: '',
+      categoryId: '',
     }
   );
 
-  const [category, setCategory] = React.useState({});
-  const [categories, setCategories] = React.useState({});
+  const [category, setCategory] = React.useState<any>({});
+  const [categories, setCategories] = React.useState<any[]>([]);
   const [errors, setErrors] = React.useState({});
   const [loading, setLoading] = React.useState(false);
-  const nameInputPtRef = React.createRef();
-  const nameInputChtRef = React.createRef();
-  const nameInputChsRef = React.createRef();
-  const nameInputItRef = React.createRef();
-  const nameInputFrRef = React.createRef();
+  const nameInputPtRef = React.createRef<any>();
+  const nameInputChtRef = React.createRef<any>();
+  const nameInputChsRef = React.createRef<any>();
+  const nameInputItRef = React.createRef<any>();
+  const nameInputFrRef = React.createRef<any>();
 
-  const audioEnRef = React.createRef();
-  const audioPtRef = React.createRef();
-  const audioChRef = React.createRef();
-  const audioItRef = React.createRef();
-  const audioFrRef = React.createRef();
+  const audioEnRef = React.createRef<any>();
+  const audioPtRef = React.createRef<any>();
+  const audioChRef = React.createRef<any>();
+  const audioItRef = React.createRef<any>();
+  const audioFrRef = React.createRef<any>();
 
-  const handleChange = e => {
+  const handleChange = (e: any) => {
     const { name, value } = e.target;
 
     setPartialData({ [name]: value });
   };
 
-  const getForvo = async language => {
+  const getForvo = async (language: any) => {
     let audioLanguage = language;
 
     if (['Cht', 'Chs'].includes(language)) {
@@ -93,7 +94,7 @@ const CardCreateUpdate = props => {
     return response.url;
   };
 
-  const handleForvo = async language => {
+  const handleForvo = async (language: any) => {
     let audioLanguage = language;
 
     if (['Cht', 'Chs'].includes(language)) {
@@ -192,7 +193,7 @@ const CardCreateUpdate = props => {
 
   return (
     <div className={classes.container}>
-      <Backdrop className={classes.backdrop} open={loading}>
+      <Backdrop open={loading}>
         <CircularProgress color="inherit" />
       </Backdrop>
 
@@ -221,12 +222,11 @@ const CardCreateUpdate = props => {
             onChange={handleChange}
             value={data.audioEn}
             className={classes.input}
-            InputProps={{ tabIndex: '1' }}
+            InputProps={{ tabIndex: 1 }}
           />
 
           <IconButton
             color="primary"
-            variant="contained"
             component="a"
             href={`https://forvo.com/word/${data.nameEn}/#en_usa`}
             target="_blank"
@@ -239,7 +239,6 @@ const CardCreateUpdate = props => {
 
           <IconButton
             color="primary"
-            variant="contained"
             component="span"
             disabled={data.audioEn ? false : true}
             onClick={() => audioEnRef.current.play()}
@@ -262,7 +261,6 @@ const CardCreateUpdate = props => {
 
           <IconButton
             color="primary"
-            variant="contained"
             component="a"
             href={`https://translate.google.com.br/#view=home&op=translate&sl=en&tl=pt&text=${data.nameEn}`}
             target="_blank"
@@ -281,12 +279,11 @@ const CardCreateUpdate = props => {
             onChange={handleChange}
             value={data.audioPt}
             className={classes.input}
-            InputProps={{ tabIndex: '2' }}
+            InputProps={{ tabIndex: 2 }}
           />
 
           <IconButton
             color="primary"
-            variant="contained"
             component="a"
             href={`https://forvo.com/word/${data.namePt}/#pt`}
             target="_blank"
@@ -299,7 +296,6 @@ const CardCreateUpdate = props => {
 
           <IconButton
             color="primary"
-            variant="contained"
             component="span"
             disabled={data.audioPt ? false : true}
             onClick={() => audioPtRef.current.play()}
@@ -317,14 +313,13 @@ const CardCreateUpdate = props => {
               getPinyin();
             }}
             value={data.nameCht}
-            className={classes.input}
+            className={classes.inputChinese}
             InputProps={{ inputProps: { tabIndex: 1002 } }}
             inputRef={nameInputChtRef}
           />
 
           <IconButton
             color="primary"
-            variant="contained"
             component="a"
             href={`https://translate.google.com.br/#view=home&op=translate&sl=en&tl=zh-TW&text=${data.nameEn}`}
             target="_blank"
@@ -343,12 +338,11 @@ const CardCreateUpdate = props => {
             onChange={handleChange}
             onBlur={() => handleForvo('Chs')}
             value={data.nameChs}
-            className={classes.input}
+            className={classes.inputChinese}
             inputRef={nameInputChsRef}
           />
           <IconButton
             color="primary"
-            variant="contained"
             component="a"
             href={`https://translate.google.com.br/#view=home&op=translate&sl=en&tl=zh-CN&text=${data.nameEn}`}
             target="_blank"
@@ -366,7 +360,7 @@ const CardCreateUpdate = props => {
             autoComplete="off"
             onChange={handleChange}
             value={data.pinyin}
-            className={classes.input}
+            className={classes.inputChinese}
           />
 
           <TextField
@@ -380,7 +374,6 @@ const CardCreateUpdate = props => {
 
           <IconButton
             color="primary"
-            variant="contained"
             component="a"
             href={`https://forvo.com/word/${data.nameCht || data.nameChs}/#zh`}
             target="_blank"
@@ -393,7 +386,6 @@ const CardCreateUpdate = props => {
 
           <IconButton
             color="primary"
-            variant="contained"
             component="span"
             disabled={data.audioCh ? false : true}
             onClick={() => audioChRef.current.play()}
@@ -417,7 +409,6 @@ const CardCreateUpdate = props => {
 
           <IconButton
             color="primary"
-            variant="contained"
             component="a"
             href={`https://translate.google.com.br/#view=home&op=translate&sl=en&tl=it&text=${data.nameEn}`}
             target="_blank"
@@ -436,12 +427,11 @@ const CardCreateUpdate = props => {
             onChange={handleChange}
             value={data.audioIt}
             className={classes.input}
-            InputProps={{ tabIndex: '2' }}
+            InputProps={{ tabIndex: 2 }}
           />
 
           <IconButton
             color="primary"
-            variant="contained"
             component="a"
             href={`https://forvo.com/word/${data.nameIt}/#it`}
             target="_blank"
@@ -454,7 +444,6 @@ const CardCreateUpdate = props => {
 
           <IconButton
             color="primary"
-            variant="contained"
             component="span"
             disabled={data.audioIt ? false : true}
             onClick={() => audioItRef.current.play()}
@@ -478,7 +467,6 @@ const CardCreateUpdate = props => {
 
           <IconButton
             color="primary"
-            variant="contained"
             component="a"
             href={`https://translate.google.com.br/#view=home&op=translate&sl=en&tl=fr&text=${data.nameEn}`}
             target="_blank"
@@ -497,12 +485,11 @@ const CardCreateUpdate = props => {
             onChange={handleChange}
             value={data.audioFr}
             className={classes.input}
-            InputProps={{ tabIndex: '2' }}
+            InputProps={{ tabIndex: 2 }}
           />
 
           <IconButton
             color="primary"
-            variant="contained"
             component="a"
             href={`https://forvo.com/word/${data.nameFr}/#fr`}
             target="_blank"
@@ -515,7 +502,6 @@ const CardCreateUpdate = props => {
 
           <IconButton
             color="primary"
-            variant="contained"
             component="span"
             disabled={data.audioFr ? false : true}
             onClick={() => audioFrRef.current.play()}
@@ -537,12 +523,10 @@ const CardCreateUpdate = props => {
 
           <IconButton
             color="primary"
-            variant="contained"
             component="a"
             href={`https://www.google.com/search?q=${data.nameEn}&tbm=isch&sxsrf=ACYBGNTvB-DW6ELIKgZ60J2gwqZwMfTO1Q:1579728976811&source=lnt&tbs=isz:l&sa=Xbiw=1280&bih=662&dpr=1`}
             target="_blank"
             disabled={data.nameEn ? false : true}
-            size="large"
           >
             <PhotoIcon />
           </IconButton>
@@ -556,7 +540,7 @@ const CardCreateUpdate = props => {
 
         {categories.length > 0 && (
           <div>
-            <FormControl className={classes.formControl}>
+            <FormControl>
               <InputLabel id="category-id-label">Category</InputLabel>
               <Select
                 labelId="category-id-label"
