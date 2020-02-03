@@ -21,7 +21,7 @@ export default makeStyles(theme => ({
     textAlign: 'center',
     position: 'absolute',
     left: 70,
-    bottom: 20,
+    bottom: 40,
   },
   title: {
     width: '100%',

@@ -11,7 +11,7 @@ import { Link } from 'react-router-dom';
 import ShowCategory from '../components/category/ShowCategory';
 import config from '../config';
 import getUser from '../helpers/get.user';
-import useStyles from './Categories.css.js';
+import useStyles from './Categories.css';
 
 const user = getUser();
 

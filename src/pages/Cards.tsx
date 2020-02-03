@@ -1,15 +1,17 @@
 import axios from 'axios';
-import upperFirst from 'lodash/upperFirst';
 import shuffle from 'lodash/shuffle';
+import upperFirst from 'lodash/upperFirst';
 import React from 'react';
 import config from '../config';
 import getConfiguration from '../helpers/get.configuration';
-import useStyles from './Cards.css.js';
+import useStyles from './Cards.css';
+import IconButton from '@material-ui/core/IconButton';
+import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
 
-const Cards = props => {
-  const [cards, setCards] = React.useState([]);
+const Cards = (props: any) => {
+  const [cards, setCards] = React.useState<any[]>([]);
 
-  const currentCardReducer = (state, action) => {
+  const currentCardReducer = (state: any, action: any) => {
     if (action === 'previous') {
       if (state === 0) {
         return state;
@@ -48,11 +50,21 @@ const Cards = props => {
     dispatchCurrentCard('next');
   };
 
+  const play = () => {
+    const audioElement: HTMLAudioElement = document.getElementById(
+      'audio'
+    ) as HTMLAudioElement;
+
+    audioElement.play();
+  };
+
   const handleKeyDown = React.useCallback(e => {
-    if (e.key === 'ArrowRight') {
+    if (e.code === 'ArrowRight') {
       nextCard();
-    } else if (e.key === 'ArrowLeft') {
+    } else if (e.code === 'ArrowLeft') {
       previousCard();
+    } else if (e.code === 'Space') {
+      play();
     }
   }, []);
 
@@ -66,7 +78,7 @@ const Cards = props => {
           `${config.apiUrl}/card/category/${props.match.params.category}`
         )
       ).data;
-      setCards(shuffle(response.filter(card => card[nameField])));
+      setCards(shuffle(response.filter((card: any) => card[nameField])));
     }
 
     init();
@@ -109,7 +121,13 @@ const Cards = props => {
 
             {isChinese && <div className={classes.pinyin}>{card.pinyin}</div>}
 
-            {card.audioCh && <audio src={card[audioField]} autoPlay></audio>}
+            <IconButton color="primary" onClick={play}>
+              <PlayCircleOutlineIcon />
+            </IconButton>
+
+            {card[audioField] && (
+              <audio src={card[audioField]} autoPlay id="audio"></audio>
+            )}
           </div>
         </div>
       )}
