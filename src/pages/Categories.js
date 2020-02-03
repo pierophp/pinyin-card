@@ -6,18 +6,16 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
 import axios from 'axios';
-import upperFirst from 'lodash/upperFirst';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import config from '../config';
-import getConfiguration from '../helpers/get.configuration';
 import useStyles from './Categories.css.js';
+import ShowCategory from '../components/category/ShowCategory';
 
 const Categories = props => {
   const [categories, setCategories] = React.useState([]);
   const [currentCategory, setCurrentCategory] = React.useState(null);
   const [cards, setCards] = React.useState([]);
-  const configuration = getConfiguration();
 
   const classes = useStyles();
 
@@ -130,16 +128,18 @@ const Categories = props => {
           </Link>
           <div className={classes.categoriesContainer}>
             {categories.map(category => (
-              <Link to={`/category/${category.id}`}>
-                <div className={classes.box}>
-                  <Typography>
-                    {category.namePt} <br />
-                    {category[
-                      `name${upperFirst(configuration.learningLanguage)}`
-                    ] || category[`nameEn`]}
-                  </Typography>
-                </div>
-              </Link>
+              <ShowCategory category={category} />
+
+              // <Link to={`/category/${category.id}`}>
+              //   <div className={classes.box}>
+              //     <Typography>
+              //       {category.namePt} <br />
+              // {category[
+              //   `name${upperFirst(configuration.learningLanguage)}`
+              // ] || category[`nameEn`]}
+              //     </Typography>
+              //   </div>
+              // </Link>
             ))}
           </div>
         </>
