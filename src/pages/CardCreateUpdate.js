@@ -1,4 +1,6 @@
+import Backdrop from '@material-ui/core/Backdrop';
 import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import IconButton from '@material-ui/core/IconButton';
@@ -43,6 +45,7 @@ const CardCreateUpdate = props => {
   const [category, setCategory] = React.useState({});
   const [categories, setCategories] = React.useState({});
   const [errors, setErrors] = React.useState({});
+  const [loading, setLoading] = React.useState(false);
   const nameInputPtRef = React.createRef();
   const nameInputChtRef = React.createRef();
   const nameInputChsRef = React.createRef();
@@ -164,6 +167,7 @@ const CardCreateUpdate = props => {
 
   const save = async () => {
     try {
+      setLoading(true);
       const request = data;
       if (props.match.params.category) {
         request.categoryId = parseInt(props.match.params.category, 10);
@@ -181,11 +185,17 @@ const CardCreateUpdate = props => {
       window.location.hash = `/category/${request.categoryId}`;
     } catch (e) {
       console.log(e.response);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className={classes.container}>
+      <Backdrop className={classes.backdrop} open={loading}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
+
       <form autoComplete="off">
         <Typography variant="h4" component="h4">
           {!props.match.params.id && <>Add to "{category.nameEn}"</>}
@@ -568,7 +578,12 @@ const CardCreateUpdate = props => {
 
         <div>
           <br />
-          <Button variant="contained" onClick={save} tabIndex={1006}>
+          <Button
+            variant="contained"
+            onClick={save}
+            tabIndex={1006}
+            disabled={loading}
+          >
             Save
           </Button>
         </div>
