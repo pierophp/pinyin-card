@@ -1,12 +1,16 @@
+import IconButton from '@material-ui/core/IconButton';
+import EditIcon from '@material-ui/icons/Edit';
+import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
 import axios from 'axios';
 import shuffle from 'lodash/shuffle';
 import upperFirst from 'lodash/upperFirst';
 import React from 'react';
 import config from '../config';
 import getConfiguration from '../helpers/get.configuration';
+import getUser from '../helpers/get.user';
 import useStyles from './Cards.css';
-import IconButton from '@material-ui/core/IconButton';
-import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
+
+const user = getUser();
 
 const Cards = (props: any) => {
   const [cards, setCards] = React.useState<any[]>([]);
@@ -124,6 +128,17 @@ const Cards = (props: any) => {
             <IconButton color="primary" onClick={play}>
               <PlayCircleOutlineIcon />
             </IconButton>
+
+            {user && user.admin && (
+              <IconButton
+                color="primary"
+                component="a"
+                href={`/#/card-update/${card.id}`}
+                target="_blank"
+              >
+                <EditIcon />
+              </IconButton>
+            )}
 
             {card[audioField] && (
               <audio src={card[audioField]} autoPlay id="audio"></audio>
