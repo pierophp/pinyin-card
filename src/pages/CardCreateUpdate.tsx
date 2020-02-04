@@ -534,7 +534,7 @@ const CardCreateUpdate = (props: any) => {
           <IconButton
             color="primary"
             component="a"
-            href={`https://www.bing.com/images/search?&q=${data.nameEn}&qft=+filterui:imagesize-large&FORM=IRFLTR`}
+            href={`https://www.bing.com/images/search?&q=${data.nameEn}&qft=+filterui:imagesize-wallpaper&FORM=IRFLTR`}
             target="_blank"
             disabled={data.nameEn ? false : true}
           >
