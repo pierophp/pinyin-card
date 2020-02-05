@@ -5,14 +5,14 @@ import axios from 'axios';
 import shuffle from 'lodash/shuffle';
 import upperFirst from 'lodash/upperFirst';
 import React from 'react';
-import config from '../config';
-import getConfiguration from '../helpers/get.configuration';
-import getUser from '../helpers/get.user';
-import useStyles from './Cards.css';
+import config from '../../config';
+import getConfiguration from '../../helpers/get.configuration';
+import getUser from '../../helpers/get.user';
+import useStyles from './Presentation.css';
 
 const user = getUser();
 
-const Cards = (props: any) => {
+const Presentation = (props: any) => {
   const [cards, setCards] = React.useState<any[]>([]);
 
   const currentCardReducer = (state: any, action: any) => {
@@ -77,16 +77,11 @@ const Cards = (props: any) => {
 
   React.useEffect(() => {
     async function init() {
-      const response = (
-        await axios.get(
-          `${config.apiUrl}/card/category/${props.match.params.category}`
-        )
-      ).data;
-      setCards(shuffle(response.filter((card: any) => card[nameField])));
+      setCards(shuffle(props.cards));
     }
 
     init();
-  }, []);
+  }, [props]);
 
   React.useEffect(() => {
     document.addEventListener('keydown', handleKeyDown);
@@ -150,4 +145,4 @@ const Cards = (props: any) => {
   );
 };
 
-export default Cards;
+export default Presentation;
