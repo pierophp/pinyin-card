@@ -6,6 +6,7 @@ import getUser from '../helpers/get.user';
 import useStyles from './Categories.css';
 import Initial from '../components/card/Initial';
 import Presentation from '../components/card/Presentation';
+import Game from '../components/card/Game';
 const user = getUser();
 
 const Categories = (props: any) => {
@@ -64,7 +65,8 @@ const Categories = (props: any) => {
         />
       )}
 
-      {type === 'presentation' && <Presentation cards={cards} />}
+      {type === 'presentation' && <Presentation cards={cards} user={user} />}
+      {type === 'game' && <Game cards={cards} />}
     </div>
   );
 };

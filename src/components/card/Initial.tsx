@@ -23,13 +23,19 @@ const Initial = (props: any) => {
           <div>
             <Link to={`/category/${currentCategory.id}/presentation`}>
               <Button color="primary" variant="contained">
-                Start
+                Apresentação
+              </Button>
+            </Link>
+
+            <Link to={`/category/${currentCategory.id}/game`}>
+              <Button color="primary" variant="contained">
+                Jogar
               </Button>
             </Link>
 
             {user && user.admin && (
               <Link to={`/card-create/${currentCategory.id}`}>
-                <Button variant="contained">Add card</Button>
+                <Button variant="contained">Adicionar</Button>
               </Link>
             )}
 
@@ -76,13 +82,13 @@ const Initial = (props: any) => {
       {!currentCategory && (
         <>
           <Typography variant="h4" component="h4">
-            Categories
+            Categorias
           </Typography>
 
           {user && user.admin && (
             <Link to={`/category-create`}>
               <Button color="primary" variant="contained">
-                Add category
+                Adicionar Categoria
               </Button>
             </Link>
           )}

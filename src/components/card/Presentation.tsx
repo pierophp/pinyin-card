@@ -1,19 +1,15 @@
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
-import axios from 'axios';
 import shuffle from 'lodash/shuffle';
 import upperFirst from 'lodash/upperFirst';
 import React from 'react';
-import config from '../../config';
 import getConfiguration from '../../helpers/get.configuration';
-import getUser from '../../helpers/get.user';
 import useStyles from './Presentation.css';
-
-const user = getUser();
 
 const Presentation = (props: any) => {
   const [cards, setCards] = React.useState<any[]>([]);
+  const { user } = props;
 
   const currentCardReducer = (state: any, action: any) => {
     if (action === 'previous') {

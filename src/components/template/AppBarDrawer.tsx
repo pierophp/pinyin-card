@@ -39,6 +39,10 @@ const AppBarDrawer = (props: any) => {
           >
             <MenuIcon />
           </IconButton>
+
+          <div>
+            <div id="app-bar-portal"></div>
+          </div>
         </Toolbar>
       </AppBar>
       {
@@ -53,7 +57,7 @@ const AppBarDrawer = (props: any) => {
                 <ListItemIcon>
                   <ChromeReaderModeIcon />
                 </ListItemIcon>
-                <ListItemText primary="Categories" />
+                <ListItemText primary="Categorias" />
               </ListItem>
               <Divider />
               <ListItem
@@ -63,7 +67,7 @@ const AppBarDrawer = (props: any) => {
                 <ListItemIcon>
                   <SettingsApplicationsIcon />
                 </ListItemIcon>
-                <ListItemText primary="Configuration" />
+                <ListItemText primary="Configurações" />
               </ListItem>
               <Divider />
               <ListItem
@@ -73,7 +77,7 @@ const AppBarDrawer = (props: any) => {
                 <ListItemIcon>
                   <AccountBoxIcon />
                 </ListItemIcon>
-                <ListItemText primary="Login" />
+                <ListItemText primary="Entrar" />
               </ListItem>
               <Divider />
             </List>

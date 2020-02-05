@@ -53,7 +53,7 @@ const ShowCategory = (props: any) => {
           component="a"
           href={`/#/category/${category.id}`}
         >
-          Learn
+          Aprender
         </Button>
 
         {user && user.admin && (
@@ -63,7 +63,7 @@ const ShowCategory = (props: any) => {
             component="a"
             href={`/#/category-update/${category.id}`}
           >
-            Edit
+            Editar
           </Button>
         )}
       </CardActions>
