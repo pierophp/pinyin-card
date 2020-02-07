@@ -16,22 +16,47 @@ const Initial = (props: any) => {
   return (
     <div className={classes.container}>
       {currentCategory && (
-        <>
-          <Typography variant="h4" component="h4">
-            {currentCategory.namePt} {`(${cards.length})`}
-          </Typography>
-          <div>
-            <Link to={`/category/${currentCategory.id}/presentation`}>
-              <Button color="primary" variant="contained">
-                Apresentação
-              </Button>
-            </Link>
+        <Typography variant="h4" component="h4">
+          {currentCategory.namePt} {`(${cards.length})`}
+        </Typography>
+      )}
 
-            <Link to={`/category/${currentCategory.id}/game`}>
+      {categories && categories.length > 0 && (
+        <>
+          {user && user.admin && (
+            <Link to={`/category-create`}>
               <Button color="primary" variant="contained">
-                Jogar
+                Adicionar Categoria
               </Button>
             </Link>
+          )}
+
+          <div className={classes.categoriesContainer}>
+            {categories.map((category: any) => (
+              <ShowCategory category={category} user={user} />
+            ))}
+          </div>
+        </>
+      )}
+
+      {currentCategory && (
+        <>
+          <div>
+            {cards.length > 0 && (
+              <Link to={`/category/${currentCategory.id}/presentation`}>
+                <Button color="primary" variant="contained">
+                  Apresentação
+                </Button>
+              </Link>
+            )}
+
+            {cards.length > 0 && (
+              <Link to={`/category/${currentCategory.id}/game`}>
+                <Button color="primary" variant="contained">
+                  Jogar
+                </Button>
+              </Link>
+            )}
 
             {user && user.admin && (
               <Link to={`/card-create/${currentCategory.id}`}>
@@ -39,7 +64,7 @@ const Initial = (props: any) => {
               </Link>
             )}
 
-            {user && user.admin && (
+            {user && user.admin && cards.length > 0 && (
               <Table aria-label="simple table">
                 <TableHead>
                   <TableRow>
@@ -75,28 +100,6 @@ const Initial = (props: any) => {
                 </TableBody>
               </Table>
             )}
-          </div>
-        </>
-      )}
-
-      {!currentCategory && (
-        <>
-          <Typography variant="h4" component="h4">
-            Categorias
-          </Typography>
-
-          {user && user.admin && (
-            <Link to={`/category-create`}>
-              <Button color="primary" variant="contained">
-                Adicionar Categoria
-              </Button>
-            </Link>
-          )}
-
-          <div className={classes.categoriesContainer}>
-            {categories.map((category: any) => (
-              <ShowCategory category={category} user={user} />
-            ))}
           </div>
         </>
       )}
