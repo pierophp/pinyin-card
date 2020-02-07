@@ -1,14 +1,19 @@
 import Button from '@material-ui/core/Button';
+import FormControl from '@material-ui/core/FormControl';
+import FormHelperText from '@material-ui/core/FormHelperText';
 import IconButton from '@material-ui/core/IconButton';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import GTranslateIcon from '@material-ui/icons/GTranslate';
 import axios from 'axios';
 import React from 'react';
 import config from '../config';
-import useStyles from './CategoryCreateUpdate.css.js';
+import useStyles from './CategoryCreateUpdate.css';
 
-const CategoryCreateUpdate = props => {
+const CategoryCreateUpdate = (props: any) => {
   const classes = useStyles();
   const [data, setData] = React.useState({
     nameEn: '',
@@ -17,10 +22,21 @@ const CategoryCreateUpdate = props => {
     nameChs: '',
     nameIt: '',
     nameFr: '',
+    parentCategoryId: '',
   });
 
+  const [categories, setCategories] = React.useState<any[]>([]);
+
   React.useEffect(() => {
-    async function init() {
+    async function loadCategories() {
+      const categoriesResponse = (await axios.get(`${config.apiUrl}/category`))
+        .data;
+      setCategories(categoriesResponse);
+    }
+
+    loadCategories();
+
+    async function loadCard() {
       if (!props.match.params.id) {
         return;
       }
@@ -32,10 +48,10 @@ const CategoryCreateUpdate = props => {
       setData(response);
     }
 
-    init();
+    loadCard();
   }, []);
 
-  const handleChange = e => {
+  const handleChange = (e: any) => {
     const { name, value } = e.target;
 
     const dataCopy = JSON.parse(JSON.stringify(data));
@@ -90,7 +106,7 @@ const CategoryCreateUpdate = props => {
             onChange={handleChange}
             value={data.nameEn}
             className={classes.input}
-            InputProps={{ tabIndex: '1000' }}
+            InputProps={{ tabIndex: 1000 }}
           />
         </div>
         <div>
@@ -101,12 +117,11 @@ const CategoryCreateUpdate = props => {
             onChange={handleChange}
             value={data.namePt}
             className={classes.input}
-            InputProps={{ tabIndex: '1001' }}
+            InputProps={{ tabIndex: 1001 }}
           />
 
           <IconButton
             color="primary"
-            variant="contained"
             component="a"
             href={`https://translate.google.com.br/#view=home&op=translate&sl=en&tl=pt&text=${data.nameEn}`}
             target="_blank"
@@ -130,7 +145,6 @@ const CategoryCreateUpdate = props => {
 
           <IconButton
             color="primary"
-            variant="contained"
             component="a"
             href={`https://translate.google.com.br/#view=home&op=translate&sl=en&tl=zh-TW&text=${data.nameEn}`}
             target="_blank"
@@ -149,7 +163,6 @@ const CategoryCreateUpdate = props => {
           />
           <IconButton
             color="primary"
-            variant="contained"
             component="a"
             href={`https://translate.google.com.br/#view=home&op=translate&sl=en&tl=zh-CN&text=${data.nameEn}`}
             target="_blank"
@@ -167,12 +180,11 @@ const CategoryCreateUpdate = props => {
             onChange={handleChange}
             value={data.nameIt}
             className={classes.input}
-            InputProps={{ tabIndex: '1001' }}
+            InputProps={{ tabIndex: 1001 }}
           />
 
           <IconButton
             color="primary"
-            variant="contained"
             component="a"
             href={`https://translate.google.com.br/#view=home&op=translate&sl=en&tl=it&text=${data.nameEn}`}
             target="_blank"
@@ -190,12 +202,11 @@ const CategoryCreateUpdate = props => {
             onChange={handleChange}
             value={data.nameFr}
             className={classes.input}
-            InputProps={{ tabIndex: '1001' }}
+            InputProps={{ tabIndex: 1001 }}
           />
 
           <IconButton
             color="primary"
-            variant="contained"
             component="a"
             href={`https://translate.google.com.br/#view=home&op=translate&sl=en&tl=fr&text=${data.nameEn}`}
             target="_blank"
@@ -203,6 +214,27 @@ const CategoryCreateUpdate = props => {
           >
             <GTranslateIcon />
           </IconButton>
+        </div>
+
+        <div>
+          <FormControl>
+            <InputLabel id="parent-category-id-label">Category</InputLabel>
+            <Select
+              labelId="parent-category-id-label"
+              id="parent-ategory-id"
+              value={data.parentCategoryId}
+              name="parentCategoryId"
+              onChange={handleChange}
+            >
+              <MenuItem value={''}>-</MenuItem>
+              {categories.map(category => (
+                <MenuItem key={category.id} value={category.id}>
+                  {category.nameEn}
+                </MenuItem>
+              ))}
+            </Select>
+            <FormHelperText></FormHelperText>
+          </FormControl>
         </div>
 
         <div>
