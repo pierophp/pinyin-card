@@ -11,6 +11,7 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import GTranslateIcon from '@material-ui/icons/GTranslate';
 import MusicVideoIcon from '@material-ui/icons/MusicVideo';
+import LanguageIcon from '@material-ui/icons/Language';
 import PhotoIcon from '@material-ui/icons/Photo';
 import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
 import axios from 'axios';
@@ -245,6 +246,16 @@ const CardCreateUpdate = (props: any) => {
           >
             <PlayCircleOutlineIcon />
           </IconButton>
+
+          <IconButton
+            color="primary"
+            component="a"
+            href={`https://en.wikipedia.org/wiki/${data.nameEn}`}
+            target="_blank"
+            disabled={data.nameEn ? false : true}
+          >
+            <LanguageIcon />
+          </IconButton>
         </div>
         <div>
           <TextField
@@ -301,6 +312,16 @@ const CardCreateUpdate = (props: any) => {
             onClick={() => audioPtRef.current.play()}
           >
             <PlayCircleOutlineIcon />
+          </IconButton>
+
+          <IconButton
+            color="primary"
+            component="a"
+            href={`https://pt.wikipedia.org/wiki/${data.namePt}`}
+            target="_blank"
+            disabled={data.namePt ? false : true}
+          >
+            <LanguageIcon />
           </IconButton>
         </div>
         <div>
@@ -392,6 +413,16 @@ const CardCreateUpdate = (props: any) => {
           >
             <PlayCircleOutlineIcon />
           </IconButton>
+
+          <IconButton
+            color="primary"
+            component="a"
+            href={`https://zh.wikipedia.org/wiki/${data.nameCht}`}
+            target="_blank"
+            disabled={data.nameCht ? false : true}
+          >
+            <LanguageIcon />
+          </IconButton>
         </div>
 
         <div>
@@ -450,6 +481,16 @@ const CardCreateUpdate = (props: any) => {
           >
             <PlayCircleOutlineIcon />
           </IconButton>
+
+          <IconButton
+            color="primary"
+            component="a"
+            href={`https://it.wikipedia.org/wiki/${data.nameIt}`}
+            target="_blank"
+            disabled={data.nameIt ? false : true}
+          >
+            <LanguageIcon />
+          </IconButton>
         </div>
 
         <div>
@@ -507,6 +548,16 @@ const CardCreateUpdate = (props: any) => {
             onClick={() => audioFrRef.current.play()}
           >
             <PlayCircleOutlineIcon />
+          </IconButton>
+
+          <IconButton
+            color="primary"
+            component="a"
+            href={`https://fr.wikipedia.org/wiki/${data.nameFr}`}
+            target="_blank"
+            disabled={data.nameFr ? false : true}
+          >
+            <LanguageIcon />
           </IconButton>
         </div>
 
