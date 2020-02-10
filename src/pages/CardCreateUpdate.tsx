@@ -10,11 +10,12 @@ import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import GTranslateIcon from '@material-ui/icons/GTranslate';
-import MusicVideoIcon from '@material-ui/icons/MusicVideo';
 import LanguageIcon from '@material-ui/icons/Language';
+import MusicVideoIcon from '@material-ui/icons/MusicVideo';
 import PhotoIcon from '@material-ui/icons/Photo';
 import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
 import axios from 'axios';
+import upperFirst from 'lodash/upperFirst';
 import React from 'react';
 import config from '../config';
 import useStyles from './CardCreateUpdate.css';
@@ -64,6 +65,12 @@ const CardCreateUpdate = (props: any) => {
     const { name, value } = e.target;
 
     setPartialData({ [name]: value });
+  };
+
+  const handleBlurChange = (e: any) => {
+    const { name, value } = e.target;
+
+    setPartialData({ [name]: upperFirst(value.trim()) });
   };
 
   const getForvo = async (language: any) => {
@@ -210,7 +217,10 @@ const CardCreateUpdate = (props: any) => {
             autoComplete="off"
             autoFocus
             onChange={handleChange}
-            onBlur={() => handleForvo('En')}
+            onBlur={e => {
+              handleBlurChange(e);
+              handleForvo('En');
+            }}
             value={data.nameEn}
             className={classes.input}
             InputProps={{ inputProps: { tabIndex: 1000 } }}
@@ -263,7 +273,10 @@ const CardCreateUpdate = (props: any) => {
             label="Portuguese"
             autoComplete="off"
             onChange={handleChange}
-            onBlur={() => handleForvo('Pt')}
+            onBlur={e => {
+              handleBlurChange(e);
+              handleForvo('Pt');
+            }}
             value={data.namePt}
             className={classes.input}
             InputProps={{ inputProps: { tabIndex: 1001 } }}
@@ -330,7 +343,8 @@ const CardCreateUpdate = (props: any) => {
             label="Chinese (Trad.)"
             autoComplete="off"
             onChange={handleChange}
-            onBlur={() => {
+            onBlur={e => {
+              handleBlurChange(e);
               getPinyin();
             }}
             value={data.nameCht}
@@ -357,7 +371,10 @@ const CardCreateUpdate = (props: any) => {
             label="Chinese (Simp.)"
             autoComplete="off"
             onChange={handleChange}
-            onBlur={() => handleForvo('Chs')}
+            onBlur={e => {
+              handleBlurChange(e);
+              handleForvo('Chs');
+            }}
             value={data.nameChs}
             className={classes.inputChinese}
             inputRef={nameInputChsRef}
@@ -431,7 +448,10 @@ const CardCreateUpdate = (props: any) => {
             label="Italian"
             autoComplete="off"
             onChange={handleChange}
-            onBlur={() => handleForvo('It')}
+            onBlur={e => {
+              handleForvo('It');
+              handleBlurChange(e);
+            }}
             value={data.nameIt}
             className={classes.input}
             InputProps={{ inputProps: { tabIndex: 1003 } }}
@@ -499,7 +519,10 @@ const CardCreateUpdate = (props: any) => {
             label="French"
             autoComplete="off"
             onChange={handleChange}
-            onBlur={() => handleForvo('Fr')}
+            onBlur={e => {
+              handleBlurChange(e);
+              handleForvo('Fr');
+            }}
             value={data.nameFr}
             className={classes.input}
             InputProps={{ inputProps: { tabIndex: 1004 } }}
