@@ -80,6 +80,34 @@ const Game = (props: any) => {
     [card]
   );
 
+  const preloadAudios = async (cards: any[]) => {
+    for (const card of cards) {
+      await new Promise(resolve => {
+        const audio = new Audio();
+        audio.addEventListener(
+          'canplaythrough',
+          () => {
+            resolve();
+          },
+          false
+        );
+        audio.src = card[audioField];
+      });
+    }
+  };
+
+  const preloadImages = async (cards: any[]) => {
+    for (const card of cards) {
+      await new Promise(resolve => {
+        const image = new Image();
+        image.onload = () => {
+          resolve();
+        };
+        image.src = card.image;
+      });
+    }
+  };
+
   const play = () => {
     const audioElement: HTMLAudioElement = document.getElementById(
       'audio'
@@ -111,8 +139,13 @@ const Game = (props: any) => {
 
   React.useEffect(() => {
     async function init() {
-      setCards(shuffle(props.cards.filter((card: any) => card[audioField])));
+      const tempCards = shuffle(
+        props.cards.filter((card: any) => card[audioField])
+      );
+      setCards(tempCards);
       loadOptions();
+      preloadAudios(tempCards);
+      preloadImages(tempCards);
     }
 
     init();
