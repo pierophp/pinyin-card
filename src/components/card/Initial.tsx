@@ -28,7 +28,7 @@ const headCells = [
 
 const Initial = (props: any) => {
   const [order, setOrder] = React.useState<'asc' | 'desc'>('asc');
-  const [orderBy, setOrderBy] = React.useState('english');
+  const [orderBy, setOrderBy] = React.useState('nameEn');
   const classes = useStyles();
 
   const handleRequestSort = (event: any, property: string) => {
