@@ -4,14 +4,69 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import TableSortLabel from '@material-ui/core/TableSortLabel';
+
 import Typography from '@material-ui/core/Typography';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import ShowCategory from '../category/ShowCategory';
 import useStyles from './Initial.css';
 
+const headCells = [
+  {
+    id: 'nameEn',
+    numeric: false,
+    label: 'Inglês',
+  },
+  { id: 'namePt', numeric: false, label: 'Português' },
+  { id: 'nameCht', numeric: false, label: 'Chinês (Trad.)' },
+  { id: 'nameChs', numeric: false, label: 'Chinês (Simp.)' },
+  { id: 'pinyin', numeric: false, label: 'Pinyin' },
+  { id: 'nameIt', numeric: false, label: 'Italiano' },
+  { id: 'nameFr', numeric: false, label: 'Francês' },
+];
+
 const Initial = (props: any) => {
+  const [order, setOrder] = React.useState<'asc' | 'desc'>('asc');
+  const [orderBy, setOrderBy] = React.useState('english');
   const classes = useStyles();
+
+  const handleRequestSort = (event: any, property: string) => {
+    const isAsc = orderBy === property && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy(property);
+  };
+
+  const createSortHandler = (property: any) => (event: any) => {
+    handleRequestSort(event, property);
+  };
+
+  function descendingComparator(a: any, b: any, orderBy: any) {
+    if (b[orderBy] < a[orderBy]) {
+      return -1;
+    }
+    if (b[orderBy] > a[orderBy]) {
+      return 1;
+    }
+    return 0;
+  }
+
+  function getComparator(order: string, orderBy: string) {
+    return order === 'desc'
+      ? (a: any, b: any) => descendingComparator(a, b, orderBy)
+      : (a: any, b: any) => -descendingComparator(a, b, orderBy);
+  }
+
+  function stableSort(array: any, comparator: any) {
+    const stabilizedThis = array.map((el: any, index: any) => [el, index]);
+    stabilizedThis.sort((a: any, b: any) => {
+      const order = comparator(a[0], b[0]);
+      if (order !== 0) return order;
+      return a[1] - b[1];
+    });
+    return stabilizedThis.map((el: any) => el[0]);
+  }
+
   const { cards, categories, currentCategory, user } = props;
   return (
     <div className={classes.container}>
@@ -68,35 +123,53 @@ const Initial = (props: any) => {
               <Table aria-label="simple table">
                 <TableHead>
                   <TableRow>
-                    <TableCell>English</TableCell>
-                    <TableCell>Portuguese</TableCell>
-                    <TableCell>Chinese (Trad.)</TableCell>
-                    <TableCell>Chinese (Simp.)</TableCell>
-                    <TableCell>Pinyin</TableCell>
-                    <TableCell>Italian</TableCell>
-                    <TableCell>French</TableCell>
+                    {headCells.map(headCell => (
+                      <TableCell
+                        key={headCell.id}
+                        align={headCell.numeric ? 'right' : 'left'}
+                        sortDirection={orderBy === headCell.id ? order : false}
+                      >
+                        <TableSortLabel
+                          active={orderBy === headCell.id}
+                          direction={orderBy === headCell.id ? order : 'asc'}
+                          onClick={createSortHandler(headCell.id)}
+                        >
+                          {headCell.label}
+                          {orderBy === headCell.id ? (
+                            <span className={classes.visuallyHidden}>
+                              {order === 'desc'
+                                ? 'sorted descending'
+                                : 'sorted ascending'}
+                            </span>
+                          ) : null}
+                        </TableSortLabel>
+                      </TableCell>
+                    ))}
+
                     <TableCell></TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {cards.map((card: any) => (
-                    <TableRow key={card.id}>
-                      <TableCell component="th" scope="row">
-                        {card.nameEn}
-                      </TableCell>
-                      <TableCell>{card.namePt}</TableCell>
-                      <TableCell>{card.nameCht}</TableCell>
-                      <TableCell>{card.nameChs}</TableCell>
-                      <TableCell>{card.pinyin}</TableCell>
-                      <TableCell>{card.nameIt}</TableCell>
-                      <TableCell>{card.nameFr}</TableCell>
-                      <TableCell>
-                        <Link to={`/card-update/${card.id}`}>
-                          <Typography>Edit</Typography>
-                        </Link>
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                  {stableSort(cards, getComparator(order, orderBy)).map(
+                    (card: any) => (
+                      <TableRow key={card.id}>
+                        <TableCell component="th" scope="row">
+                          {card.nameEn}
+                        </TableCell>
+                        <TableCell>{card.namePt}</TableCell>
+                        <TableCell>{card.nameCht}</TableCell>
+                        <TableCell>{card.nameChs}</TableCell>
+                        <TableCell>{card.pinyin}</TableCell>
+                        <TableCell>{card.nameIt}</TableCell>
+                        <TableCell>{card.nameFr}</TableCell>
+                        <TableCell>
+                          <Link to={`/card-update/${card.id}`}>
+                            <Typography>Edit</Typography>
+                          </Link>
+                        </TableCell>
+                      </TableRow>
+                    )
+                  )}
                 </TableBody>
               </Table>
             )}
