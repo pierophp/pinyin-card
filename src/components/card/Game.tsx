@@ -111,7 +111,7 @@ const Game = (props: any) => {
 
   React.useEffect(() => {
     async function init() {
-      setCards(shuffle(props.cards));
+      setCards(shuffle(props.cards.filter((card: any) => card[audioField])));
       loadOptions();
     }
 
@@ -176,9 +176,11 @@ const Game = (props: any) => {
           </DialogTitle>
           <DialogContent dividers>
             <div
-              className={[classes.cardContainer, classes[orientation]].join(
-                ' '
-              )}
+              className={[
+                classes.cardContainer,
+                classes[orientation],
+                classes.cardContainerAnswer,
+              ].join(' ')}
               style={{ backgroundImage: `url(${card.image})` }}
             ></div>
 

@@ -42,12 +42,12 @@ const Configuration = (props: any) => {
     <div className={classes.container}>
       <form autoComplete="off">
         <Typography variant="h4" component="h4">
-          Configuration:
+          Configuração:
         </Typography>
         <div>
           <FormControl className={classes.formControl}>
             <InputLabel id="learning-language-label">
-              Learning Language
+              Idioma que estou aprendendo
             </InputLabel>
             <Select
               labelId="learning-language-label"
@@ -58,7 +58,7 @@ const Configuration = (props: any) => {
             >
               {languages.map(language => (
                 <MenuItem key={language.code} value={language.code}>
-                  {language.nameEn}
+                  {language.namePt}
                 </MenuItem>
               ))}
             </Select>
@@ -69,7 +69,7 @@ const Configuration = (props: any) => {
         <div>
           <br />
           <Button variant="contained" onClick={save}>
-            Save
+            Salvar
           </Button>
         </div>
       </form>
