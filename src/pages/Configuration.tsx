@@ -8,19 +8,19 @@ import Typography from '@material-ui/core/Typography';
 import React from 'react';
 import getConfiguration from '../helpers/get.configuration';
 import getLanguages from '../helpers/get.languages';
-import useStyles from './Configuration.css.js';
+import useStyles from './Configuration.css';
 import Snackbar from '@material-ui/core/Snackbar';
 
 const languages = getLanguages();
 
-const Configuration = props => {
+const Configuration = (props: any) => {
   const classes = useStyles();
 
   const [data, setData] = React.useState(getConfiguration());
 
   const [snackbarOpen, setSnackbarOpen] = React.useState(false);
 
-  const handleChange = e => {
+  const handleChange = (e: any) => {
     const { name, value } = e.target;
 
     const dataCopy = JSON.parse(JSON.stringify(data));
@@ -64,13 +64,6 @@ const Configuration = props => {
             </Select>
             <FormHelperText></FormHelperText>
           </FormControl>
-        </div>
-
-        <div>
-          <div
-            className={classes.image}
-            style={{ backgroundImage: `url(${data.image})` }}
-          ></div>
         </div>
 
         <div>

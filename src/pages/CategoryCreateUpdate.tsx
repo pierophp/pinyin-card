@@ -77,7 +77,7 @@ const CategoryCreateUpdate = (props: any) => {
   };
 
   const save = async () => {
-    const request = data;
+    const request = data as any;
     if (!request.parentCategoryId) {
       request.parentCategoryId = null;
     }

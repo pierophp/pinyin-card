@@ -1,4 +1,4 @@
-const config = {
+const config: any = {
   development: {
     apiUrl: 'http://localhost:5000',
     pinyinApiUrl: 'https://api.pinzi.org',
@@ -9,8 +9,10 @@ const config = {
   },
 };
 
-if (!config[process.env.NODE_ENV]) {
+const env = process.env.NODE_ENV as any;
+
+if (!config[env]) {
   throw new Error('Env not configured');
 }
 
-export default config[process.env.NODE_ENV];
+export default config[env];
