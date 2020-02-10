@@ -78,6 +78,9 @@ const CategoryCreateUpdate = (props: any) => {
 
   const save = async () => {
     const request = data;
+    if (!request.parentCategoryId) {
+      request.parentCategoryId = null;
+    }
 
     if (props.match.params.id) {
       await axios.put(
