@@ -1,12 +1,14 @@
 import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
-
 import Typography from '@material-ui/core/Typography';
+import EditIcon from '@material-ui/icons/Edit';
+import VolumeOffIcon from '@material-ui/icons/VolumeOff';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import ShowCategory from '../category/ShowCategory';
@@ -155,17 +157,44 @@ const Initial = (props: any) => {
                       <TableRow key={card.id}>
                         <TableCell component="th" scope="row">
                           {card.nameEn}
+                          {!card.audioEn && (
+                            <VolumeOffIcon fontSize="small" color="error" />
+                          )}
                         </TableCell>
-                        <TableCell>{card.namePt}</TableCell>
-                        <TableCell>{card.nameCht}</TableCell>
+                        <TableCell>
+                          {card.namePt}
+                          {!card.audioPt && (
+                            <VolumeOffIcon fontSize="small" color="error" />
+                          )}
+                        </TableCell>
+                        <TableCell>
+                          {card.nameCht}{' '}
+                          {!card.audioCh && (
+                            <VolumeOffIcon fontSize="small" color="error" />
+                          )}
+                        </TableCell>
                         <TableCell>{card.nameChs}</TableCell>
                         <TableCell>{card.pinyin}</TableCell>
-                        <TableCell>{card.nameIt}</TableCell>
-                        <TableCell>{card.nameFr}</TableCell>
                         <TableCell>
-                          <Link to={`/card-update/${card.id}`}>
-                            <Typography>Edit</Typography>
-                          </Link>
+                          {card.nameIt}
+                          {!card.audioIt && (
+                            <VolumeOffIcon fontSize="small" color="error" />
+                          )}
+                        </TableCell>
+                        <TableCell>
+                          {card.nameFr}
+                          {!card.audioFr && (
+                            <VolumeOffIcon fontSize="small" color="error" />
+                          )}
+                        </TableCell>
+                        <TableCell>
+                          <IconButton
+                            color="primary"
+                            component="a"
+                            href={`/#/card-update/${card.id}`}
+                          >
+                            <EditIcon />
+                          </IconButton>
                         </TableCell>
                       </TableRow>
                     )
