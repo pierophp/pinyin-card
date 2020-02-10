@@ -4,7 +4,7 @@ export default function getConfiguration() {
   };
 
   const configuration = localStorage.getItem('configuration')
-    ? JSON.parse(localStorage.getItem('configuration'))
+    ? JSON.parse(localStorage.getItem('configuration') as string)
     : {};
 
   return {
