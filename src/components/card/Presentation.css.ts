@@ -35,7 +35,7 @@ export default makeStyles(theme => ({
     color: '#fff',
     fontSize: '25px',
   },
-  pinyin: {
+  pronunciation: {
     width: '100%',
     textAlign: 'center',
     color: '#fff',
