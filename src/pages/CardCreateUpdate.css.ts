@@ -28,4 +28,7 @@ export default makeStyles(theme => ({
     flexBasis: '33.33%',
     flexShrink: 0,
   },
+  flagIcon: {
+    marginRight: '10px',
+  },
 }));

@@ -60,6 +60,26 @@ const ExpansionPanelSummary = withStyles({
   expanded: {},
 })(MuiExpansionPanelSummary);
 
+const defaultData = {
+  nameEn: '',
+  audioEn: '',
+  extraEn: {
+    ipa: '',
+  },
+  namePt: '',
+  audioPt: '',
+  nameCht: '',
+  nameChs: '',
+  audioCh: '',
+  nameIt: '',
+  audioIt: '',
+  nameFr: '',
+  audioFr: '',
+  pinyin: '',
+  image: '',
+  categoryId: '',
+};
+
 const CardCreateUpdate = (props: any) => {
   const classes = useStyles();
 
@@ -67,22 +87,7 @@ const CardCreateUpdate = (props: any) => {
     (state: any, partialState: any) => {
       return { ...state, ...partialState };
     },
-    {
-      nameEn: '',
-      audioEn: '',
-      namePt: '',
-      audioPt: '',
-      nameCht: '',
-      nameChs: '',
-      audioCh: '',
-      nameIt: '',
-      audioIt: '',
-      nameFr: '',
-      audioFr: '',
-      pinyin: '',
-      image: '',
-      categoryId: '',
-    }
+    defaultData
   );
 
   const [category, setCategory] = React.useState<any>({});
@@ -262,6 +267,11 @@ const CardCreateUpdate = (props: any) => {
           onChange={() => handleChangeExpanded('en')}
         >
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+            <img
+              src="/icons/icons8-usa-48.png"
+              height="25"
+              className={classes.flagIcon}
+            />
             <Typography className={classes.heading}>Inglês</Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
@@ -331,6 +341,11 @@ const CardCreateUpdate = (props: any) => {
           onChange={() => handleChangeExpanded('pt')}
         >
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+            <img
+              src="/icons/icons8-brazil-48.png"
+              height="25"
+              className={classes.flagIcon}
+            />
             <Typography className={classes.heading}>Português</Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
@@ -413,6 +428,11 @@ const CardCreateUpdate = (props: any) => {
           onChange={() => handleChangeExpanded('ch')}
         >
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+            <img
+              src="/icons/icons8-china-48.png"
+              height="25"
+              className={classes.flagIcon}
+            />
             <Typography className={classes.heading}>Chinês</Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
@@ -530,6 +550,11 @@ const CardCreateUpdate = (props: any) => {
           onChange={() => handleChangeExpanded('it')}
         >
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+            <img
+              src="/icons/icons8-italy-48.png"
+              height="25"
+              className={classes.flagIcon}
+            />
             <Typography className={classes.heading}>Italiano</Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
@@ -612,6 +637,11 @@ const CardCreateUpdate = (props: any) => {
           onChange={() => handleChangeExpanded('frs')}
         >
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+            <img
+              src="/icons/icons8-france-48.png"
+              height="25"
+              className={classes.flagIcon}
+            />
             <Typography className={classes.heading}>Francês</Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
