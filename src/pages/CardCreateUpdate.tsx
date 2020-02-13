@@ -14,14 +14,15 @@ import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import GTranslateIcon from '@material-ui/icons/GTranslate';
-import LanguageIcon from '@material-ui/icons/Language';
-import MusicVideoIcon from '@material-ui/icons/MusicVideo';
 import PhotoIcon from '@material-ui/icons/Photo';
-import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
 import axios from 'axios';
 import upperFirst from 'lodash/upperFirst';
 import React from 'react';
+import Chinese from '../components/card/create-update/Chinese';
+import English from '../components/card/create-update/English';
+import French from '../components/card/create-update/French';
+import Italian from '../components/card/create-update/Italian';
+import Portuguese from '../components/card/create-update/Portuguese';
 import config from '../config';
 import useStyles from './CardCreateUpdate.css';
 
@@ -68,14 +69,18 @@ const defaultData = {
   },
   namePt: '',
   audioPt: '',
+  extraPt: {},
   nameCht: '',
   nameChs: '',
+  extraCh: {},
   audioCh: '',
+  pinyin: '',
   nameIt: '',
   audioIt: '',
+  extraIt: {},
   nameFr: '',
   audioFr: '',
-  pinyin: '',
+  extraFr: {},
   image: '',
   categoryId: '',
 };
@@ -95,17 +100,6 @@ const CardCreateUpdate = (props: any) => {
   const [errors, setErrors] = React.useState({});
   const [expanded, setExpanded] = React.useState('en');
   const [loading, setLoading] = React.useState(false);
-  const nameInputPtRef = React.createRef<any>();
-  const nameInputChtRef = React.createRef<any>();
-  const nameInputChsRef = React.createRef<any>();
-  const nameInputItRef = React.createRef<any>();
-  const nameInputFrRef = React.createRef<any>();
-
-  const audioEnRef = React.createRef<any>();
-  const audioPtRef = React.createRef<any>();
-  const audioChRef = React.createRef<any>();
-  const audioItRef = React.createRef<any>();
-  const audioFrRef = React.createRef<any>();
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
@@ -164,30 +158,6 @@ const CardCreateUpdate = (props: any) => {
     setPartialData({ [`audio${audioLanguage}`]: url });
   };
 
-  const getPinyin = async () => {
-    const url = await getForvo('Cht');
-
-    const response = (
-      await axios.get(
-        `${config.pinyinApiUrl}/cards/convert?ideogram=${data.nameCht}`
-      )
-    ).data;
-
-    if (!data.nameChs) {
-      setPartialData({
-        nameChs: response.simplified,
-      });
-    }
-
-    if (!data.pinyin) {
-      setPartialData({
-        pinyin: response.pinyin,
-      });
-    }
-
-    setPartialData({ audioCh: url });
-  };
-
   React.useEffect(() => {
     async function init() {
       if (props.match.params.category) {
@@ -204,6 +174,31 @@ const CardCreateUpdate = (props: any) => {
           const cardResponse = (
             await axios.get(`${config.apiUrl}/card/${props.match.params.id}`)
           ).data;
+
+          cardResponse.extraEn = {
+            ...defaultData.extraEn,
+            ...cardResponse.extraEn,
+          };
+
+          cardResponse.extraPt = {
+            ...defaultData.extraPt,
+            ...cardResponse.extraPt,
+          };
+
+          cardResponse.extraCh = {
+            ...defaultData.extraCh,
+            ...cardResponse.extraCh,
+          };
+
+          cardResponse.extraIt = {
+            ...defaultData.extraIt,
+            ...cardResponse.extraIt,
+          };
+
+          cardResponse.extraFr = {
+            ...defaultData.extraFr,
+            ...cardResponse.extraFr,
+          };
 
           setPartialData(cardResponse);
         }
@@ -275,63 +270,13 @@ const CardCreateUpdate = (props: any) => {
             <Typography className={classes.heading}>Inglês</Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
-            <div>
-              <TextField
-                name="nameEn"
-                label="Nome"
-                autoComplete="off"
-                autoFocus
-                onChange={handleChange}
-                onBlur={e => {
-                  handleBlurChange(e);
-                  handleForvo('En');
-                }}
-                value={data.nameEn}
-                className={classes.input}
-                InputProps={{ inputProps: { tabIndex: 1000 } }}
-              />
-
-              <TextField
-                name="audioEn"
-                label="Áudio"
-                autoComplete="off"
-                onChange={handleChange}
-                value={data.audioEn}
-                className={classes.input}
-                InputProps={{ tabIndex: 1 }}
-              />
-
-              <IconButton
-                color="primary"
-                component="a"
-                href={`https://forvo.com/word/${data.nameEn}/#en_usa`}
-                target="_blank"
-                disabled={data.nameEn ? false : true}
-              >
-                <MusicVideoIcon />
-              </IconButton>
-
-              <audio src={data.audioEn} ref={audioEnRef}></audio>
-
-              <IconButton
-                color="primary"
-                component="span"
-                disabled={data.audioEn ? false : true}
-                onClick={() => audioEnRef.current.play()}
-              >
-                <PlayCircleOutlineIcon />
-              </IconButton>
-
-              <IconButton
-                color="primary"
-                component="a"
-                href={`https://en.wikipedia.org/wiki/${data.nameEn}`}
-                target="_blank"
-                disabled={data.nameEn ? false : true}
-              >
-                <LanguageIcon />
-              </IconButton>
-            </div>
+            <English
+              classes={classes}
+              handleChange={handleChange}
+              handleBlurChange={handleBlurChange}
+              handleForvo={handleForvo}
+              data={data}
+            />
           </ExpansionPanelDetails>
         </ExpansionPanel>
 
@@ -349,76 +294,13 @@ const CardCreateUpdate = (props: any) => {
             <Typography className={classes.heading}>Português</Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
-            <div>
-              <TextField
-                name="namePt"
-                label="Nome"
-                autoComplete="off"
-                onChange={handleChange}
-                onBlur={e => {
-                  handleBlurChange(e);
-                  handleForvo('Pt');
-                }}
-                value={data.namePt}
-                className={classes.input}
-                InputProps={{ inputProps: { tabIndex: 1001 } }}
-                inputRef={nameInputPtRef}
-              />
-
-              <IconButton
-                color="primary"
-                component="a"
-                href={`https://translate.google.com.br/#view=home&op=translate&sl=en&tl=pt&text=${data.nameEn}`}
-                target="_blank"
-                disabled={data.nameEn ? false : true}
-                onClick={() => {
-                  nameInputPtRef.current.focus();
-                }}
-              >
-                <GTranslateIcon />
-              </IconButton>
-
-              <TextField
-                name="audioPt"
-                label="Áudio"
-                autoComplete="off"
-                onChange={handleChange}
-                value={data.audioPt}
-                className={classes.input}
-                InputProps={{ tabIndex: 2 }}
-              />
-
-              <IconButton
-                color="primary"
-                component="a"
-                href={`https://forvo.com/word/${data.namePt}/#pt`}
-                target="_blank"
-                disabled={data.namePt ? false : true}
-              >
-                <MusicVideoIcon />
-              </IconButton>
-
-              <audio src={data.audioPt} ref={audioPtRef}></audio>
-
-              <IconButton
-                color="primary"
-                component="span"
-                disabled={data.audioPt ? false : true}
-                onClick={() => audioPtRef.current.play()}
-              >
-                <PlayCircleOutlineIcon />
-              </IconButton>
-
-              <IconButton
-                color="primary"
-                component="a"
-                href={`https://pt.wikipedia.org/wiki/${data.namePt}`}
-                target="_blank"
-                disabled={data.namePt ? false : true}
-              >
-                <LanguageIcon />
-              </IconButton>
-            </div>
+            <Portuguese
+              classes={classes}
+              handleChange={handleChange}
+              handleBlurChange={handleBlurChange}
+              handleForvo={handleForvo}
+              data={data}
+            />
           </ExpansionPanelDetails>
         </ExpansionPanel>
 
@@ -436,111 +318,15 @@ const CardCreateUpdate = (props: any) => {
             <Typography className={classes.heading}>Chinês</Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
-            <div>
-              <TextField
-                name="nameCht"
-                label="Tradicional"
-                autoComplete="off"
-                onChange={handleChange}
-                onBlur={e => {
-                  handleBlurChange(e);
-                  getPinyin();
-                }}
-                value={data.nameCht}
-                className={classes.inputChinese}
-                InputProps={{ inputProps: { tabIndex: 1002 } }}
-                inputRef={nameInputChtRef}
-              />
-
-              <IconButton
-                color="primary"
-                component="a"
-                href={`https://translate.google.com.br/#view=home&op=translate&sl=en&tl=zh-TW&text=${data.nameEn}`}
-                target="_blank"
-                disabled={data.nameEn ? false : true}
-                onClick={() => {
-                  nameInputChtRef.current.focus();
-                }}
-              >
-                <GTranslateIcon />
-              </IconButton>
-
-              <TextField
-                name="nameChs"
-                label="Simplificado"
-                autoComplete="off"
-                onChange={handleChange}
-                onBlur={e => {
-                  handleBlurChange(e);
-                  handleForvo('Chs');
-                }}
-                value={data.nameChs}
-                className={classes.inputChinese}
-                inputRef={nameInputChsRef}
-              />
-              <IconButton
-                color="primary"
-                component="a"
-                href={`https://translate.google.com.br/#view=home&op=translate&sl=en&tl=zh-CN&text=${data.nameEn}`}
-                target="_blank"
-                disabled={data.nameEn ? false : true}
-                onClick={() => {
-                  nameInputChsRef.current.focus();
-                }}
-              >
-                <GTranslateIcon />
-              </IconButton>
-
-              <TextField
-                name="pinyin"
-                label="Pinyin"
-                autoComplete="off"
-                onChange={handleChange}
-                value={data.pinyin}
-                className={classes.inputChinese}
-              />
-
-              <TextField
-                name="audioCh"
-                label="Áudio"
-                autoComplete="off"
-                onChange={handleChange}
-                value={data.audioCh}
-                className={classes.input}
-              />
-
-              <IconButton
-                color="primary"
-                component="a"
-                href={`https://forvo.com/word/${data.nameCht ||
-                  data.nameChs}/#zh`}
-                target="_blank"
-                disabled={data.nameCht || data.nameChs ? false : true}
-              >
-                <MusicVideoIcon />
-              </IconButton>
-
-              <audio src={data.audioCh} ref={audioChRef}></audio>
-
-              <IconButton
-                color="primary"
-                component="span"
-                disabled={data.audioCh ? false : true}
-                onClick={() => audioChRef.current.play()}
-              >
-                <PlayCircleOutlineIcon />
-              </IconButton>
-
-              <IconButton
-                color="primary"
-                component="a"
-                href={`https://zh.wikipedia.org/wiki/${data.nameCht}`}
-                target="_blank"
-                disabled={data.nameCht ? false : true}
-              >
-                <LanguageIcon />
-              </IconButton>
-            </div>
+            <Chinese
+              classes={classes}
+              handleChange={handleChange}
+              handleBlurChange={handleBlurChange}
+              handleForvo={handleForvo}
+              getForvo={getForvo}
+              data={data}
+              setPartialData={setPartialData}
+            />
           </ExpansionPanelDetails>
         </ExpansionPanel>
 
@@ -558,76 +344,13 @@ const CardCreateUpdate = (props: any) => {
             <Typography className={classes.heading}>Italiano</Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
-            <div>
-              <TextField
-                name="nameIt"
-                label="Nome"
-                autoComplete="off"
-                onChange={handleChange}
-                onBlur={e => {
-                  handleForvo('It');
-                  handleBlurChange(e);
-                }}
-                value={data.nameIt}
-                className={classes.input}
-                InputProps={{ inputProps: { tabIndex: 1003 } }}
-                inputRef={nameInputItRef}
-              />
-
-              <IconButton
-                color="primary"
-                component="a"
-                href={`https://translate.google.com.br/#view=home&op=translate&sl=en&tl=it&text=${data.nameEn}`}
-                target="_blank"
-                disabled={data.nameEn ? false : true}
-                onClick={() => {
-                  nameInputItRef.current.focus();
-                }}
-              >
-                <GTranslateIcon />
-              </IconButton>
-
-              <TextField
-                name="audioIt"
-                label="Áudio"
-                autoComplete="off"
-                onChange={handleChange}
-                value={data.audioIt}
-                className={classes.input}
-                InputProps={{ tabIndex: 2 }}
-              />
-
-              <IconButton
-                color="primary"
-                component="a"
-                href={`https://forvo.com/word/${data.nameIt}/#it`}
-                target="_blank"
-                disabled={data.nameIt ? false : true}
-              >
-                <MusicVideoIcon />
-              </IconButton>
-
-              <audio src={data.audioIt} ref={audioItRef}></audio>
-
-              <IconButton
-                color="primary"
-                component="span"
-                disabled={data.audioIt ? false : true}
-                onClick={() => audioItRef.current.play()}
-              >
-                <PlayCircleOutlineIcon />
-              </IconButton>
-
-              <IconButton
-                color="primary"
-                component="a"
-                href={`https://it.wikipedia.org/wiki/${data.nameIt}`}
-                target="_blank"
-                disabled={data.nameIt ? false : true}
-              >
-                <LanguageIcon />
-              </IconButton>
-            </div>
+            <Italian
+              classes={classes}
+              handleChange={handleChange}
+              handleBlurChange={handleBlurChange}
+              handleForvo={handleForvo}
+              data={data}
+            />
           </ExpansionPanelDetails>
         </ExpansionPanel>
 
@@ -645,76 +368,13 @@ const CardCreateUpdate = (props: any) => {
             <Typography className={classes.heading}>Francês</Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
-            <div>
-              <TextField
-                name="nameFr"
-                label="Nome"
-                autoComplete="off"
-                onChange={handleChange}
-                onBlur={e => {
-                  handleBlurChange(e);
-                  handleForvo('Fr');
-                }}
-                value={data.nameFr}
-                className={classes.input}
-                InputProps={{ inputProps: { tabIndex: 1004 } }}
-                inputRef={nameInputFrRef}
-              />
-
-              <IconButton
-                color="primary"
-                component="a"
-                href={`https://translate.google.com.br/#view=home&op=translate&sl=en&tl=fr&text=${data.nameEn}`}
-                target="_blank"
-                disabled={data.nameEn ? false : true}
-                onClick={() => {
-                  nameInputFrRef.current.focus();
-                }}
-              >
-                <GTranslateIcon />
-              </IconButton>
-
-              <TextField
-                name="audioFr"
-                label="Áudio"
-                autoComplete="off"
-                onChange={handleChange}
-                value={data.audioFr}
-                className={classes.input}
-                InputProps={{ tabIndex: 2 }}
-              />
-
-              <IconButton
-                color="primary"
-                component="a"
-                href={`https://forvo.com/word/${data.nameFr}/#fr`}
-                target="_blank"
-                disabled={data.nameFr ? false : true}
-              >
-                <MusicVideoIcon />
-              </IconButton>
-
-              <audio src={data.audioFr} ref={audioFrRef}></audio>
-
-              <IconButton
-                color="primary"
-                component="span"
-                disabled={data.audioFr ? false : true}
-                onClick={() => audioFrRef.current.play()}
-              >
-                <PlayCircleOutlineIcon />
-              </IconButton>
-
-              <IconButton
-                color="primary"
-                component="a"
-                href={`https://fr.wikipedia.org/wiki/${data.nameFr}`}
-                target="_blank"
-                disabled={data.nameFr ? false : true}
-              >
-                <LanguageIcon />
-              </IconButton>
-            </div>
+            <French
+              classes={classes}
+              handleChange={handleChange}
+              handleBlurChange={handleBlurChange}
+              handleForvo={handleForvo}
+              data={data}
+            />
           </ExpansionPanelDetails>
         </ExpansionPanel>
 
