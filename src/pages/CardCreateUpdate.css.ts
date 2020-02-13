@@ -23,4 +23,9 @@ export default makeStyles(theme => ({
     height: '100px',
     width: '190px',
   },
+  heading: {
+    fontSize: theme.typography.pxToRem(15),
+    flexBasis: '33.33%',
+    flexShrink: 0,
+  },
 }));
