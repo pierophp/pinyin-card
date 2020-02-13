@@ -101,9 +101,6 @@ const English = (props: any) => {
         label="Pronúncia"
         autoComplete="off"
         onChange={handleChange}
-        onBlur={e => {
-          handleBlurChange(e);
-        }}
         value={data.extraEn.pronunciation}
         className={classes.input}
       />
@@ -111,7 +108,7 @@ const English = (props: any) => {
       <IconButton
         color="primary"
         component="a"
-        href={`https://en.wiktionary.org/wiki/${data.nameEn}`}
+        href={`https://en.wiktionary.org/wiki/${data.nameEn.toLowerCase()}`}
         target="_blank"
         disabled={data.nameEn ? false : true}
       >
