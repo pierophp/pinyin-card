@@ -3,12 +3,37 @@ import TextField from '@material-ui/core/TextField';
 import LanguageIcon from '@material-ui/icons/Language';
 import MusicVideoIcon from '@material-ui/icons/MusicVideo';
 import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
+import axios from 'axios';
 import React from 'react';
+import config from '../../../config';
 
 const English = (props: any) => {
-  const { classes, handleChange, handleBlurChange, handleForvo, data } = props;
+  const {
+    classes,
+    setPartialData,
+    handleChange,
+    handleBlurChange,
+    handleForvo,
+    data,
+  } = props;
 
   const audioRef = React.createRef<any>();
+
+  const handleIpa = async () => {
+    if (data.extraEn.pronunciation) {
+      return;
+    }
+
+    if (!data.nameEn) {
+      return;
+    }
+
+    const response = (
+      await axios.get(`${config.apiUrl}/wiktionary/ipa/en/${data.nameEn}`)
+    ).data;
+
+    setPartialData({ 'extraEn.pronunciation': response.ipa });
+  };
 
   return (
     <div>
@@ -21,6 +46,7 @@ const English = (props: any) => {
         onBlur={e => {
           handleBlurChange(e);
           handleForvo('En');
+          handleIpa();
         }}
         value={data.nameEn}
         className={classes.input}
@@ -71,17 +97,26 @@ const English = (props: any) => {
       <br />
 
       <TextField
-        name="extraEn.ipa"
-        label="IPA"
+        name="extraEn.pronunciation"
+        label="Pronúncia"
         autoComplete="off"
-        autoFocus
         onChange={handleChange}
         onBlur={e => {
           handleBlurChange(e);
         }}
-        value={data.extraEn.ipa}
+        value={data.extraEn.pronunciation}
         className={classes.input}
       />
+
+      <IconButton
+        color="primary"
+        component="a"
+        href={`https://en.wiktionary.org/wiki/${data.nameEn}`}
+        target="_blank"
+        disabled={data.nameEn ? false : true}
+      >
+        <LanguageIcon />
+      </IconButton>
     </div>
   );
 };

@@ -65,7 +65,7 @@ const defaultData = {
   nameEn: '',
   audioEn: '',
   extraEn: {
-    ipa: '',
+    pronunciation: '',
   },
   namePt: '',
   audioPt: '',
@@ -90,7 +90,18 @@ const CardCreateUpdate = (props: any) => {
 
   const [data, setPartialData] = React.useReducer(
     (state: any, partialState: any) => {
-      return { ...state, ...partialState };
+      const stateCopy = JSON.parse(JSON.stringify(state));
+      const keys = Object.keys(partialState);
+      for (const key of keys) {
+        const splitKey = key.split('.');
+        if (splitKey.length === 1) {
+          stateCopy[key] = partialState[key];
+        } else {
+          stateCopy[splitKey[0]][splitKey[1]] = partialState[key];
+        }
+      }
+
+      return stateCopy;
     },
     defaultData
   );
@@ -275,6 +286,7 @@ const CardCreateUpdate = (props: any) => {
               handleChange={handleChange}
               handleBlurChange={handleBlurChange}
               handleForvo={handleForvo}
+              setPartialData={setPartialData}
               data={data}
             />
           </ExpansionPanelDetails>
