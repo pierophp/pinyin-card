@@ -7,8 +7,9 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Toolbar from '@material-ui/core/Toolbar';
-import ChromeReaderModeIcon from '@material-ui/icons/ChromeReaderMode';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
+import ChromeReaderModeIcon from '@material-ui/icons/ChromeReaderMode';
+import DescriptionIcon from '@material-ui/icons/Description';
 import MenuIcon from '@material-ui/icons/Menu';
 import SettingsApplicationsIcon from '@material-ui/icons/SettingsApplications';
 import React from 'react';
@@ -68,6 +69,18 @@ const AppBarDrawer = (props: any) => {
                   <SettingsApplicationsIcon />
                 </ListItemIcon>
                 <ListItemText primary="Configurações" />
+              </ListItem>
+              <Divider />
+              <ListItem
+                button
+                onClick={() =>
+                  (window.location.hash = '/english-portuguese-ipa')
+                }
+              >
+                <ListItemIcon>
+                  <DescriptionIcon />
+                </ListItemIcon>
+                <ListItemText primary="IPA (tabela de pronúncias)" />
               </ListItem>
               <Divider />
               <ListItem
