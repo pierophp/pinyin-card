@@ -48,7 +48,9 @@ const EnglishPortugueseIpa = () => {
             <TableCell>
               <b>d</b>ew
             </TableCell>
-            <TableCell>???????</TableCell>
+            <TableCell>
+              <b>d</b>ia
+            </TableCell>
           </TableRow>
           <TableRow>
             <TableCell>dʒ</TableCell>
@@ -64,7 +66,11 @@ const EnglishPortugueseIpa = () => {
             <TableCell>
               <b>th</b>y, brea<b>th</b>e, fa<b>th</b>er
             </TableCell>
-            <TableCell>???????</TableCell>
+            <TableCell>
+              <b>~~~</b> como o d, mas com a língua encostando nos dentes de
+              cima, ou, se aproximante, sem encostar no céu da boca (ficando
+              entre D e Z)
+            </TableCell>
           </TableRow>
           <TableRow>
             <TableCell>f</TableCell>
@@ -89,21 +95,35 @@ const EnglishPortugueseIpa = () => {
             <TableCell>
               <b>h</b>igh, a<b>h</b>ead
             </TableCell>
-            <TableCell>???????</TableCell>
+            <TableCell>
+              ma<b>rr</b>eta
+            </TableCell>
           </TableRow>
           <TableRow>
             <TableCell>hw</TableCell>
             <TableCell>
-              <b>wh</b>ine
+              <b>wh</b>ine <br />
+              (Na maioria dos sotaques não é mais usado.{' '}
+              <a
+                href="https://en.wikipedia.org/wiki/Pronunciation_of_English_%E2%9F%A8wh%E2%9F%A9#Wine.E2.80.93whine_merger"
+                target="_blank"
+              >
+                Referência
+              </a>
+              )
             </TableCell>
-            <TableCell>???????</TableCell>
+            <TableCell>
+              a<b>rr</b>uar
+            </TableCell>
           </TableRow>
           <TableRow>
             <TableCell>j</TableCell>
             <TableCell>
               <b>y</b>es, hallelu<b>j</b>ah
             </TableCell>
-            <TableCell>???????</TableCell>
+            <TableCell>
+              sa<b>i</b>a, pa<b>i</b>s
+            </TableCell>
           </TableRow>
           <TableRow>
             <TableCell>k</TableCell>
@@ -128,7 +148,9 @@ const EnglishPortugueseIpa = () => {
             <TableCell>
               <b>l</b>ute
             </TableCell>
-            <TableCell>???????</TableCell>
+            <TableCell>
+              <b>Li</b>a, <b>lh</b>a
+            </TableCell>
           </TableRow>
           <TableRow>
             <TableCell>m</TableCell>
@@ -153,7 +175,9 @@ const EnglishPortugueseIpa = () => {
             <TableCell>
               <b>n</b>ew
             </TableCell>
-            <TableCell>???????</TableCell>
+            <TableCell>
+              hér<b>ni</b>a, Bós<b>ni</b>a
+            </TableCell>
           </TableRow>
           <TableRow>
             <TableCell>ŋ</TableCell>
@@ -172,11 +196,13 @@ const EnglishPortugueseIpa = () => {
             </TableCell>
           </TableRow>
           <TableRow>
-            <TableCell>r</TableCell>
+            <TableCell>ɹ</TableCell>
             <TableCell>
               <b>r</b>ye, t<b>r</b>y, ve<b>r</b>y
             </TableCell>
-            <TableCell>???????</TableCell>
+            <TableCell>
+              canta<b>r</b>, abri<b>r</b> (sotaque caipira)
+            </TableCell>
           </TableRow>
           <TableRow>
             <TableCell>s</TableCell>
@@ -192,7 +218,9 @@ const EnglishPortugueseIpa = () => {
             <TableCell>
               con<b>s</b>ume
             </TableCell>
-            <TableCell>???????</TableCell>
+            <TableCell>
+              <b>ci</b>úme, ma<b>ci</b>eira
+            </TableCell>
           </TableRow>
           <TableRow>
             <TableCell>ʃ</TableCell>
@@ -218,7 +246,9 @@ const EnglishPortugueseIpa = () => {
             <TableCell>
               <b>t</b>une
             </TableCell>
-            <TableCell>???????</TableCell>
+            <TableCell>
+              sí<b>ti</b>o
+            </TableCell>
           </TableRow>
           <TableRow>
             <TableCell>tʃ</TableCell>
@@ -289,8 +319,10 @@ const EnglishPortugueseIpa = () => {
           </TableRow>
         </TableBody>
       </Table>
+      <br />
+      <br />
       <Typography gutterBottom variant="h5" component="h2">
-        Vogais
+        Vogais Fortes
       </Typography>
       <Table aria-label="simple table">
         <TableHead>
@@ -386,21 +418,299 @@ const EnglishPortugueseIpa = () => {
             <TableCell></TableCell>
           </TableRow>
           <TableRow>
-            <TableCell></TableCell>
-            <TableCell></TableCell>
+            <TableCell>ɛ</TableCell>
+            <TableCell>
+              DR<b>E</b>SS, pr<b>e</b>stige
+            </TableCell>
+            <TableCell>
+              m<b>e</b>ta, s<b>é</b>, <b>É</b>merson, caf<b>é</b>zinho
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>ɛr</TableCell>
+            <TableCell>
+              m<b>err</b>y
+            </TableCell>
             <TableCell></TableCell>
           </TableRow>
           <TableRow>
-            <TableCell></TableCell>
-            <TableCell></TableCell>
+            <TableCell>eɪ</TableCell>
+            <TableCell>
+              F<b>A</b>CE
+            </TableCell>
             <TableCell></TableCell>
           </TableRow>
           <TableRow>
+            <TableCell>ɛər</TableCell>
+            <TableCell>
+              SQU<b>ARE</b>, M<b>ar</b>y
+            </TableCell>
             <TableCell></TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>eɪər</TableCell>
+            <TableCell>
+              pl<b>ayer</b>
+            </TableCell>
             <TableCell></TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>ɪ</TableCell>
+            <TableCell>
+              K<b>I</b>T, h<b>i</b>storic
+            </TableCell>
+            <TableCell></TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>ɪr</TableCell>
+            <TableCell>
+              m<b>irr</b>or
+            </TableCell>
+            <TableCell></TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>iː</TableCell>
+            <TableCell>
+              FL<b>EE</b>CE, pedigr<b>ee</b>, id<b>e</b>a
+            </TableCell>
+            <TableCell></TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>ɪər</TableCell>
+            <TableCell>
+              N<b>EAR</b>, s<b>er</b>ious
+            </TableCell>
+            <TableCell></TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>iːər</TableCell>
+            <TableCell>
+              fr<b>eer</b>
+            </TableCell>
+            <TableCell></TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>oʊ</TableCell>
+            <TableCell>
+              G<b>OA</b>T
+            </TableCell>
+            <TableCell></TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>oʊər</TableCell>
+            <TableCell>
+              m<b>ower</b>
+            </TableCell>
+            <TableCell></TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>ɔː</TableCell>
+            <TableCell>
+              TH<b>OUGHT</b>
+            </TableCell>
+            <TableCell></TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>ɔːr</TableCell>
+            <TableCell>
+              N<b>OR</b>TH, F<b>OR</b>CE
+            </TableCell>
+            <TableCell></TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>ɔːər</TableCell>
+            <TableCell>
+              s<b>awer</b>
+            </TableCell>
+            <TableCell></TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>ɔɪ</TableCell>
+            <TableCell>
+              CH<b>OI</b>CE
+            </TableCell>
+            <TableCell></TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>ɔɪər</TableCell>
+            <TableCell>
+              c<b>oir</b>
+            </TableCell>
+            <TableCell></TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>ɔɪ.ər</TableCell>
+            <TableCell>
+              empl<b>oyer</b>
+            </TableCell>
+            <TableCell></TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>ʊ</TableCell>
+            <TableCell>
+              F<b>OO</b>T
+            </TableCell>
+            <TableCell></TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>ʊr</TableCell>
+            <TableCell>
+              c<b>our</b>ier
+            </TableCell>
+            <TableCell></TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>uː</TableCell>
+            <TableCell>
+              G<b>OO</b>SE, cr<b>u</b>el
+            </TableCell>
+            <TableCell></TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>ʊər</TableCell>
+            <TableCell>
+              t<b>our</b>, C<b>URE</b>
+            </TableCell>
+            <TableCell></TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>uːər</TableCell>
+            <TableCell>
+              tr<b>uer</b>
+            </TableCell>
+            <TableCell></TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>ʌ</TableCell>
+            <TableCell>
+              STR<b>U</b>T, <b>u</b>ntidy, j<b>u</b>sticiable
+            </TableCell>
+            <TableCell></TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>ɜːr</TableCell>
+            <TableCell>
+              N<b>UR</b>SE, bl<b>urr</b>y, <b>Er</b>nesto, forew<b>or</b>d
+            </TableCell>
+            <TableCell></TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>ʌr</TableCell>
+            <TableCell>
+              h<b>urr</b>y
+            </TableCell>
             <TableCell></TableCell>
           </TableRow>
         </TableBody>
+      </Table>
+      <br />
+      <br />
+      <Typography gutterBottom variant="h5" component="h2">
+        Vogais Fracas
+      </Typography>
+      <Table aria-label="simple table">
+        <TableHead>
+          <TableRow>
+            <TableCell>IPA</TableCell>
+            <TableCell>Inglês</TableCell>
+            <TableCell>Português</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          <TableRow>
+            <TableCell>ə</TableCell>
+            <TableCell>
+              COMM<b>A</b>, <b>a</b>bout
+            </TableCell>
+            <TableCell></TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>ər</TableCell>
+            <TableCell>
+              LETT<b>ER</b>, forw<b>ar</b>d, hist<b>or</b>y
+            </TableCell>
+            <TableCell></TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>ɪ</TableCell>
+            <TableCell>
+              <b>e</b>dition, rabb<b>i</b>t, Lat<b>i</b>n, heat<b>i</b>ng
+            </TableCell>
+            <TableCell></TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>oʊ</TableCell>
+            <TableCell>
+              mott<b>o</b>, retr<b>o</b>active, foll<b>ow</b>er
+            </TableCell>
+            <TableCell></TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>i</TableCell>
+            <TableCell>
+              HAPP<b>Y</b>, med<b>i</b>ocre
+            </TableCell>
+            <TableCell></TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>iə</TableCell>
+            <TableCell>
+              Californ<b>ia</b>
+            </TableCell>
+            <TableCell></TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>u</TableCell>
+            <TableCell>
+              fr<b>u</b>ition
+            </TableCell>
+            <TableCell></TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>uə</TableCell>
+            <TableCell>
+              infl<b>ue</b>nce
+            </TableCell>
+            <TableCell></TableCell>
+          </TableRow>
+        </TableBody>
+        <br />
+        <br />
+        <Typography gutterBottom variant="h5" component="h2">
+          Consoante silábica
+        </Typography>
+        <Table aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>IPA</TableCell>
+              <TableCell>Inglês</TableCell>
+              <TableCell>Português</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            <TableRow>
+              <TableCell>əl</TableCell>
+              <TableCell>
+                bott<b>le</b>
+              </TableCell>
+              <TableCell></TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>ən</TableCell>
+              <TableCell>
+                butt<b>on</b>
+              </TableCell>
+              <TableCell></TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>əm</TableCell>
+              <TableCell>
+                rhyth<b>m</b>
+              </TableCell>
+              <TableCell></TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
       </Table>
       <b>Fontes:</b>{' '}
       <a href="https://en.wikipedia.org/wiki/Help:IPA/English" target="_blank">
@@ -412,6 +722,18 @@ const EnglishPortugueseIpa = () => {
         target="_blank"
       >
         Português
+      </a>
+      <a
+        href="https://pt.wikipedia.org/wiki/Wikip%C3%A9dia:AFI_para_ingl%C3%AAs"
+        target="_blank"
+      >
+        Português
+      </a>
+      <a
+        href="https://pt.wikipedia.org/wiki/Wikip%C3%A9dia:Alfabeto_fon%C3%A9tico_internacional"
+        target="_blank"
+      >
+        Explicação
       </a>
     </div>
   );
