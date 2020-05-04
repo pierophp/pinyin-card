@@ -22,6 +22,7 @@ import Chinese from '../components/card/create-update/Chinese';
 import English from '../components/card/create-update/English';
 import French from '../components/card/create-update/French';
 import Italian from '../components/card/create-update/Italian';
+import German from '../components/card/create-update/German';
 import Portuguese from '../components/card/create-update/Portuguese';
 import config from '../config';
 import useStyles from './CardCreateUpdate.css';
@@ -81,6 +82,9 @@ const defaultData = {
   nameFr: '',
   audioFr: '',
   extraFr: {},
+  nameDe: '',
+  audioDe: '',
+  extraDe: {},
   image: '',
   categoryId: '',
 };
@@ -103,28 +107,8 @@ const CardCreateUpdate = (props: any) => {
 
       return stateCopy;
     },
-<<<<<<< HEAD
-    {
-      nameEn: '',
-      audioEn: '',
-      namePt: '',
-      audioPt: '',
-      nameCht: '',
-      nameChs: '',
-      audioCh: '',
-      nameIt: '',
-      audioIt: '',
-      nameFr: '',
-      audioFr: '',
-      nameDe: '',
-      audioDe: '',
-      pinyin: '',
-      image: '',
-      categoryId: '',
-    }
-=======
+
     defaultData
->>>>>>> origin/master
   );
 
   const [category, setCategory] = React.useState<any>({});
@@ -132,22 +116,6 @@ const CardCreateUpdate = (props: any) => {
   const [errors, setErrors] = React.useState({});
   const [expanded, setExpanded] = React.useState('en');
   const [loading, setLoading] = React.useState(false);
-<<<<<<< HEAD
-  const nameInputPtRef = React.createRef<any>();
-  const nameInputChtRef = React.createRef<any>();
-  const nameInputChsRef = React.createRef<any>();
-  const nameInputItRef = React.createRef<any>();
-  const nameInputFrRef = React.createRef<any>();
-  const nameInputDeRef = React.createRef<any>();
-
-  const audioEnRef = React.createRef<any>();
-  const audioPtRef = React.createRef<any>();
-  const audioChRef = React.createRef<any>();
-  const audioItRef = React.createRef<any>();
-  const audioFrRef = React.createRef<any>();
-  const audioDeRef = React.createRef<any>();
-=======
->>>>>>> origin/master
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
@@ -374,6 +342,30 @@ const CardCreateUpdate = (props: any) => {
               getForvo={getForvo}
               data={data}
               setPartialData={setPartialData}
+            />
+          </ExpansionPanelDetails>
+        </ExpansionPanel>
+
+        <ExpansionPanel
+          square
+          expanded={expanded === 'de'}
+          onChange={() => handleChangeExpanded('de')}
+        >
+          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+            <img
+              src="/icons/icons8-italy-48.png"
+              height="25"
+              className={classes.flagIcon}
+            />
+            <Typography className={classes.heading}>Alemão</Typography>
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails>
+            <German
+              classes={classes}
+              handleChange={handleChange}
+              handleBlurChange={handleBlurChange}
+              handleForvo={handleForvo}
+              data={data}
             />
           </ExpansionPanelDetails>
         </ExpansionPanel>
