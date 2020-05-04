@@ -184,12 +184,11 @@ const CategoryCreateUpdate = (props: any) => {
             onChange={handleChange}
             value={data.nameDe}
             className={classes.input}
-            InputProps={{ tabIndex: '1001' }}
+            InputProps={{ tabIndex: 1001 }}
           />
 
           <IconButton
             color="primary"
-            variant="contained"
             component="a"
             href={`https://translate.google.com.br/#view=home&op=translate&sl=de&tl=it&text=${data.nameEn}`}
             target="_blank"
