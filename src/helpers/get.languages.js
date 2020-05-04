@@ -13,6 +13,10 @@ export default function getLanguages() {
       nameEn: 'English',
     },
     {
+      code: 'de',
+      nameEn: 'German',
+    },
+    {
       code: 'it',
       nameEn: 'Italian',
     },

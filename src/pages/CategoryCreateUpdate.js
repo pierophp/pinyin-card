@@ -17,6 +17,7 @@ const CategoryCreateUpdate = props => {
     nameChs: '',
     nameIt: '',
     nameFr: '',
+    nameDe: '',
   });
 
   React.useEffect(() => {
@@ -152,6 +153,29 @@ const CategoryCreateUpdate = props => {
             variant="contained"
             component="a"
             href={`https://translate.google.com.br/#view=home&op=translate&sl=en&tl=zh-CN&text=${data.nameEn}`}
+            target="_blank"
+            disabled={data.nameEn ? false : true}
+          >
+            <GTranslateIcon />
+          </IconButton>
+        </div>
+
+        <div>
+          <TextField
+            name="nameDe"
+            label="German"
+            autoComplete="off"
+            onChange={handleChange}
+            value={data.nameDe}
+            className={classes.input}
+            InputProps={{ tabIndex: '1001' }}
+          />
+
+          <IconButton
+            color="primary"
+            variant="contained"
+            component="a"
+            href={`https://translate.google.com.br/#view=home&op=translate&sl=de&tl=it&text=${data.nameEn}`}
             target="_blank"
             disabled={data.nameEn ? false : true}
           >

@@ -37,6 +37,8 @@ const CardCreateUpdate = (props: any) => {
       audioIt: '',
       nameFr: '',
       audioFr: '',
+      nameDe: '',
+      audioDe: '',
       pinyin: '',
       image: '',
       categoryId: '',
@@ -52,12 +54,14 @@ const CardCreateUpdate = (props: any) => {
   const nameInputChsRef = React.createRef<any>();
   const nameInputItRef = React.createRef<any>();
   const nameInputFrRef = React.createRef<any>();
+  const nameInputDeRef = React.createRef<any>();
 
   const audioEnRef = React.createRef<any>();
   const audioPtRef = React.createRef<any>();
   const audioChRef = React.createRef<any>();
   const audioItRef = React.createRef<any>();
   const audioFrRef = React.createRef<any>();
+  const audioDeRef = React.createRef<any>();
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
@@ -389,6 +393,64 @@ const CardCreateUpdate = (props: any) => {
             component="span"
             disabled={data.audioCh ? false : true}
             onClick={() => audioChRef.current.play()}
+          >
+            <PlayCircleOutlineIcon />
+          </IconButton>
+        </div>
+
+        <div>
+          <TextField
+            name="nameDe"
+            label="German"
+            autoComplete="off"
+            onChange={handleChange}
+            onBlur={() => handleForvo('De')}
+            value={data.nameDe}
+            className={classes.input}
+            InputProps={{ inputProps: { tabIndex: 1003 } }}
+            inputRef={nameInputDeRef}
+          />
+
+          <IconButton
+            color="primary"
+            component="a"
+            href={`https://translate.google.com.br/#view=home&op=translate&sl=en&tl=de&text=${data.nameEn}`}
+            target="_blank"
+            disabled={data.nameEn ? false : true}
+            onClick={() => {
+              nameInputDeRef.current.focus();
+            }}
+          >
+            <GTranslateIcon />
+          </IconButton>
+
+          <TextField
+            name="audioDe"
+            label="Audio German"
+            autoComplete="off"
+            onChange={handleChange}
+            value={data.audioDe}
+            className={classes.input}
+            InputProps={{ tabIndex: 2 }}
+          />
+
+          <IconButton
+            color="primary"
+            component="a"
+            href={`https://forvo.com/word/${data.nameDe}/#de`}
+            target="_blank"
+            disabled={data.nameDe ? false : true}
+          >
+            <MusicVideoIcon />
+          </IconButton>
+
+          <audio src={data.audioDe} ref={audioDeRef}></audio>
+
+          <IconButton
+            color="primary"
+            component="span"
+            disabled={data.audioDe ? false : true}
+            onClick={() => audioDeRef.current.play()}
           >
             <PlayCircleOutlineIcon />
           </IconButton>
