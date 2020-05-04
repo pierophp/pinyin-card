@@ -5,7 +5,7 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import React from 'react';
 import getUser from '../helpers/get.user';
-import useStyles from './Configuration.css.js';
+import useStyles from './Login.css';
 
 const Login = () => {
   const classes = useStyles();

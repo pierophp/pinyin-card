@@ -58,6 +58,10 @@ const Game = (props: any) => {
     ? 'audioCh'
     : `audio${upperFirst(configuration.learningLanguage)}`;
 
+  const extraField = isChinese
+    ? 'extraCh'
+    : `extra${upperFirst(configuration.learningLanguage)}`;
+
   const card = cards[currentCard];
 
   const nextCard = () => {
@@ -79,6 +83,34 @@ const Game = (props: any) => {
     },
     [card]
   );
+
+  const preloadAudios = async (cards: any[]) => {
+    for (const card of cards) {
+      await new Promise(resolve => {
+        const audio = new Audio();
+        audio.addEventListener(
+          'canplaythrough',
+          () => {
+            resolve();
+          },
+          false
+        );
+        audio.src = card[audioField];
+      });
+    }
+  };
+
+  const preloadImages = async (cards: any[]) => {
+    for (const card of cards) {
+      await new Promise(resolve => {
+        const image = new Image();
+        image.onload = () => {
+          resolve();
+        };
+        image.src = card.image;
+      });
+    }
+  };
 
   const play = () => {
     const audioElement: HTMLAudioElement = document.getElementById(
@@ -111,8 +143,13 @@ const Game = (props: any) => {
 
   React.useEffect(() => {
     async function init() {
-      setCards(shuffle(props.cards));
+      const tempCards = shuffle(
+        props.cards.filter((card: any) => card[audioField])
+      );
+      setCards(tempCards);
       loadOptions();
+      preloadAudios(tempCards);
+      preloadImages(tempCards);
     }
 
     init();
@@ -176,9 +213,11 @@ const Game = (props: any) => {
           </DialogTitle>
           <DialogContent dividers>
             <div
-              className={[classes.cardContainer, classes[orientation]].join(
-                ' '
-              )}
+              className={[
+                classes.cardContainer,
+                classes[orientation],
+                classes.cardContainerAnswer,
+              ].join(' ')}
               style={{ backgroundImage: `url(${card.image})` }}
             ></div>
 
@@ -193,7 +232,14 @@ const Game = (props: any) => {
 
               <div className={classes.title}>{card[nameField]}</div>
 
-              {isChinese && <div className={classes.pinyin}>{card.pinyin}</div>}
+              {isChinese && (
+                <div className={classes.pronunciation}>{card.pinyin}</div>
+              )}
+              {card[extraField] && card[extraField].pronunciation && (
+                <div className={classes.pronunciation}>
+                  {card[extraField].pronunciation}
+                </div>
+              )}
 
               <IconButton color="primary" onClick={play}>
                 <PlayCircleOutlineIcon />

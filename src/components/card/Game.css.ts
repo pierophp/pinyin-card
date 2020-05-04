@@ -4,10 +4,13 @@ export default makeStyles(theme => ({
     backgroundColor: '#fff',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center center',
-    height: 'calc(50vh - (56px / 2))',
+    height: 'calc(50vh - (56px / 2) - 4px)',
     width: 'calc(50% - 4px)',
     position: 'relative',
     margin: 'auto',
+  },
+  cardContainerAnswer: {
+    width: '100%',
   },
   cardContainerOption: {
     border: '2px solid #000',
@@ -44,7 +47,7 @@ export default makeStyles(theme => ({
     color: '#fff',
     fontSize: '25px',
   },
-  pinyin: {
+  pronunciation: {
     width: '100%',
     textAlign: 'center',
     color: '#fff',

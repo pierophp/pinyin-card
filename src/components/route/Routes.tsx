@@ -4,6 +4,7 @@ import CardCreateUpdate from '../../pages/CardCreateUpdate';
 import Categories from '../../pages/Categories';
 import CategoryCreateUpdate from '../../pages/CategoryCreateUpdate';
 import Configuration from '../../pages/Configuration';
+import EnglishPortugueseIpa from '../../pages/EnglishPortugueseIpa';
 import Login from '../../pages/Login';
 
 const Routes = () => {
@@ -20,6 +21,11 @@ const Routes = () => {
       <Route exact path="/card-create/:category" component={CardCreateUpdate} />
       <Route exact path="/card-update/:id" component={CardCreateUpdate} />
       <Route exact path="/configuration" component={Configuration} />
+      <Route
+        exact
+        path="/english-portuguese-ipa"
+        component={EnglishPortugueseIpa}
+      />
       <Route exact path="/login" component={Login} />
     </>
   );

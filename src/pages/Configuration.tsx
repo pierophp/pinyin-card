@@ -8,19 +8,19 @@ import Typography from '@material-ui/core/Typography';
 import React from 'react';
 import getConfiguration from '../helpers/get.configuration';
 import getLanguages from '../helpers/get.languages';
-import useStyles from './Configuration.css.js';
+import useStyles from './Configuration.css';
 import Snackbar from '@material-ui/core/Snackbar';
 
 const languages = getLanguages();
 
-const Configuration = props => {
+const Configuration = (props: any) => {
   const classes = useStyles();
 
   const [data, setData] = React.useState(getConfiguration());
 
   const [snackbarOpen, setSnackbarOpen] = React.useState(false);
 
-  const handleChange = e => {
+  const handleChange = (e: any) => {
     const { name, value } = e.target;
 
     const dataCopy = JSON.parse(JSON.stringify(data));
@@ -42,12 +42,12 @@ const Configuration = props => {
     <div className={classes.container}>
       <form autoComplete="off">
         <Typography variant="h4" component="h4">
-          Configuration:
+          Configuração:
         </Typography>
         <div>
           <FormControl className={classes.formControl}>
             <InputLabel id="learning-language-label">
-              Learning Language
+              Idioma que estou aprendendo
             </InputLabel>
             <Select
               labelId="learning-language-label"
@@ -58,7 +58,7 @@ const Configuration = props => {
             >
               {languages.map(language => (
                 <MenuItem key={language.code} value={language.code}>
-                  {language.nameEn}
+                  {language.namePt}
                 </MenuItem>
               ))}
             </Select>
@@ -67,16 +67,9 @@ const Configuration = props => {
         </div>
 
         <div>
-          <div
-            className={classes.image}
-            style={{ backgroundImage: `url(${data.image})` }}
-          ></div>
-        </div>
-
-        <div>
           <br />
           <Button variant="contained" onClick={save}>
-            Save
+            Salvar
           </Button>
         </div>
       </form>

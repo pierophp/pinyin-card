@@ -38,9 +38,14 @@ const Presentation = (props: any) => {
 
   const isChinese = ['chs', 'cht'].includes(configuration.learningLanguage);
   const nameField = `name${upperFirst(configuration.learningLanguage)}`;
+
   const audioField = isChinese
     ? 'audioCh'
     : `audio${upperFirst(configuration.learningLanguage)}`;
+
+  const extraField = isChinese
+    ? 'extraCh'
+    : `extra${upperFirst(configuration.learningLanguage)}`;
 
   const previousCard = () => {
     dispatchCurrentCard('previous');
@@ -114,7 +119,14 @@ const Presentation = (props: any) => {
 
             <div className={classes.title}>{card[nameField]}</div>
 
-            {isChinese && <div className={classes.pinyin}>{card.pinyin}</div>}
+            {isChinese && (
+              <div className={classes.pronunciation}>{card.pinyin}</div>
+            )}
+            {card[extraField] && card[extraField].pronunciation && (
+              <div className={classes.pronunciation}>
+                {card[extraField].pronunciation}
+              </div>
+            )}
 
             <IconButton color="primary" onClick={play}>
               <PlayCircleOutlineIcon />
