@@ -353,7 +353,7 @@ const CardCreateUpdate = (props: any) => {
         >
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
             <img
-              src="/icons/icons8-italy-48.png"
+              src="/icons/icons8-german-48.png"
               height="25"
               className={classes.flagIcon}
             />
