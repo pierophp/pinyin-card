@@ -45,7 +45,7 @@ const Game = (props: any) => {
 
   const [currentCard, dispatchCurrentCard] = React.useReducer(
     currentCardReducer,
-    0
+    0,
   );
 
   const classes = useStyles();
@@ -70,7 +70,7 @@ const Game = (props: any) => {
   };
 
   const select = React.useCallback(
-    selectedCard => {
+    (selectedCard) => {
       const answer: any = {
         [card.id]: {
           id: card.id,
@@ -81,19 +81,19 @@ const Game = (props: any) => {
       setAnswers(answer);
       setShowAnswer(true);
     },
-    [card]
+    [card],
   );
 
   const preloadAudios = async (cards: any[]) => {
     for (const card of cards) {
-      await new Promise(resolve => {
+      await new Promise((resolve) => {
         const audio = new Audio();
         audio.addEventListener(
           'canplaythrough',
           () => {
             resolve();
           },
-          false
+          false,
         );
         audio.src = card[audioField];
       });
@@ -102,7 +102,7 @@ const Game = (props: any) => {
 
   const preloadImages = async (cards: any[]) => {
     for (const card of cards) {
-      await new Promise(resolve => {
+      await new Promise((resolve) => {
         const image = new Image();
         image.onload = () => {
           resolve();
@@ -114,7 +114,7 @@ const Game = (props: any) => {
 
   const play = () => {
     const audioElement: HTMLAudioElement = document.getElementById(
-      'audio'
+      'audio',
     ) as HTMLAudioElement;
 
     audioElement.play();
@@ -131,7 +131,7 @@ const Game = (props: any) => {
 
     let tempCards: any[] = shuffle(props.cards)
       .slice(0, 4)
-      .filter(card => card.id !== cards[currentCard].id)
+      .filter((card) => card.id !== cards[currentCard].id)
       .slice(0, 3);
 
     tempCards.push(cards[currentCard]);
@@ -144,7 +144,7 @@ const Game = (props: any) => {
   React.useEffect(() => {
     async function init() {
       const tempCards = shuffle(
-        props.cards.filter((card: any) => card[audioField])
+        props.cards.filter((card: any) => card[audioField]),
       );
       setCards(tempCards);
       loadOptions();
@@ -176,6 +176,11 @@ const Game = (props: any) => {
 
   const showTranslation = false;
   const language = 'pt';
+  const genders: any = {
+    de_m: 'Der',
+    de_f: 'Die',
+    de_n: 'Das',
+  };
 
   return (
     <div className={classes.container}>
@@ -184,7 +189,7 @@ const Game = (props: any) => {
           <IconButton onClick={play}>
             <PlayCircleOutlineIcon style={{ color: '#fff' }} />
           </IconButton>,
-          appBarPortal
+          appBarPortal,
         )}
 
       {card && card[audioField] && (
@@ -230,7 +235,23 @@ const Game = (props: any) => {
                 </div>
               )}
 
-              <div className={classes.title}>{card[nameField]}</div>
+              <div
+                className={`${classes.title} gender-${card[extraField].gender}`}
+              >
+                {card[extraField] && card[extraField].gender && (
+                  <span>
+                    (
+                    {
+                      genders[
+                        `${configuration.learningLanguage}_${card[extraField].gender}`
+                      ]
+                    }
+                    ){' '}
+                  </span>
+                )}
+
+                {card[nameField]}
+              </div>
 
               {isChinese && (
                 <div className={classes.pronunciation}>{card.pinyin}</div>
@@ -265,7 +286,7 @@ const Game = (props: any) => {
         </Dialog>
       )}
       <div className={classes.optionsContainer}>
-        {cardOptions.map(cardOption => {
+        {cardOptions.map((cardOption) => {
           return (
             <div
               className={[

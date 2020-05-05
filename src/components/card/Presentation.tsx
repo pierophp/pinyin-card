@@ -29,7 +29,7 @@ const Presentation = (props: any) => {
 
   const [currentCard, dispatchCurrentCard] = React.useReducer(
     currentCardReducer,
-    0
+    0,
   );
 
   const classes = useStyles();
@@ -47,6 +47,12 @@ const Presentation = (props: any) => {
     ? 'extraCh'
     : `extra${upperFirst(configuration.learningLanguage)}`;
 
+  const genders: any = {
+    de_m: 'Der',
+    de_f: 'Die',
+    de_n: 'Das',
+  };
+
   const previousCard = () => {
     dispatchCurrentCard('previous');
   };
@@ -57,13 +63,13 @@ const Presentation = (props: any) => {
 
   const play = () => {
     const audioElement: HTMLAudioElement = document.getElementById(
-      'audio'
+      'audio',
     ) as HTMLAudioElement;
 
     audioElement.play();
   };
 
-  const handleKeyDown = React.useCallback(e => {
+  const handleKeyDown = React.useCallback((e) => {
     if (e.code === 'ArrowRight') {
       nextCard();
     } else if (e.code === 'ArrowLeft') {
@@ -117,7 +123,21 @@ const Presentation = (props: any) => {
               </div>
             )}
 
-            <div className={classes.title}>{card[nameField]}</div>
+            <div className={`${classes.title}`}>
+              {card[extraField] && card[extraField].gender && (
+                <span>
+                  (
+                  {
+                    genders[
+                      `${configuration.learningLanguage}_${card[extraField].gender}`
+                    ]
+                  }
+                  ){' '}
+                </span>
+              )}
+
+              {card[nameField]}
+            </div>
 
             {isChinese && (
               <div className={classes.pronunciation}>{card.pinyin}</div>
