@@ -5,6 +5,11 @@ import LanguageIcon from '@material-ui/icons/Language';
 import MusicVideoIcon from '@material-ui/icons/MusicVideo';
 import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
 import React from 'react';
+import FormControl from '@material-ui/core/FormControl';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import Select from '@material-ui/core/Select';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
 
 const German = (props: any) => {
   const { classes, handleChange, handleBlurChange, handleForvo, data } = props;
@@ -18,7 +23,7 @@ const German = (props: any) => {
         label="Nome"
         autoComplete="off"
         onChange={handleChange}
-        onBlur={e => {
+        onBlur={(e) => {
           handleBlurChange(e);
           handleForvo('De');
         }}
@@ -81,6 +86,22 @@ const German = (props: any) => {
       >
         <LanguageIcon />
       </IconButton>
+
+      <FormControl className={classes.formControl}>
+        <InputLabel id="german-gender-label">Gênero</InputLabel>
+        <Select
+          labelId="german-gender-label"
+          id="german-gender"
+          value={data.extraDe?.gender || ''}
+          name="extraDe.gender"
+          onChange={handleChange}
+        >
+          <MenuItem value="m">Masculino</MenuItem>
+          <MenuItem value="f">Feminino</MenuItem>
+          <MenuItem value="n">Neutro</MenuItem>
+        </Select>
+        <FormHelperText></FormHelperText>
+      </FormControl>
     </div>
   );
 };

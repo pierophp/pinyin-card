@@ -108,7 +108,7 @@ const CardCreateUpdate = (props: any) => {
       return stateCopy;
     },
 
-    defaultData
+    defaultData,
   );
 
   const [category, setCategory] = React.useState<any>({});
@@ -119,7 +119,6 @@ const CardCreateUpdate = (props: any) => {
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
-
     setPartialData({ [name]: value });
   };
 
@@ -151,7 +150,7 @@ const CardCreateUpdate = (props: any) => {
       await axios.get(
         `${
           config.pinyinApiUrl
-        }/forvo?word=${word}&language=${audioLanguage.toLowerCase()}`
+        }/forvo?word=${word}&language=${audioLanguage.toLowerCase()}`,
       )
     ).data;
 
@@ -179,7 +178,7 @@ const CardCreateUpdate = (props: any) => {
       if (props.match.params.category) {
         const categoryResponse = (
           await axios.get(
-            `${config.apiUrl}/category/${props.match.params.category}`
+            `${config.apiUrl}/category/${props.match.params.category}`,
           )
         ).data;
         setCategory(categoryResponse);
@@ -246,7 +245,7 @@ const CardCreateUpdate = (props: any) => {
       if (props.match.params.id) {
         await axios.put(
           `${config.apiUrl}/card/${props.match.params.id}`,
-          request
+          request,
         );
       } else {
         await axios.post(`${config.apiUrl}/card`, request);
@@ -418,7 +417,6 @@ const CardCreateUpdate = (props: any) => {
           </ExpansionPanelDetails>
         </ExpansionPanel>
 
-
         <div>
           <TextField
             name="image"
@@ -468,7 +466,7 @@ const CardCreateUpdate = (props: any) => {
                 name="categoryId"
                 onChange={handleChange}
               >
-                {categories.map(category => (
+                {categories.map((category) => (
                   <MenuItem key={category.id} value={category.id}>
                     {category.nameEn}
                   </MenuItem>
