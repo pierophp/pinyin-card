@@ -153,6 +153,10 @@ const CardCreateUpdate = (props: any) => {
       return audio;
     }
 
+    if (!word) {
+      return;
+    }
+
     const response = (
       await axios.get(
         `${
