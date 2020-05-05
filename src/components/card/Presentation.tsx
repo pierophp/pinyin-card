@@ -103,6 +103,16 @@ const Presentation = (props: any) => {
   const showTranslation = false;
   const language = 'pt';
 
+  let genderClass = '';
+  if (card[extraField]?.gender) {
+    const gender = `gender${card[extraField]?.gender.toUppercase()}`;
+    // @ts-ignore
+    if (classes[gender]) {
+      // @ts-ignore
+      genderClass = classes[gender];
+    }
+  }
+
   return (
     <div>
       {card && (
@@ -123,7 +133,7 @@ const Presentation = (props: any) => {
               </div>
             )}
 
-            <div className={`${classes.title}`}>
+            <div className={`${classes.title} ${genderClass}`}>
               {card[extraField] && card[extraField].gender && (
                 <span>
                   (

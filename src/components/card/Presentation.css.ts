@@ -1,5 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
-export default makeStyles(theme => ({
+export default makeStyles((theme) => ({
   cardContainer: {
     backgroundColor: '#fff',
     backgroundRepeat: 'no-repeat',
@@ -51,5 +51,14 @@ export default makeStyles(theme => ({
   rightClick: {
     width: '50%',
     height: 'calc(100vh - 56px)',
+  },
+  genderM: {
+    color: '#34bdff',
+  },
+  genderF: {
+    color: '#ff5757',
+  },
+  genderN: {
+    color: '#a8fd5a',
   },
 }));

@@ -1,5 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
-export default makeStyles(theme => ({
+export default makeStyles((theme) => ({
   cardContainer: {
     backgroundColor: '#fff',
     backgroundRepeat: 'no-repeat',
@@ -64,5 +64,14 @@ export default makeStyles(theme => ({
   },
   wrongAnswer: {
     color: 'red',
+  },
+  genderM: {
+    color: '#0c5caf',
+  },
+  genderF: {
+    color: '#cc2c2c',
+  },
+  genderN: {
+    color: '#a8fd5a',
   },
 }));
