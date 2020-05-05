@@ -64,16 +64,6 @@ const Game = (props: any) => {
 
   const card = cards[currentCard];
 
-  let genderClass = '';
-  if (card[extraField]?.gender) {
-    const gender = `gender${card[extraField]?.gender.toUppercase()}`;
-    // @ts-ignore
-    if (classes[gender]) {
-      // @ts-ignore
-      genderClass = classes[gender];
-    }
-  }
-
   const nextCard = () => {
     dispatchCurrentCard('next');
     setShowAnswer(false);
@@ -191,6 +181,16 @@ const Game = (props: any) => {
     de_f: 'Die',
     de_n: 'Das',
   };
+
+  let genderClass = '';
+  if (card && card[extraField]?.gender) {
+    const gender = `gender${card[extraField]?.gender.toUppercase()}`;
+    // @ts-ignore
+    if (classes[gender]) {
+      // @ts-ignore
+      genderClass = classes[gender];
+    }
+  }
 
   return (
     <div className={classes.container}>
