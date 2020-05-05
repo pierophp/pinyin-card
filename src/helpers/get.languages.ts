@@ -1,6 +1,11 @@
 export default function getLanguages() {
   return [
     {
+      code: 'de',
+      nameEn: 'German',
+      namePt: 'Alemão',
+    },
+    {
       code: 'chs',
       nameEn: 'Chinese Mandarim (Simplified)',
       namePt: 'Chinês Mandarim (Simplificado)',
@@ -14,10 +19,6 @@ export default function getLanguages() {
       code: 'en',
       nameEn: 'English',
       namePt: 'Inglês',
-    },
-    {
-      code: 'de',
-      nameEn: 'German',
     },
     {
       code: 'it',
