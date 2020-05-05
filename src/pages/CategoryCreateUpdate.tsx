@@ -65,7 +65,7 @@ const CategoryCreateUpdate = (props: any) => {
   const getPinyin = async () => {
     const response = (
       await axios.get(
-        `${config.pinyinApiUrl}/cards/convert?ideogram=${data.nameCht}`
+        `${config.pinyinApiUrl}/cards/convert?ideogram=${data.nameCht}`,
       )
     ).data;
 
@@ -86,7 +86,7 @@ const CategoryCreateUpdate = (props: any) => {
     if (props.match.params.id) {
       await axios.put(
         `${config.apiUrl}/category/${props.match.params.id}`,
-        request
+        request,
       );
     } else {
       await axios.post(`${config.apiUrl}/category`, request);
@@ -190,7 +190,7 @@ const CategoryCreateUpdate = (props: any) => {
           <IconButton
             color="primary"
             component="a"
-            href={`https://translate.google.com.br/#view=home&op=translate&sl=de&tl=it&text=${data.nameEn}`}
+            href={`https://translate.google.com.br/#view=home&op=translate&sl=en&tl=de&text=${data.nameEn}`}
             target="_blank"
             disabled={data.nameEn ? false : true}
           >
@@ -253,7 +253,7 @@ const CategoryCreateUpdate = (props: any) => {
               onChange={handleChange}
             >
               <MenuItem value={''}>-</MenuItem>
-              {categories.map(category => (
+              {categories.map((category) => (
                 <MenuItem key={category.id} value={category.id}>
                   {category.nameEn}
                 </MenuItem>
