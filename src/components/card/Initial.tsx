@@ -26,6 +26,7 @@ const headCells = [
   { id: 'pinyin', numeric: false, label: 'Pinyin' },
   { id: 'nameIt', numeric: false, label: 'Italiano' },
   { id: 'nameFr', numeric: false, label: 'Francês' },
+  { id: 'nameDe', numeric: false, label: 'Alemão' },
 ];
 
 const Initial = (props: any) => {
@@ -125,7 +126,7 @@ const Initial = (props: any) => {
               <Table aria-label="simple table">
                 <TableHead>
                   <TableRow>
-                    {headCells.map(headCell => (
+                    {headCells.map((headCell) => (
                       <TableCell
                         key={headCell.id}
                         align={headCell.numeric ? 'right' : 'left'}
@@ -188,6 +189,12 @@ const Initial = (props: any) => {
                           )}
                         </TableCell>
                         <TableCell>
+                          {card.nameDe}
+                          {!card.audioDe && (
+                            <VolumeOffIcon fontSize="small" color="error" />
+                          )}
+                        </TableCell>
+                        <TableCell>
                           <IconButton
                             color="primary"
                             component="a"
@@ -197,7 +204,7 @@ const Initial = (props: any) => {
                           </IconButton>
                         </TableCell>
                       </TableRow>
-                    )
+                    ),
                   )}
                 </TableBody>
               </Table>
