@@ -101,6 +101,13 @@ const CardCreateUpdate = (props: any) => {
         if (splitKey.length === 1) {
           stateCopy[key] = partialState[key];
         } else {
+          if (
+            stateCopy[splitKey[0]] === undefined ||
+            stateCopy[splitKey[0]] === null
+          ) {
+            stateCopy[splitKey[0]] = {};
+          }
+
           stateCopy[splitKey[0]][splitKey[1]] = partialState[key];
         }
       }
