@@ -105,7 +105,7 @@ const Presentation = (props: any) => {
 
   let genderClass = '';
   if (card && card[extraField]?.gender) {
-    const gender = `gender${card[extraField]?.gender.toUppercase()}`;
+    const gender = `gender${card[extraField]?.gender.toUpperCase()}`;
     // @ts-ignore
     if (classes[gender]) {
       // @ts-ignore
