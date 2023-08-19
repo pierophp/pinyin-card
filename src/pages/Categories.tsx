@@ -1,30 +1,29 @@
-import axios from 'axios';
-import React from 'react';
-import { withRouter } from 'react-router-dom';
-import Game from '../components/card/Game';
-import Initial from '../components/card/Initial';
-import Presentation from '../components/card/Presentation';
-import config from '../config';
-import getUser from '../helpers/get.user';
-import useStyles from './Categories.css';
+import axios from "axios";
+import React from "react";
+import { useParams } from "react-router-dom";
+import Game from "../components/card/Game";
+import Initial from "../components/card/Initial";
+import Presentation from "../components/card/Presentation";
+import config from "../config";
+import getUser from "../helpers/get.user";
 
 const user = getUser();
 
-const Categories = withRouter(({ match }) => {
+const Categories = () => {
+  const params = useParams();
+
   const [categories, setCategories] = React.useState([]);
   const [currentCategory, setCurrentCategory] = React.useState<any>(null);
   const [cards, setCards] = React.useState<any>([]);
 
-  const classes = useStyles();
-
-  const type = match.params.type || 'initial';
+  const type = params.type || "initial";
 
   React.useEffect(() => {
     async function init() {
       const response = (
         await axios.get(
           `${config.apiUrl}/category/by-parent-category/${
-            match.params.id ? match.params.id : ''
+            params.id ? params.id : ""
           }`
         )
       ).data;
@@ -32,32 +31,32 @@ const Categories = withRouter(({ match }) => {
     }
 
     init();
-  }, [match.params.id]);
+  }, [params.id]);
 
   React.useEffect(() => {
     async function init() {
-      if (!match.params.id) {
+      if (!params.id) {
         return;
       }
 
       const categoryResponse = (
-        await axios.get(`${config.apiUrl}/category/${match.params.id}`)
+        await axios.get(`${config.apiUrl}/category/${params.id}`)
       ).data;
 
       setCurrentCategory(categoryResponse);
 
       const cardsResponse = (
-        await axios.get(`${config.apiUrl}/card/category/${match.params.id}`)
+        await axios.get(`${config.apiUrl}/card/category/${params.id}`)
       ).data;
       setCards(cardsResponse);
     }
 
     init();
-  }, [match.params.id]);
+  }, [params.id]);
 
   return (
     <div>
-      {type === 'initial' && (
+      {type === "initial" && (
         <Initial
           currentCategory={currentCategory}
           user={user}
@@ -66,10 +65,10 @@ const Categories = withRouter(({ match }) => {
         />
       )}
 
-      {type === 'presentation' && <Presentation cards={cards} user={user} />}
-      {type === 'game' && <Game cards={cards} />}
+      {type === "presentation" && <Presentation cards={cards} user={user} />}
+      {type === "game" && <Game cards={cards} />}
     </div>
   );
-});
+};
 
 export default Categories;

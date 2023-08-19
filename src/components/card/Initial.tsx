@@ -1,47 +1,47 @@
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import TableSortLabel from '@material-ui/core/TableSortLabel';
-import Typography from '@material-ui/core/Typography';
-import EditIcon from '@material-ui/icons/Edit';
-import VolumeOffIcon from '@material-ui/icons/VolumeOff';
-import React from 'react';
-import { Link } from 'react-router-dom';
-import ShowCategory from '../category/ShowCategory';
-import useStyles from './Initial.css';
+import Button from "@material-ui/core/Button";
+import IconButton from "@material-ui/core/IconButton";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import TableSortLabel from "@material-ui/core/TableSortLabel";
+import Typography from "@material-ui/core/Typography";
+import EditIcon from "@material-ui/icons/Edit";
+import VolumeOffIcon from "@material-ui/icons/VolumeOff";
+import React from "react";
+import { Link } from "react-router-dom";
+import ShowCategory from "../category/ShowCategory";
+import useStyles from "./Initial.css";
 
 const headCells = [
   {
-    id: 'nameEn',
+    id: "nameEn",
     numeric: false,
-    label: 'Inglês',
+    label: "Inglês",
   },
-  { id: 'namePt', numeric: false, label: 'Português' },
-  { id: 'nameCht', numeric: false, label: 'Chinês (Trad.)' },
-  { id: 'nameChs', numeric: false, label: 'Chinês (Simp.)' },
-  { id: 'pinyin', numeric: false, label: 'Pinyin' },
-  { id: 'nameIt', numeric: false, label: 'Italiano' },
-  { id: 'nameFr', numeric: false, label: 'Francês' },
-  { id: 'nameDe', numeric: false, label: 'Alemão' },
+  { id: "namePt", numeric: false, label: "Português" },
+  { id: "nameCht", numeric: false, label: "Chinês (Trad.)" },
+  { id: "nameChs", numeric: false, label: "Chinês (Simp.)" },
+  { id: "pinyin", numeric: false, label: "Pinyin" },
+  { id: "nameIt", numeric: false, label: "Italiano" },
+  { id: "nameFr", numeric: false, label: "Francês" },
+  { id: "nameDe", numeric: false, label: "Alemão" },
 ];
 
 const Initial = (props: any) => {
-  const [order, setOrder] = React.useState<'asc' | 'desc'>('asc');
-  const [orderBy, setOrderBy] = React.useState('nameEn');
+  const [order, setOrder] = React.useState<"asc" | "desc">("asc");
+  const [orderBy, setOrderBy] = React.useState("nameEn");
   const classes = useStyles();
 
-  const handleRequestSort = (event: any, property: string) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
+  const handleRequestSort = (property: string) => {
+    const isAsc = orderBy === property && order === "asc";
+    setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
 
-  const createSortHandler = (property: any) => (event: any) => {
-    handleRequestSort(event, property);
+  const createSortHandler = (property: any) => () => {
+    handleRequestSort(property);
   };
 
   function descendingComparator(a: any, b: any, orderBy: any) {
@@ -55,7 +55,7 @@ const Initial = (props: any) => {
   }
 
   function getComparator(order: string, orderBy: string) {
-    return order === 'desc'
+    return order === "desc"
       ? (a: any, b: any) => descendingComparator(a, b, orderBy)
       : (a: any, b: any) => -descendingComparator(a, b, orderBy);
   }
@@ -129,20 +129,20 @@ const Initial = (props: any) => {
                     {headCells.map((headCell) => (
                       <TableCell
                         key={headCell.id}
-                        align={headCell.numeric ? 'right' : 'left'}
+                        align={headCell.numeric ? "right" : "left"}
                         sortDirection={orderBy === headCell.id ? order : false}
                       >
                         <TableSortLabel
                           active={orderBy === headCell.id}
-                          direction={orderBy === headCell.id ? order : 'asc'}
+                          direction={orderBy === headCell.id ? order : "asc"}
                           onClick={createSortHandler(headCell.id)}
                         >
                           {headCell.label}
                           {orderBy === headCell.id ? (
                             <span className={classes.visuallyHidden}>
-                              {order === 'desc'
-                                ? 'sorted descending'
-                                : 'sorted ascending'}
+                              {order === "desc"
+                                ? "sorted descending"
+                                : "sorted ascending"}
                             </span>
                           ) : null}
                         </TableSortLabel>
@@ -169,7 +169,7 @@ const Initial = (props: any) => {
                           )}
                         </TableCell>
                         <TableCell>
-                          {card.nameCht}{' '}
+                          {card.nameCht}{" "}
                           {!card.audioCh && (
                             <VolumeOffIcon fontSize="small" color="error" />
                           )}
@@ -204,7 +204,7 @@ const Initial = (props: any) => {
                           </IconButton>
                         </TableCell>
                       </TableRow>
-                    ),
+                    )
                   )}
                 </TableBody>
               </Table>

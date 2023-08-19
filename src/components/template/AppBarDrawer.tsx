@@ -1,26 +1,26 @@
-import AppBar from '@material-ui/core/AppBar';
-import Divider from '@material-ui/core/Divider';
-import Drawer from '@material-ui/core/Drawer';
-import IconButton from '@material-ui/core/IconButton';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import Toolbar from '@material-ui/core/Toolbar';
-import AccountBoxIcon from '@material-ui/icons/AccountBox';
-import ChromeReaderModeIcon from '@material-ui/icons/ChromeReaderMode';
-import DescriptionIcon from '@material-ui/icons/Description';
-import MenuIcon from '@material-ui/icons/Menu';
-import SettingsApplicationsIcon from '@material-ui/icons/SettingsApplications';
-import React from 'react';
+import AppBar from "@material-ui/core/AppBar";
+import Divider from "@material-ui/core/Divider";
+import Drawer from "@material-ui/core/Drawer";
+import IconButton from "@material-ui/core/IconButton";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import Toolbar from "@material-ui/core/Toolbar";
+import AccountBoxIcon from "@material-ui/icons/AccountBox";
+import ChromeReaderModeIcon from "@material-ui/icons/ChromeReaderMode";
+import DescriptionIcon from "@material-ui/icons/Description";
+import MenuIcon from "@material-ui/icons/Menu";
+import SettingsApplicationsIcon from "@material-ui/icons/SettingsApplications";
+import React from "react";
 
-const AppBarDrawer = (props: any) => {
+const AppBarDrawer = () => {
   const [drawerOpen, setDrawerOpen] = React.useState(false);
 
   const toggleDrawer = (open: any) => (event: any) => {
     if (
-      event.type === 'keydown' &&
-      (event.key === 'Tab' || event.key === 'Shift')
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
     ) {
       return;
     }
@@ -54,7 +54,7 @@ const AppBarDrawer = (props: any) => {
             onKeyDown={toggleDrawer(false)}
           >
             <List>
-              <ListItem button onClick={() => (window.location.hash = '/')}>
+              <ListItem button onClick={() => (window.location.hash = "/")}>
                 <ListItemIcon>
                   <ChromeReaderModeIcon />
                 </ListItemIcon>
@@ -63,7 +63,7 @@ const AppBarDrawer = (props: any) => {
               <Divider />
               <ListItem
                 button
-                onClick={() => (window.location.hash = '/configuration')}
+                onClick={() => (window.location.hash = "/configuration")}
               >
                 <ListItemIcon>
                   <SettingsApplicationsIcon />
@@ -74,7 +74,7 @@ const AppBarDrawer = (props: any) => {
               <ListItem
                 button
                 onClick={() =>
-                  (window.location.hash = '/english-portuguese-ipa')
+                  (window.location.hash = "/english-portuguese-ipa")
                 }
               >
                 <ListItemIcon>
@@ -85,7 +85,7 @@ const AppBarDrawer = (props: any) => {
               <Divider />
               <ListItem
                 button
-                onClick={() => (window.location.hash = '/login')}
+                onClick={() => (window.location.hash = "/login")}
               >
                 <ListItemIcon>
                   <AccountBoxIcon />

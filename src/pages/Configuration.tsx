@@ -1,19 +1,19 @@
-import Button from '@material-ui/core/Button';
-import FormControl from '@material-ui/core/FormControl';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import Typography from '@material-ui/core/Typography';
-import React from 'react';
-import getConfiguration from '../helpers/get.configuration';
-import getLanguages from '../helpers/get.languages';
-import useStyles from './Configuration.css';
-import Snackbar from '@material-ui/core/Snackbar';
+import Button from "@material-ui/core/Button";
+import FormControl from "@material-ui/core/FormControl";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import Select from "@material-ui/core/Select";
+import Typography from "@material-ui/core/Typography";
+import React from "react";
+import getConfiguration from "../helpers/get.configuration";
+import getLanguages from "../helpers/get.languages";
+import useStyles from "./Configuration.css";
+import Snackbar from "@material-ui/core/Snackbar";
 
 const languages = getLanguages();
 
-const Configuration = (props: any) => {
+const Configuration = () => {
   const classes = useStyles();
 
   const [data, setData] = React.useState(getConfiguration());
@@ -31,9 +31,9 @@ const Configuration = (props: any) => {
   };
 
   const save = async () => {
-    localStorage.setItem('configuration', JSON.stringify(data));
+    localStorage.setItem("configuration", JSON.stringify(data));
 
-    if (localStorage.getItem('configuration')) {
+    if (localStorage.getItem("configuration")) {
       setSnackbarOpen(true);
     }
   };
@@ -56,7 +56,7 @@ const Configuration = (props: any) => {
               name="learningLanguage"
               onChange={handleChange}
             >
-              {languages.map(language => (
+              {languages.map((language) => (
                 <MenuItem key={language.code} value={language.code}>
                   {language.namePt}
                 </MenuItem>

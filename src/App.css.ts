@@ -1,6 +1,6 @@
-import { makeStyles } from '@material-ui/core/styles';
-export default makeStyles(theme => ({
+import { makeStyles } from "@material-ui/core/styles";
+export default makeStyles(() => ({
   container: {
-    padding: '56px 0 0',
+    padding: "56px 0 0",
   },
 }));

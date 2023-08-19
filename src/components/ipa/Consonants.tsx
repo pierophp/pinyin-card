@@ -1,9 +1,8 @@
-import React from 'react';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
 
 const Consonants = () => {
   return (
@@ -97,7 +96,7 @@ const Consonants = () => {
           <TableCell>hw</TableCell>
           <TableCell>
             <b>wh</b>ine <br />
-            (Na maioria dos sotaques não é mais usado.{' '}
+            (Na maioria dos sotaques não é mais usado.{" "}
             <a
               href="https://en.wikipedia.org/wiki/Pronunciation_of_English_%E2%9F%A8wh%E2%9F%A9#Wine.E2.80.93whine_merger"
               target="_blank"

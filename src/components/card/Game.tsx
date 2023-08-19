@@ -226,37 +226,35 @@ const Game = (props: { cards: Card[] }) => {
     audioElement.play();
   }, []);
 
-  const loadOptions = useCallback(() => {
-    if (!cards || cards.length === 0) {
-      return;
-    }
+  const loadOptions = useCallback(
+    (cards: Card[], currentCard: number) => {
+      if (!cards || cards.length === 0) {
+        return;
+      }
 
-    if (!props.cards || props.cards.length === 0) {
-      return;
-    }
+      if (!props.cards || props.cards.length === 0) {
+        return;
+      }
 
-    const tempCards: Card[] = shuffle(props.cards)
-      .slice(0, 4)
-      .filter((card) => card.id !== cards[currentCard].id)
-      .slice(0, 3);
+      const tempCards: Card[] = shuffle(props.cards)
+        .slice(0, 4)
+        .filter((card) => card.id !== cards[currentCard].id)
+        .slice(0, 3);
 
-    tempCards.push(cards[currentCard]);
-    setCardOptions(shuffle(tempCards));
-  }, [props, currentCard]);
+      tempCards.push(cards[currentCard]);
+      setCardOptions(shuffle(tempCards));
+    },
+    [props]
+  );
 
   const orientation =
     window.innerWidth > window.innerHeight ? "landscape" : "portrait";
 
   React.useEffect(() => {
-    async function init() {
-      const tempCards = shuffle(props.cards.filter((card) => card[audioField]));
-      setCards(tempCards);
-      loadOptions();
-      preloadAudios(tempCards);
-      preloadImages(tempCards);
-    }
-
-    init();
+    const tempCards = shuffle(props.cards.filter((card) => card[audioField]));
+    setCards(tempCards);
+    preloadAudios(tempCards);
+    preloadImages(tempCards);
   }, [props, audioField, loadOptions, preloadAudios, preloadImages]);
 
   React.useEffect(() => {
@@ -275,7 +273,11 @@ const Game = (props: { cards: Card[] }) => {
   }, []);
 
   React.useEffect(() => {
-    loadOptions();
+    if (cards.length === 0) {
+      return;
+    }
+
+    loadOptions(cards, currentCard);
   }, [currentCard, cards, loadOptions]);
 
   const showTranslation = false;

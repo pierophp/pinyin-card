@@ -1,24 +1,24 @@
-import IconButton from '@material-ui/core/IconButton';
-import EditIcon from '@material-ui/icons/Edit';
-import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
-import shuffle from 'lodash/shuffle';
-import upperFirst from 'lodash/upperFirst';
-import React from 'react';
-import getConfiguration from '../../helpers/get.configuration';
-import useStyles from './Presentation.css';
+import IconButton from "@material-ui/core/IconButton";
+import EditIcon from "@material-ui/icons/Edit";
+import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
+import shuffle from "lodash/shuffle";
+import upperFirst from "lodash/upperFirst";
+import React from "react";
+import getConfiguration from "../../helpers/get.configuration";
+import useStyles from "./Presentation.css";
 
 const Presentation = (props: any) => {
   const [cards, setCards] = React.useState<any[]>([]);
   const { user } = props;
 
   const currentCardReducer = (state: any, action: any) => {
-    if (action === 'previous') {
+    if (action === "previous") {
       if (state === 0) {
         return state;
       }
 
       return state - 1;
-    } else if (action === 'next') {
+    } else if (action === "next") {
       if (state >= cards.length - 1) {
         return state;
       }
@@ -29,58 +29,58 @@ const Presentation = (props: any) => {
 
   const [currentCard, dispatchCurrentCard] = React.useReducer(
     currentCardReducer,
-    0,
+    0
   );
 
   const classes = useStyles();
 
   const configuration = getConfiguration();
 
-  const isChinese = ['chs', 'cht'].includes(configuration.learningLanguage);
+  const isChinese = ["chs", "cht"].includes(configuration.learningLanguage);
   const nameField = `name${upperFirst(configuration.learningLanguage)}`;
 
   const audioField = isChinese
-    ? 'audioCh'
+    ? "audioCh"
     : `audio${upperFirst(configuration.learningLanguage)}`;
 
   const extraField = isChinese
-    ? 'extraCh'
+    ? "extraCh"
     : `extra${upperFirst(configuration.learningLanguage)}`;
 
   const genders: any = {
-    de_m: 'Der',
-    de_f: 'Die',
-    de_n: 'Das',
+    de_m: "Der",
+    de_f: "Die",
+    de_n: "Das",
   };
 
   const previousCard = () => {
-    dispatchCurrentCard('previous');
+    dispatchCurrentCard("previous");
   };
 
   const nextCard = () => {
-    dispatchCurrentCard('next');
+    dispatchCurrentCard("next");
   };
 
   const play = () => {
     const audioElement: HTMLAudioElement = document.getElementById(
-      'audio',
+      "audio"
     ) as HTMLAudioElement;
 
     audioElement.play();
   };
 
-  const handleKeyDown = React.useCallback((e) => {
-    if (e.code === 'ArrowRight') {
+  const handleKeyDown = React.useCallback((e: any) => {
+    if (e.code === "ArrowRight") {
       nextCard();
-    } else if (e.code === 'ArrowLeft') {
+    } else if (e.code === "ArrowLeft") {
       previousCard();
-    } else if (e.code === 'Space') {
+    } else if (e.code === "Space") {
       play();
     }
   }, []);
 
   const orientation =
-    window.innerWidth > window.innerHeight ? 'landscape' : 'portrait';
+    window.innerWidth > window.innerHeight ? "landscape" : "portrait";
 
   React.useEffect(() => {
     async function init() {
@@ -91,19 +91,19 @@ const Presentation = (props: any) => {
   }, [props]);
 
   React.useEffect(() => {
-    document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener("keydown", handleKeyDown);
 
     // unmount
     return () => {
-      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener("keydown", handleKeyDown);
     };
   }, [handleKeyDown]);
 
   const card = cards[currentCard];
   const showTranslation = false;
-  const language = 'pt';
+  const language = "pt";
 
-  let genderClass = '';
+  let genderClass = "";
   if (card && card[extraField]?.gender) {
     const gender = `gender${card[extraField]?.gender.toUpperCase()}`;
     // @ts-ignore
@@ -117,7 +117,7 @@ const Presentation = (props: any) => {
     <div>
       {card && (
         <div
-          className={[classes.cardContainer, classes[orientation]].join(' ')}
+          className={[classes.cardContainer, classes[orientation]].join(" ")}
           style={{ backgroundImage: `url(${card.image})` }}
         >
           <div className={classes.containerClick}>
@@ -142,7 +142,7 @@ const Presentation = (props: any) => {
                       `${configuration.learningLanguage}_${card[extraField].gender}`
                     ]
                   }
-                  ){' '}
+                  ){" "}
                 </span>
               )}
 

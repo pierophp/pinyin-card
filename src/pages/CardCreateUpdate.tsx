@@ -1,44 +1,44 @@
-import Backdrop from '@material-ui/core/Backdrop';
-import Button from '@material-ui/core/Button';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import MuiExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import MuiExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import FormControl from '@material-ui/core/FormControl';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import IconButton from '@material-ui/core/IconButton';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import { withStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import PhotoIcon from '@material-ui/icons/Photo';
-import axios from 'axios';
-import upperFirst from 'lodash/upperFirst';
-import React from 'react';
-import Chinese from '../components/card/create-update/Chinese';
-import English from '../components/card/create-update/English';
-import French from '../components/card/create-update/French';
-import Italian from '../components/card/create-update/Italian';
-import German from '../components/card/create-update/German';
-import Portuguese from '../components/card/create-update/Portuguese';
-import config from '../config';
-import useStyles from './CardCreateUpdate.css';
+import Backdrop from "@material-ui/core/Backdrop";
+import Button from "@material-ui/core/Button";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import MuiExpansionPanel from "@material-ui/core/ExpansionPanel";
+import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
+import MuiExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
+import FormControl from "@material-ui/core/FormControl";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import IconButton from "@material-ui/core/IconButton";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import Select from "@material-ui/core/Select";
+import { withStyles } from "@material-ui/core/styles";
+import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import PhotoIcon from "@material-ui/icons/Photo";
+import axios from "axios";
+import upperFirst from "lodash/upperFirst";
+import React from "react";
+import Chinese from "../components/card/create-update/Chinese";
+import English from "../components/card/create-update/English";
+import French from "../components/card/create-update/French";
+import Italian from "../components/card/create-update/Italian";
+import German from "../components/card/create-update/German";
+import Portuguese from "../components/card/create-update/Portuguese";
+import config from "../config";
+import useStyles from "./CardCreateUpdate.css";
 
 const ExpansionPanel = withStyles({
   root: {
-    border: '1px solid rgba(0, 0, 0, .125)',
-    boxShadow: 'none',
-    '&:not(:last-child)': {
+    border: "1px solid rgba(0, 0, 0, .125)",
+    boxShadow: "none",
+    "&:not(:last-child)": {
       borderBottom: 0,
     },
-    '&:before': {
-      display: 'none',
+    "&:before": {
+      display: "none",
     },
-    '&$expanded': {
-      margin: 'auto',
+    "&$expanded": {
+      margin: "auto",
     },
   },
   expanded: {},
@@ -46,47 +46,47 @@ const ExpansionPanel = withStyles({
 
 const ExpansionPanelSummary = withStyles({
   root: {
-    backgroundColor: 'rgba(0, 0, 0, .03)',
-    borderBottom: '1px solid rgba(0, 0, 0, .125)',
+    backgroundColor: "rgba(0, 0, 0, .03)",
+    borderBottom: "1px solid rgba(0, 0, 0, .125)",
     marginBottom: -1,
     minHeight: 56,
-    '&$expanded': {
+    "&$expanded": {
       minHeight: 56,
     },
   },
   content: {
-    '&$expanded': {
-      margin: '12px 0',
+    "&$expanded": {
+      margin: "12px 0",
     },
   },
   expanded: {},
 })(MuiExpansionPanelSummary);
 
 const defaultData = {
-  nameEn: '',
-  audioEn: '',
+  nameEn: "",
+  audioEn: "",
   extraEn: {
-    pronunciation: '',
+    pronunciation: "",
   },
-  namePt: '',
-  audioPt: '',
+  namePt: "",
+  audioPt: "",
   extraPt: {},
-  nameCht: '',
-  nameChs: '',
+  nameCht: "",
+  nameChs: "",
   extraCh: {},
-  audioCh: '',
-  pinyin: '',
-  nameIt: '',
-  audioIt: '',
+  audioCh: "",
+  pinyin: "",
+  nameIt: "",
+  audioIt: "",
   extraIt: {},
-  nameFr: '',
-  audioFr: '',
+  nameFr: "",
+  audioFr: "",
   extraFr: {},
-  nameDe: '',
-  audioDe: '',
+  nameDe: "",
+  audioDe: "",
   extraDe: {},
-  image: '',
-  categoryId: '',
+  image: "",
+  categoryId: "",
 };
 
 const CardCreateUpdate = (props: any) => {
@@ -97,7 +97,7 @@ const CardCreateUpdate = (props: any) => {
       const stateCopy = JSON.parse(JSON.stringify(state));
       const keys = Object.keys(partialState);
       for (const key of keys) {
-        const splitKey = key.split('.');
+        const splitKey = key.split(".");
         if (splitKey.length === 1) {
           stateCopy[key] = partialState[key];
         } else {
@@ -115,13 +115,12 @@ const CardCreateUpdate = (props: any) => {
       return stateCopy;
     },
 
-    defaultData,
+    defaultData
   );
 
   const [category, setCategory] = React.useState<any>({});
   const [categories, setCategories] = React.useState<any[]>([]);
-  const [errors, setErrors] = React.useState({});
-  const [expanded, setExpanded] = React.useState('en');
+  const [expanded, setExpanded] = React.useState("en");
   const [loading, setLoading] = React.useState(false);
 
   const handleChange = (e: any) => {
@@ -142,8 +141,8 @@ const CardCreateUpdate = (props: any) => {
   const getForvo = async (language: any) => {
     let audioLanguage = language;
 
-    if (['Cht', 'Chs'].includes(language)) {
-      audioLanguage = 'Ch';
+    if (["Cht", "Chs"].includes(language)) {
+      audioLanguage = "Ch";
     }
 
     const audio = data[`audio${audioLanguage}`];
@@ -161,7 +160,7 @@ const CardCreateUpdate = (props: any) => {
       await axios.get(
         `${
           config.pinyinApiUrl
-        }/forvo?word=${word}&language=${audioLanguage.toLowerCase()}`,
+        }/forvo?word=${word}&language=${audioLanguage.toLowerCase()}`
       )
     ).data;
 
@@ -175,8 +174,8 @@ const CardCreateUpdate = (props: any) => {
   const handleForvo = async (language: any) => {
     let audioLanguage = language;
 
-    if (['Cht', 'Chs'].includes(language)) {
-      audioLanguage = 'Ch';
+    if (["Cht", "Chs"].includes(language)) {
+      audioLanguage = "Ch";
     }
 
     const url = await getForvo(language);
@@ -189,7 +188,7 @@ const CardCreateUpdate = (props: any) => {
       if (props.match.params.category) {
         const categoryResponse = (
           await axios.get(
-            `${config.apiUrl}/category/${props.match.params.category}`,
+            `${config.apiUrl}/category/${props.match.params.category}`
           )
         ).data;
         setCategory(categoryResponse);
@@ -256,7 +255,7 @@ const CardCreateUpdate = (props: any) => {
       if (props.match.params.id) {
         await axios.put(
           `${config.apiUrl}/card/${props.match.params.id}`,
-          request,
+          request
         );
       } else {
         await axios.post(`${config.apiUrl}/card`, request);
@@ -264,7 +263,7 @@ const CardCreateUpdate = (props: any) => {
 
       window.location.hash = `/category/${request.categoryId}`;
     } catch (e) {
-      console.log(e.response);
+      // console.log(e.response);
     } finally {
       setLoading(false);
     }
@@ -283,8 +282,8 @@ const CardCreateUpdate = (props: any) => {
         </Typography>
         <ExpansionPanel
           square
-          expanded={expanded === 'en'}
-          onChange={() => handleChangeExpanded('en')}
+          expanded={expanded === "en"}
+          onChange={() => handleChangeExpanded("en")}
         >
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
             <img
@@ -308,8 +307,8 @@ const CardCreateUpdate = (props: any) => {
 
         <ExpansionPanel
           square
-          expanded={expanded === 'pt'}
-          onChange={() => handleChangeExpanded('pt')}
+          expanded={expanded === "pt"}
+          onChange={() => handleChangeExpanded("pt")}
         >
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
             <img
@@ -332,8 +331,8 @@ const CardCreateUpdate = (props: any) => {
 
         <ExpansionPanel
           square
-          expanded={expanded === 'ch'}
-          onChange={() => handleChangeExpanded('ch')}
+          expanded={expanded === "ch"}
+          onChange={() => handleChangeExpanded("ch")}
         >
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
             <img
@@ -358,8 +357,8 @@ const CardCreateUpdate = (props: any) => {
 
         <ExpansionPanel
           square
-          expanded={expanded === 'de'}
-          onChange={() => handleChangeExpanded('de')}
+          expanded={expanded === "de"}
+          onChange={() => handleChangeExpanded("de")}
         >
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
             <img
@@ -382,8 +381,8 @@ const CardCreateUpdate = (props: any) => {
 
         <ExpansionPanel
           square
-          expanded={expanded === 'it'}
-          onChange={() => handleChangeExpanded('it')}
+          expanded={expanded === "it"}
+          onChange={() => handleChangeExpanded("it")}
         >
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
             <img
@@ -406,8 +405,8 @@ const CardCreateUpdate = (props: any) => {
 
         <ExpansionPanel
           square
-          expanded={expanded === 'frs'}
-          onChange={() => handleChangeExpanded('frs')}
+          expanded={expanded === "frs"}
+          onChange={() => handleChangeExpanded("frs")}
         >
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
             <img

@@ -1,32 +1,26 @@
-import React from 'react';
-import { Route } from 'react-router-dom';
-import CardCreateUpdate from '../../pages/CardCreateUpdate';
-import Categories from '../../pages/Categories';
-import CategoryCreateUpdate from '../../pages/CategoryCreateUpdate';
-import Configuration from '../../pages/Configuration';
-import EnglishPortugueseIpa from '../../pages/EnglishPortugueseIpa';
-import Login from '../../pages/Login';
+import { Route } from "react-router-dom";
+import CardCreateUpdate from "../../pages/CardCreateUpdate";
+import Categories from "../../pages/Categories";
+import CategoryCreateUpdate from "../../pages/CategoryCreateUpdate";
+import Configuration from "../../pages/Configuration";
+import EnglishPortugueseIpa from "../../pages/EnglishPortugueseIpa";
+import Login from "../../pages/Login";
 
 const Routes = () => {
   return (
     <>
-      <Route exact path="/" component={Categories} />
-      <Route exact path="/category-create" component={CategoryCreateUpdate} />
+      <Route path="/" element={<Categories />} />
+      <Route path="/category-create" element={<CategoryCreateUpdate />} />
+      <Route path="/category-update/:id" element={<CategoryCreateUpdate />} />
+      <Route path="/category/:id/:type?" element={<Categories />} />
+      <Route path="/card-create/:category" element={<CardCreateUpdate />} />
+      <Route path="/card-update/:id" element={<CardCreateUpdate />} />
+      <Route path="/configuration" element={<Configuration />} />
       <Route
-        exact
-        path="/category-update/:id"
-        component={CategoryCreateUpdate}
-      />
-      <Route exact path="/category/:id/:type?" component={Categories} />
-      <Route exact path="/card-create/:category" component={CardCreateUpdate} />
-      <Route exact path="/card-update/:id" component={CardCreateUpdate} />
-      <Route exact path="/configuration" component={Configuration} />
-      <Route
-        exact
         path="/english-portuguese-ipa"
-        component={EnglishPortugueseIpa}
+        element={<EnglishPortugueseIpa />}
       />
-      <Route exact path="/login" component={Login} />
+      <Route path="/login" element={<Login />} />
     </>
   );
 };
