@@ -3,7 +3,13 @@ import EditIcon from "@material-ui/icons/Edit";
 import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
 import shuffle from "lodash/shuffle";
 import upperFirst from "lodash/upperFirst";
-import React, { Reducer, useCallback } from "react";
+import React, {
+  Reducer,
+  useCallback,
+  useMemo,
+  useReducer,
+  useState,
+} from "react";
 import ReactDOM from "react-dom";
 import getConfiguration from "../../helpers/get.configuration";
 import getUser from "../../helpers/get.user";
@@ -99,16 +105,15 @@ const genders: Genders = {
 };
 
 const Game = (props: { cards: Card[] }) => {
-  const [cards, setCards] = React.useState<Card[]>([]);
-  const [cardOptions, setCardOptions] = React.useState<Card[]>([]);
+  const [cards, setCards] = useState<Card[]>([]);
+  const [cardOptions, setCardOptions] = useState<Card[]>([]);
   const [answers, setAnswers] = usePartialState({});
-  const [showAnswer, setShowAnswer] = React.useState(false);
-  const [appBarPortal, setAppBarPortal] = React.useState<
-    HTMLElement | undefined
-  >(undefined);
+  const [showAnswer, setShowAnswer] = useState(false);
+  const [appBarPortal, setAppBarPortal] = useState<HTMLElement | undefined>(
+    undefined
+  );
 
   const currentCardReducer = (state: number, action: "previous" | "next") => {
-    console.log({ state });
     if (action === "previous") {
       if (state === 0) {
         return state;
@@ -126,34 +131,48 @@ const Game = (props: { cards: Card[] }) => {
     return state;
   };
 
-  const [currentCard, dispatchCurrentCard] = React.useReducer<
+  const [currentCard, dispatchCurrentCard] = useReducer<
     Reducer<number, "previous" | "next">
   >(currentCardReducer, 0);
 
   const classes = useStyles();
 
-  const configuration = getConfiguration();
+  const configuration = useMemo(() => getConfiguration(), []);
 
-  const isChinese = ["chs", "cht"].includes(configuration.learningLanguage);
-  const nameField: NameField = `name${upperFirst(
-    configuration.learningLanguage
-  )}` as NameField;
-  const audioField: AudioField = isChinese
-    ? "audioCh"
-    : (`audio${upperFirst(configuration.learningLanguage)}` as AudioField);
+  const isChinese = useMemo(
+    () => ["chs", "cht"].includes(configuration.learningLanguage),
+    [configuration.learningLanguage]
+  );
 
-  const extraField: ExtraField = isChinese
-    ? "extraCh"
-    : (`extra${upperFirst(configuration.learningLanguage)}` as ExtraField);
+  const nameField: NameField = useMemo(
+    () => `name${upperFirst(configuration.learningLanguage)}` as NameField,
+    [configuration.learningLanguage]
+  );
 
-  const card = cards[currentCard];
+  const audioField: AudioField = useMemo(
+    () =>
+      isChinese
+        ? "audioCh"
+        : (`audio${upperFirst(configuration.learningLanguage)}` as AudioField),
+    [isChinese, configuration.learningLanguage]
+  );
 
-  const nextCard = () => {
+  const extraField: ExtraField = useMemo(
+    () =>
+      isChinese
+        ? "extraCh"
+        : (`extra${upperFirst(configuration.learningLanguage)}` as ExtraField),
+    [isChinese, configuration.learningLanguage]
+  );
+
+  const card = useMemo(() => cards[currentCard], [cards, currentCard]);
+
+  const goToNextCard = useCallback(() => {
     dispatchCurrentCard("next");
     setShowAnswer(false);
-  };
+  }, []);
 
-  const select = React.useCallback(
+  const selectAnswer = useCallback(
     (selectedCard: Card) => {
       const answer: Answers = {
         [card.id]: {
@@ -199,15 +218,15 @@ const Game = (props: { cards: Card[] }) => {
     }
   }, []);
 
-  const play = () => {
+  const play = useCallback(() => {
     const audioElement: HTMLAudioElement = document.getElementById(
       "audio"
     ) as HTMLAudioElement;
 
     audioElement.play();
-  };
+  }, []);
 
-  const loadOptions = React.useCallback(() => {
+  const loadOptions = useCallback(() => {
     if (!cards || cards.length === 0) {
       return;
     }
@@ -223,7 +242,7 @@ const Game = (props: { cards: Card[] }) => {
 
     tempCards.push(cards[currentCard]);
     setCardOptions(shuffle(tempCards));
-  }, [props, cards, currentCard]);
+  }, [props, currentCard]);
 
   const orientation =
     window.innerWidth > window.innerHeight ? "landscape" : "portrait";
@@ -263,7 +282,7 @@ const Game = (props: { cards: Card[] }) => {
   const language = "pt";
   const translatedField: NameField = `name${upperFirst(language)}` as NameField;
   const genderLanguage: keyof Genders =
-    `${configuration.learningLanguage}_${card[extraField].gender}` as keyof Genders;
+    `${configuration.learningLanguage}_${card?.[extraField]?.gender}` as keyof Genders;
 
   let genderClass = "";
   if (card && card[extraField]?.gender) {
@@ -289,7 +308,7 @@ const Game = (props: { cards: Card[] }) => {
         <audio src={card[audioField]} autoPlay id="audio"></audio>
       )}
       {card && answers[card.id] && (
-        <Dialog onClose={nextCard} open={showAnswer} fullWidth={true}>
+        <Dialog onClose={goToNextCard} open={showAnswer} fullWidth={true}>
           <DialogTitle
             className={
               answers[card.id].correct
@@ -360,7 +379,7 @@ const Game = (props: { cards: Card[] }) => {
             </div>
           </DialogContent>
           <DialogActions>
-            <Button autoFocus onClick={nextCard} color="primary">
+            <Button autoFocus onClick={goToNextCard} color="primary">
               Continuar
             </Button>
           </DialogActions>
@@ -376,7 +395,7 @@ const Game = (props: { cards: Card[] }) => {
                 classes.cardContainerOption,
               ].join(" ")}
               style={{ backgroundImage: `url(${cardOption.image})` }}
-              onClick={() => select(cardOption)}
+              onClick={() => selectAnswer(cardOption)}
               key={cardOption.id}
             ></div>
           );
