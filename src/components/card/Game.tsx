@@ -1,77 +1,161 @@
-import IconButton from '@material-ui/core/IconButton';
-import EditIcon from '@material-ui/icons/Edit';
-import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
-import shuffle from 'lodash/shuffle';
-import upperFirst from 'lodash/upperFirst';
-import React from 'react';
-import ReactDOM from 'react-dom';
-import getConfiguration from '../../helpers/get.configuration';
-import getUser from '../../helpers/get.user';
-import useStyles from './Game.css';
-import usePartialState from '../../hooks/usePartialState';
-import Dialog from '@material-ui/core/Dialog';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogActions from '@material-ui/core/DialogActions';
+import IconButton from "@material-ui/core/IconButton";
+import EditIcon from "@material-ui/icons/Edit";
+import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
+import shuffle from "lodash/shuffle";
+import upperFirst from "lodash/upperFirst";
+import React, { Reducer, useCallback } from "react";
+import ReactDOM from "react-dom";
+import getConfiguration from "../../helpers/get.configuration";
+import getUser from "../../helpers/get.user";
+import useStyles from "./Game.css";
+import usePartialState from "../../hooks/usePartialState";
+import Dialog from "@material-ui/core/Dialog";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogActions from "@material-ui/core/DialogActions";
 
-import Button from '@material-ui/core/Button';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import ErrorIcon from '@material-ui/icons/Error';
+import Button from "@material-ui/core/Button";
+import CheckCircleIcon from "@material-ui/icons/CheckCircle";
+import ErrorIcon from "@material-ui/icons/Error";
+
+type AudioField =
+  | "audioCh"
+  | "audioDe"
+  | "audioEn"
+  | "audioFr"
+  | "audioIt"
+  | "audioPt";
+
+type ExtraField =
+  | "extraCh"
+  | "extraDe"
+  | "extraEn"
+  | "extraFr"
+  | "extraIt"
+  | "extraPt";
+
+type NameField =
+  | "nameChs"
+  | "nameCht"
+  | "nameDe"
+  | "nameEn"
+  | "nameFr"
+  | "nameIt"
+  | "namePt";
+
+type Genders = {
+  de_m: string;
+  de_f: string;
+  de_n: string;
+};
+
+type GenderClass = "genderM" | "genderF" | "genderN";
+
+type Extra = {
+  gender?: string;
+  pronunciation?: string;
+};
+
+type Card = {
+  id: number;
+  image: string;
+  pinyin: string;
+  audioCh: string;
+  audioDe: string;
+  audioEn: string;
+  audioFr: string;
+  audioIt: string;
+  audioPt: string;
+
+  extraCh: Extra;
+  extraDe: Extra;
+  extraEn: Extra;
+  extraFr: Extra;
+  extraIt: Extra;
+  extraPt: Extra;
+
+  nameChs: string;
+  nameCht: string;
+  nameDe: string;
+  nameEn: string;
+  nameFr: string;
+  nameIt: string;
+  namePt: string;
+};
+
+type Answers = {
+  [cardId: number]: {
+    id: number;
+    correct: boolean;
+  };
+};
 
 const user = getUser();
 
-const Game = (props: any) => {
-  const [cards, setCards] = React.useState<any[]>([]);
-  const [cardOptions, setCardOptions] = React.useState<any[]>([]);
+const genders: Genders = {
+  de_m: "Der",
+  de_f: "Die",
+  de_n: "Das",
+};
+
+const Game = (props: { cards: Card[] }) => {
+  const [cards, setCards] = React.useState<Card[]>([]);
+  const [cardOptions, setCardOptions] = React.useState<Card[]>([]);
   const [answers, setAnswers] = usePartialState({});
   const [showAnswer, setShowAnswer] = React.useState(false);
-  const [appBarPortal, setAppBarPortal] = React.useState<any>(undefined);
+  const [appBarPortal, setAppBarPortal] = React.useState<
+    HTMLElement | undefined
+  >(undefined);
 
-  const currentCardReducer = (state: any, action: any) => {
-    if (action === 'previous') {
+  const currentCardReducer = (state: number, action: "previous" | "next") => {
+    console.log({ state });
+    if (action === "previous") {
       if (state === 0) {
         return state;
       }
 
       return state - 1;
-    } else if (action === 'next') {
+    } else if (action === "next") {
       if (state >= cards.length - 1) {
         return state;
       }
 
       return state + 1;
     }
+
+    return state;
   };
 
-  const [currentCard, dispatchCurrentCard] = React.useReducer(
-    currentCardReducer,
-    0,
-  );
+  const [currentCard, dispatchCurrentCard] = React.useReducer<
+    Reducer<number, "previous" | "next">
+  >(currentCardReducer, 0);
 
   const classes = useStyles();
 
   const configuration = getConfiguration();
 
-  const isChinese = ['chs', 'cht'].includes(configuration.learningLanguage);
-  const nameField = `name${upperFirst(configuration.learningLanguage)}`;
-  const audioField = isChinese
-    ? 'audioCh'
-    : `audio${upperFirst(configuration.learningLanguage)}`;
+  const isChinese = ["chs", "cht"].includes(configuration.learningLanguage);
+  const nameField: NameField = `name${upperFirst(
+    configuration.learningLanguage
+  )}` as NameField;
+  const audioField: AudioField = isChinese
+    ? "audioCh"
+    : (`audio${upperFirst(configuration.learningLanguage)}` as AudioField);
 
-  const extraField = isChinese
-    ? 'extraCh'
-    : `extra${upperFirst(configuration.learningLanguage)}`;
+  const extraField: ExtraField = isChinese
+    ? "extraCh"
+    : (`extra${upperFirst(configuration.learningLanguage)}` as ExtraField);
 
   const card = cards[currentCard];
 
   const nextCard = () => {
-    dispatchCurrentCard('next');
+    dispatchCurrentCard("next");
     setShowAnswer(false);
   };
 
   const select = React.useCallback(
-    (selectedCard) => {
-      const answer: any = {
+    (selectedCard: Card) => {
+      const answer: Answers = {
         [card.id]: {
           id: card.id,
           correct: selectedCard.id === card.id,
@@ -81,40 +165,43 @@ const Game = (props: any) => {
       setAnswers(answer);
       setShowAnswer(true);
     },
-    [card],
+    [card, setAnswers]
   );
 
-  const preloadAudios = async (cards: any[]) => {
-    for (const card of cards) {
-      await new Promise((resolve) => {
-        const audio = new Audio();
-        audio.addEventListener(
-          'canplaythrough',
-          () => {
-            resolve();
-          },
-          false,
-        );
-        audio.src = card[audioField];
-      });
-    }
-  };
+  const preloadAudios = useCallback(
+    async (cards: Card[]) => {
+      for (const card of cards) {
+        await new Promise((resolve) => {
+          const audio = new Audio();
+          audio.addEventListener(
+            "canplaythrough",
+            () => {
+              resolve(undefined);
+            },
+            false
+          );
+          audio.src = card[audioField];
+        });
+      }
+    },
+    [audioField]
+  );
 
-  const preloadImages = async (cards: any[]) => {
+  const preloadImages = useCallback(async (cards: Card[]) => {
     for (const card of cards) {
       await new Promise((resolve) => {
         const image = new Image();
         image.onload = () => {
-          resolve();
+          resolve(undefined);
         };
         image.src = card.image;
       });
     }
-  };
+  }, []);
 
   const play = () => {
     const audioElement: HTMLAudioElement = document.getElementById(
-      'audio',
+      "audio"
     ) as HTMLAudioElement;
 
     audioElement.play();
@@ -129,7 +216,7 @@ const Game = (props: any) => {
       return;
     }
 
-    let tempCards: any[] = shuffle(props.cards)
+    const tempCards: Card[] = shuffle(props.cards)
       .slice(0, 4)
       .filter((card) => card.id !== cards[currentCard].id)
       .slice(0, 3);
@@ -139,13 +226,11 @@ const Game = (props: any) => {
   }, [props, cards, currentCard]);
 
   const orientation =
-    window.innerWidth > window.innerHeight ? 'landscape' : 'portrait';
+    window.innerWidth > window.innerHeight ? "landscape" : "portrait";
 
   React.useEffect(() => {
     async function init() {
-      const tempCards = shuffle(
-        props.cards.filter((card: any) => card[audioField]),
-      );
+      const tempCards = shuffle(props.cards.filter((card) => card[audioField]));
       setCards(tempCards);
       loadOptions();
       preloadAudios(tempCards);
@@ -153,11 +238,11 @@ const Game = (props: any) => {
     }
 
     init();
-  }, [props]);
+  }, [props, audioField, loadOptions, preloadAudios, preloadImages]);
 
   React.useEffect(() => {
     function loadPortal() {
-      const element = document.getElementById('app-bar-portal');
+      const element = document.getElementById("app-bar-portal");
 
       if (!element) {
         setTimeout(loadPortal, 500);
@@ -172,22 +257,20 @@ const Game = (props: any) => {
 
   React.useEffect(() => {
     loadOptions();
-  }, [currentCard, cards]);
+  }, [currentCard, cards, loadOptions]);
 
   const showTranslation = false;
-  const language = 'pt';
-  const genders: any = {
-    de_m: 'Der',
-    de_f: 'Die',
-    de_n: 'Das',
-  };
+  const language = "pt";
+  const translatedField: NameField = `name${upperFirst(language)}` as NameField;
+  const genderLanguage: keyof Genders =
+    `${configuration.learningLanguage}_${card[extraField].gender}` as keyof Genders;
 
-  let genderClass = '';
+  let genderClass = "";
   if (card && card[extraField]?.gender) {
-    const gender = `gender${card[extraField]?.gender.toUpperCase()}`;
-    // @ts-ignore
+    const gender: GenderClass = `gender${card[
+      extraField
+    ].gender?.toUpperCase()}` as GenderClass;
     if (classes[gender]) {
-      // @ts-ignore
       genderClass = classes[gender];
     }
   }
@@ -197,9 +280,9 @@ const Game = (props: any) => {
       {appBarPortal &&
         ReactDOM.createPortal(
           <IconButton onClick={play}>
-            <PlayCircleOutlineIcon style={{ color: '#fff' }} />
+            <PlayCircleOutlineIcon style={{ color: "#fff" }} />
           </IconButton>,
-          appBarPortal,
+          appBarPortal
         )}
 
       {card && card[audioField] && (
@@ -232,30 +315,20 @@ const Game = (props: any) => {
                 classes.cardContainer,
                 classes[orientation],
                 classes.cardContainerAnswer,
-              ].join(' ')}
+              ].join(" ")}
               style={{ backgroundImage: `url(${card.image})` }}
             ></div>
 
             <div className={classes.informationContainer}>
               {showTranslation && (
                 <div className={classes.translationTitle}>
-                  {card[`name${upperFirst(language)}`]
-                    ? card[`name${upperFirst(language)}`]
-                    : card.nameEn}
+                  {card[translatedField] ? card[translatedField] : card.nameEn}
                 </div>
               )}
 
               <div className={`${classes.title} ${genderClass}`}>
                 {card[extraField] && card[extraField].gender && (
-                  <span>
-                    (
-                    {
-                      genders[
-                        `${configuration.learningLanguage}_${card[extraField].gender}`
-                      ]
-                    }
-                    ){' '}
-                  </span>
+                  <span>({genders[genderLanguage]}) </span>
                 )}
 
                 {card[nameField]}
@@ -301,7 +374,7 @@ const Game = (props: any) => {
                 classes.cardContainer,
                 classes[orientation],
                 classes.cardContainerOption,
-              ].join(' ')}
+              ].join(" ")}
               style={{ backgroundImage: `url(${cardOption.image})` }}
               onClick={() => select(cardOption)}
               key={cardOption.id}
