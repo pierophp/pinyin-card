@@ -54,7 +54,7 @@ const AppBarDrawer = () => {
             onKeyDown={toggleDrawer(false)}
           >
             <List>
-              <ListItem button onClick={() => (window.location.hash = "/")}>
+              <ListItem button onClick={() => (window.location.href = "/")}>
                 <ListItemIcon>
                   <ChromeReaderModeIcon />
                 </ListItemIcon>
@@ -63,7 +63,7 @@ const AppBarDrawer = () => {
               <Divider />
               <ListItem
                 button
-                onClick={() => (window.location.hash = "/configuration")}
+                onClick={() => (window.location.href = "/configuration")}
               >
                 <ListItemIcon>
                   <SettingsApplicationsIcon />
@@ -74,7 +74,7 @@ const AppBarDrawer = () => {
               <ListItem
                 button
                 onClick={() =>
-                  (window.location.hash = "/english-portuguese-ipa")
+                  (window.location.href = "/english-portuguese-ipa")
                 }
               >
                 <ListItemIcon>
@@ -85,7 +85,7 @@ const AppBarDrawer = () => {
               <Divider />
               <ListItem
                 button
-                onClick={() => (window.location.hash = "/login")}
+                onClick={() => (window.location.href = "/login")}
               >
                 <ListItemIcon>
                   <AccountBoxIcon />

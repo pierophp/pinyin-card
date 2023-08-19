@@ -166,7 +166,7 @@ const Presentation = (props: any) => {
               <IconButton
                 color="primary"
                 component="a"
-                href={`/#/card-update/${card.id}`}
+                href={`/card-update/${card.id}`}
                 target="_blank"
               >
                 <EditIcon />

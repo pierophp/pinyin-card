@@ -372,7 +372,7 @@ const Game = (props: { cards: Card[] }) => {
                 <IconButton
                   color="primary"
                   component="a"
-                  href={`/#/card-update/${card.id}`}
+                  href={`/card-update/${card.id}`}
                   target="_blank"
                 >
                   <EditIcon />
@@ -381,7 +381,7 @@ const Game = (props: { cards: Card[] }) => {
             </div>
           </DialogContent>
           <DialogActions>
-            <Button autoFocus onClick={goToNextCard} color="primary">
+            <Button onClick={goToNextCard} color="primary">
               Continuar
             </Button>
           </DialogActions>

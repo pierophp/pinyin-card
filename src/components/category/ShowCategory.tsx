@@ -51,7 +51,7 @@ const ShowCategory = (props: any) => {
           size="small"
           color="primary"
           component="a"
-          href={`/#/category/${category.id}`}
+          href={`/category/${category.id}`}
         >
           Ver
         </Button>
@@ -61,7 +61,7 @@ const ShowCategory = (props: any) => {
             size="small"
             color="primary"
             component="a"
-            href={`/#/category-update/${category.id}`}
+            href={`/category-update/${category.id}`}
           >
             Editar
           </Button>

@@ -198,7 +198,7 @@ const Initial = (props: any) => {
                           <IconButton
                             color="primary"
                             component="a"
-                            href={`/#/card-update/${card.id}`}
+                            href={`/card-update/${card.id}`}
                           >
                             <EditIcon />
                           </IconButton>
