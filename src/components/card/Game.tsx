@@ -23,6 +23,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import Button from "@material-ui/core/Button";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import ErrorIcon from "@material-ui/icons/Error";
+import { filterVoices } from "../../helpers/filter.voices";
 
 type AudioField =
   | "audioCh"
@@ -235,47 +236,8 @@ const Game = (props: { cards: Card[] }) => {
 
         return;
       }
-
-      const languages: {
-        [language: string]: string;
-      } = {
-        chs: "zh",
-        cht: "zh",
-      };
-
       const voices = window.speechSynthesis.getVoices();
-
-      const voiceFilter =
-        languages[configuration.learningLanguage] ??
-        configuration.learningLanguage;
-
-      let learningVoices = voices.filter((voice) =>
-        voice.lang.startsWith(voiceFilter)
-      );
-
-      const languagesPriorities: {
-        [language: string]: string;
-      } = {
-        chs: "zh-CN",
-        cht: "zh-TW",
-        de: "de-DE",
-        en: "en-US",
-        fr: "fr-FR",
-        it: "it-IT",
-        pt: "pt-BR",
-      };
-
-      const languagesPriority =
-        languagesPriorities[configuration.learningLanguage];
-
-      const preferredVoices = learningVoices.filter(
-        (voice) => languagesPriority && voice.lang === languagesPriority
-      );
-
-      if (preferredVoices.length > 0) {
-        learningVoices = preferredVoices;
-      }
-
+      let learningVoices = filterVoices(voices, configuration.learningLanguage);
       learningVoices = shuffle(learningVoices);
 
       const utterance = new SpeechSynthesisUtterance(card[nameField]);
@@ -383,7 +345,7 @@ const Game = (props: { cards: Card[] }) => {
             <IconButton onClick={() => play(card, true)}>
               <PlayCircleOutlineIcon style={{ color: "#fff" }} />
             </IconButton>
-            <div className="flex align-items-center">{speaker}</div>
+            <div className="flex items-center">{speaker}</div>
           </div>,
           appBarPortal
         )}

@@ -10,6 +10,7 @@ import getConfiguration from "../helpers/get.configuration";
 import getLanguages from "../helpers/get.languages";
 import useStyles from "./Configuration.css";
 import Snackbar from "@material-ui/core/Snackbar";
+import { filterVoices } from "../helpers/filter.voices";
 
 const languages = getLanguages();
 
@@ -38,6 +39,10 @@ const Configuration = () => {
     }
   };
 
+  const voices = window.speechSynthesis.getVoices();
+
+  const filteredVoices = filterVoices(voices, data.learningLanguage);
+
   return (
     <div className={classes.container}>
       <form autoComplete="off">
@@ -65,6 +70,22 @@ const Configuration = () => {
             <FormHelperText></FormHelperText>
           </FormControl>
         </div>
+
+        <pre>
+          {JSON.stringify(
+            filteredVoices.map((voice) => {
+              return {
+                default: voice.default,
+                lang: voice.lang,
+                localService: voice.localService,
+                name: voice.name,
+                voiceURI: voice.voiceURI,
+              };
+            }),
+            null,
+            2
+          )}
+        </pre>
 
         <div>
           <br />
