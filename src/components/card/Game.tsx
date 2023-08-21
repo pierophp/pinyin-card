@@ -220,12 +220,12 @@ const Game = (props: { cards: Card[] }) => {
   }, []);
 
   const play = useCallback(
-    (card: Card) => {
+    (card: Card, forceSynthesis = false) => {
       if (!card) {
         return;
       }
 
-      if (card[audioField]) {
+      if (card[audioField] && !forceSynthesis) {
         setSpeaker("");
         const audioElement: HTMLAudioElement = document.getElementById(
           "audio"
@@ -377,6 +377,10 @@ const Game = (props: { cards: Card[] }) => {
         ReactDOM.createPortal(
           <div className="flex">
             <IconButton onClick={() => play(card)}>
+              <PlayCircleOutlineIcon style={{ color: "#fff" }} />
+            </IconButton>
+
+            <IconButton onClick={() => play(card, true)}>
               <PlayCircleOutlineIcon style={{ color: "#fff" }} />
             </IconButton>
             <div className="flex align-items-center">{speaker}</div>
