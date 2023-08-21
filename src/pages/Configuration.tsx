@@ -5,7 +5,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import Typography from "@material-ui/core/Typography";
-import React from "react";
+import React, { useEffect } from "react";
 import getConfiguration from "../helpers/get.configuration";
 import getLanguages from "../helpers/get.languages";
 import useStyles from "./Configuration.css";
@@ -18,6 +18,7 @@ const Configuration = () => {
   const classes = useStyles();
 
   const [data, setData] = React.useState(getConfiguration());
+  const [voices, setVoices] = React.useState<SpeechSynthesisVoice[]>([]);
 
   const [snackbarOpen, setSnackbarOpen] = React.useState(false);
 
@@ -31,6 +32,12 @@ const Configuration = () => {
     setData(dataCopy);
   };
 
+  useEffect(() => {
+    window.speechSynthesis.onvoiceschanged = () => {
+      setVoices(window.speechSynthesis.getVoices());
+    };
+  }, []);
+
   const save = async () => {
     localStorage.setItem("configuration", JSON.stringify(data));
 
@@ -38,8 +45,6 @@ const Configuration = () => {
       setSnackbarOpen(true);
     }
   };
-
-  const voices = window.speechSynthesis.getVoices();
 
   const filteredVoices = filterVoices(voices, data.learningLanguage);
 
@@ -64,6 +69,24 @@ const Configuration = () => {
               {languages.map((language) => (
                 <MenuItem key={language.code} value={language.code}>
                   {language.namePt}
+                </MenuItem>
+              ))}
+            </Select>
+            <FormHelperText></FormHelperText>
+          </FormControl>
+
+          <FormControl className={classes.formControl}>
+            <InputLabel id="voice-label">Voz preferencial</InputLabel>
+            <Select
+              labelId="voice-label"
+              id="voice"
+              value={data.voice}
+              name="voice"
+              onChange={handleChange}
+            >
+              {filteredVoices.map((voice) => (
+                <MenuItem key={voice.name} value={voice.name}>
+                  {voice.name}
                 </MenuItem>
               ))}
             </Select>
