@@ -185,6 +185,11 @@ const Game = (props: { cards: Card[] }) => {
 
       setAnswers(answer);
       setShowAnswer(true);
+
+      const audioAnswerElement: HTMLAudioElement = document.getElementById(
+        selectedCard.id === card.id ? "right-audio" : "wrong-audio"
+      ) as HTMLAudioElement;
+      audioAnswerElement.play();
     },
     [card, setAnswers]
   );
@@ -335,6 +340,9 @@ const Game = (props: { cards: Card[] }) => {
 
   return (
     <div className={classes.container}>
+      <audio src="/audios/wrong-answer.mp3" id="wrong-audio"></audio>
+      <audio src="/audios/right-answer.mp3" id="right-audio"></audio>
+
       {appBarPortal &&
         ReactDOM.createPortal(
           <div className="flex">
