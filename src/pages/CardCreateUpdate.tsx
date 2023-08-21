@@ -90,7 +90,7 @@ const defaultData = {
   categoryId: "",
 };
 
-const CardCreateUpdate = (props: any) => {
+const CardCreateUpdate = () => {
   const classes = useStyles();
 
   const [data, setPartialData] = React.useReducer(
