@@ -91,7 +91,7 @@ const Initial = (props: any) => {
 
           <div className={classes.categoriesContainer}>
             {categories.map((category: any) => (
-              <ShowCategory category={category} user={user} />
+              <ShowCategory category={category} user={user} key={category.id} />
             ))}
           </div>
         </>

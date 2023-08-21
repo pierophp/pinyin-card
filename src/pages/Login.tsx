@@ -1,18 +1,18 @@
-import Button from '@material-ui/core/Button';
-import FormControl from '@material-ui/core/FormControl';
-import Snackbar from '@material-ui/core/Snackbar';
-import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
-import React from 'react';
-import getUser from '../helpers/get.user';
-import useStyles from './Login.css';
+import Button from "@material-ui/core/Button";
+import FormControl from "@material-ui/core/FormControl";
+import Snackbar from "@material-ui/core/Snackbar";
+import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
+import React from "react";
+import getUser from "../helpers/get.user";
+import useStyles from "./Login.css";
 
 const Login = () => {
   const classes = useStyles();
 
   const [data, setData] = React.useState({
-    username: '',
-    password: '',
+    username: "",
+    password: "",
   });
 
   const user = getUser();
@@ -30,26 +30,28 @@ const Login = () => {
   };
 
   const handleLogin = async () => {
-    const username = 'YWRtaW4=';
-    const password = 'QGRtaW4=';
+    const username = "YWRtaW4=";
+    const password = "QGRtaW4=";
 
     if (data.username !== atob(username)) {
+      console.log("Wrong username");
       return;
     }
 
     if (data.password !== atob(password)) {
+      console.log("Wrong password");
       return;
     }
 
     localStorage.setItem(
-      'user',
+      "user",
       JSON.stringify({
-        username: 'admin',
+        username: "admin",
         admin: true,
       })
     );
 
-    window.location.hash = '/';
+    window.location.hash = "/";
   };
 
   return (

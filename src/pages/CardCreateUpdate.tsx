@@ -26,6 +26,7 @@ import German from "../components/card/create-update/German";
 import Portuguese from "../components/card/create-update/Portuguese";
 import config from "../config";
 import useStyles from "./CardCreateUpdate.css";
+import { useParams } from "react-router-dom";
 
 const ExpansionPanel = withStyles({
   root: {
@@ -118,6 +119,7 @@ const CardCreateUpdate = (props: any) => {
     defaultData
   );
 
+  const params = useParams();
   const [category, setCategory] = React.useState<any>({});
   const [categories, setCategories] = React.useState<any[]>([]);
   const [expanded, setExpanded] = React.useState("en");
@@ -185,19 +187,17 @@ const CardCreateUpdate = (props: any) => {
 
   React.useEffect(() => {
     async function init() {
-      if (props.match.params.category) {
+      if (params.category) {
         const categoryResponse = (
-          await axios.get(
-            `${config.apiUrl}/category/${props.match.params.category}`
-          )
+          await axios.get(`${config.apiUrl}/category/${params.category}`)
         ).data;
         setCategory(categoryResponse);
       }
 
-      if (props.match.params.id) {
+      if (params.id) {
         async function loadCard() {
           const cardResponse = (
-            await axios.get(`${config.apiUrl}/card/${props.match.params.id}`)
+            await axios.get(`${config.apiUrl}/card/${params.id}`)
           ).data;
 
           cardResponse.extraEn = {
@@ -242,21 +242,18 @@ const CardCreateUpdate = (props: any) => {
     }
 
     init();
-  }, [props.match.params.category, props.match.params.id]);
+  }, [params.category, params.id]);
 
   const save = async () => {
     try {
       setLoading(true);
       const request = data;
-      if (props.match.params.category) {
-        request.categoryId = parseInt(props.match.params.category, 10);
+      if (params.category) {
+        request.categoryId = parseInt(params.category, 10);
       }
 
-      if (props.match.params.id) {
-        await axios.put(
-          `${config.apiUrl}/card/${props.match.params.id}`,
-          request
-        );
+      if (params.id) {
+        await axios.put(`${config.apiUrl}/card/${params.id}`, request);
       } else {
         await axios.post(`${config.apiUrl}/card`, request);
       }
@@ -277,8 +274,8 @@ const CardCreateUpdate = (props: any) => {
 
       <form autoComplete="off">
         <Typography variant="h4" component="h4">
-          {!props.match.params.id && <>Add to "{category.nameEn}"</>}
-          {props.match.params.id && <>Editing</>}:
+          {!params.id && <>Add to "{category.nameEn}"</>}
+          {params.id && <>Editing</>}:
         </Typography>
         <ExpansionPanel
           square

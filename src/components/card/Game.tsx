@@ -106,6 +106,7 @@ const genders: Genders = {
 
 const Game = (props: { cards: Card[] }) => {
   const [cards, setCards] = useState<Card[]>([]);
+  const [speaker, setSpeaker] = useState("");
   const [cardOptions, setCardOptions] = useState<Card[]>([]);
   const [answers, setAnswers] = usePartialState({});
   const [showAnswer, setShowAnswer] = useState(false);
@@ -218,13 +219,75 @@ const Game = (props: { cards: Card[] }) => {
     }
   }, []);
 
-  const play = useCallback(() => {
-    const audioElement: HTMLAudioElement = document.getElementById(
-      "audio"
-    ) as HTMLAudioElement;
+  const play = useCallback(
+    (card: Card) => {
+      if (!card) {
+        return;
+      }
 
-    audioElement.play();
-  }, []);
+      if (card[audioField]) {
+        setSpeaker("");
+        const audioElement: HTMLAudioElement = document.getElementById(
+          "audio"
+        ) as HTMLAudioElement;
+
+        audioElement.play();
+
+        return;
+      }
+
+      const languages: {
+        [language: string]: string;
+      } = {
+        chs: "zh",
+        cht: "zh",
+      };
+
+      const voices = window.speechSynthesis.getVoices();
+
+      const voiceFilter =
+        languages[configuration.learningLanguage] ??
+        configuration.learningLanguage;
+
+      let learningVoices = voices.filter((voice) =>
+        voice.lang.startsWith(voiceFilter)
+      );
+
+      const languagesPriorities: {
+        [language: string]: string;
+      } = {
+        chs: "zh-CN",
+        cht: "zh-TW",
+        de: "de-DE",
+        en: "en-US",
+        fr: "fr-FR",
+        it: "it-IT",
+        pt: "pt-BR",
+      };
+
+      const languagesPriority =
+        languagesPriorities[configuration.learningLanguage];
+
+      const preferredVoices = learningVoices.filter(
+        (voice) => languagesPriority && voice.lang === languagesPriority
+      );
+
+      if (preferredVoices.length > 0) {
+        learningVoices = preferredVoices;
+      }
+
+      learningVoices = shuffle(learningVoices);
+
+      const utterance = new SpeechSynthesisUtterance(card[nameField]);
+      if (learningVoices.length > 0) {
+        utterance.voice = learningVoices[0];
+        setSpeaker(learningVoices[0].name);
+      }
+
+      window.speechSynthesis.speak(utterance);
+    },
+    [configuration.learningLanguage, nameField, audioField]
+  );
 
   const loadOptions = useCallback(
     (cards: Card[], currentCard: number) => {
@@ -251,11 +314,23 @@ const Game = (props: { cards: Card[] }) => {
     window.innerWidth > window.innerHeight ? "landscape" : "portrait";
 
   React.useEffect(() => {
-    const tempCards = shuffle(props.cards.filter((card) => card[audioField]));
+    window.speechSynthesis.getVoices();
+  }, []);
+
+  React.useEffect(() => {
+    if (card?.[audioField]) {
+      return;
+    }
+
+    play(card);
+  }, [card, audioField, play]);
+
+  React.useEffect(() => {
+    const tempCards = shuffle(props.cards.filter((card) => card[nameField]));
     setCards(tempCards);
     preloadAudios(tempCards);
     preloadImages(tempCards);
-  }, [props, audioField, loadOptions, preloadAudios, preloadImages]);
+  }, [props, nameField, loadOptions, preloadAudios, preloadImages]);
 
   React.useEffect(() => {
     function loadPortal() {
@@ -300,9 +375,12 @@ const Game = (props: { cards: Card[] }) => {
     <div className={classes.container}>
       {appBarPortal &&
         ReactDOM.createPortal(
-          <IconButton onClick={play}>
-            <PlayCircleOutlineIcon style={{ color: "#fff" }} />
-          </IconButton>,
+          <div className="flex">
+            <IconButton onClick={() => play(card)}>
+              <PlayCircleOutlineIcon style={{ color: "#fff" }} />
+            </IconButton>
+            <div className="flex align-items-center">{speaker}</div>
+          </div>,
           appBarPortal
         )}
 
@@ -364,7 +442,7 @@ const Game = (props: { cards: Card[] }) => {
                 </div>
               )}
 
-              <IconButton color="primary" onClick={play}>
+              <IconButton color="primary" onClick={() => play(card)}>
                 <PlayCircleOutlineIcon />
               </IconButton>
 
