@@ -11,6 +11,7 @@ import getLanguages from "../helpers/get.languages";
 import useStyles from "./Configuration.css";
 import Snackbar from "@material-ui/core/Snackbar";
 import { filterVoices } from "../helpers/filter.voices";
+// @ts-ignore
 import EasySpeech from "easy-speech";
 
 const languages = getLanguages();
