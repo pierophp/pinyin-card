@@ -11,6 +11,7 @@ import getLanguages from "../helpers/get.languages";
 import useStyles from "./Configuration.css";
 import Snackbar from "@material-ui/core/Snackbar";
 import { filterVoices } from "../helpers/filter.voices";
+import EasySpeech from "easy-speech";
 
 const languages = getLanguages();
 
@@ -33,10 +34,9 @@ const Configuration = () => {
   };
 
   useEffect(() => {
-    window.speechSynthesis.getVoices();
-    window.speechSynthesis.onvoiceschanged = () => {
-      setVoices(window.speechSynthesis.getVoices());
-    };
+    EasySpeech.init({ maxTimeout: 5000, interval: 250 }).then(() => {
+      setVoices(EasySpeech.voices());
+    });
   }, []);
 
   const save = async () => {

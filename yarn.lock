@@ -1967,6 +1967,11 @@ dom-helpers@^5.0.1:
     "@babel/runtime" "^7.8.7"
     csstype "^3.0.2"
 
+easy-speech@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/easy-speech/-/easy-speech-2.1.0.tgz#a22b6f6f7bda7e89cf9fe1ee9cac080cb5e7c248"
+  integrity sha512-3VO/kS80E55ekmUEdMUxQAvoqfQEnp3SvIXIjnzXfVH4NcQrjQCo6FIiQdv4hScUSX0u+cWJn9u2C09J9O1U/Q==
+
 ejs@^3.1.6:
   version "3.1.9"
   resolved "https://registry.yarnpkg.com/ejs/-/ejs-3.1.9.tgz#03c9e8777fe12686a9effcef22303ca3d8eeb361"
