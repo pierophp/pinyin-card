@@ -33,6 +33,7 @@ const Configuration = () => {
   };
 
   useEffect(() => {
+    window.speechSynthesis.getVoices();
     window.speechSynthesis.onvoiceschanged = () => {
       setVoices(window.speechSynthesis.getVoices());
     };
