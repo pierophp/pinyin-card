@@ -174,6 +174,37 @@ const Game = (props: { cards: Card[] }) => {
     setShowAnswer(false);
   }, []);
 
+  const play = useCallback(
+    (card: Card, forceSynthesis = false) => {
+      if (!card) {
+        return;
+      }
+
+      if (card[audioField] && !forceSynthesis) {
+        setSpeaker("");
+        const audioElement: HTMLAudioElement = document.getElementById(
+          "audio"
+        ) as HTMLAudioElement;
+
+        audioElement.play();
+
+        return;
+      }
+      const voices = window.speechSynthesis.getVoices();
+      let learningVoices = filterVoices(voices, configuration.learningLanguage);
+      learningVoices = shuffle(learningVoices);
+
+      const utterance = new SpeechSynthesisUtterance(card[nameField]);
+      if (learningVoices.length > 0) {
+        utterance.voice = learningVoices[0];
+        setSpeaker(learningVoices[0].name);
+      }
+
+      window.speechSynthesis.speak(utterance);
+    },
+    [configuration.learningLanguage, nameField, audioField]
+  );
+
   const selectAnswer = useCallback(
     (selectedCard: Card) => {
       const answer: Answers = {
@@ -191,8 +222,12 @@ const Game = (props: { cards: Card[] }) => {
       ) as HTMLAudioElement;
       audioAnswerElement.volume = 0.05;
       audioAnswerElement.play();
+
+      setTimeout(() => {
+        play(selectedCard);
+      }, 1000);
     },
-    [card, setAnswers]
+    [card, setAnswers, play]
   );
 
   const preloadAudios = useCallback(
@@ -225,37 +260,6 @@ const Game = (props: { cards: Card[] }) => {
       });
     }
   }, []);
-
-  const play = useCallback(
-    (card: Card, forceSynthesis = false) => {
-      if (!card) {
-        return;
-      }
-
-      if (card[audioField] && !forceSynthesis) {
-        setSpeaker("");
-        const audioElement: HTMLAudioElement = document.getElementById(
-          "audio"
-        ) as HTMLAudioElement;
-
-        audioElement.play();
-
-        return;
-      }
-      const voices = window.speechSynthesis.getVoices();
-      let learningVoices = filterVoices(voices, configuration.learningLanguage);
-      learningVoices = shuffle(learningVoices);
-
-      const utterance = new SpeechSynthesisUtterance(card[nameField]);
-      if (learningVoices.length > 0) {
-        utterance.voice = learningVoices[0];
-        setSpeaker(learningVoices[0].name);
-      }
-
-      window.speechSynthesis.speak(utterance);
-    },
-    [configuration.learningLanguage, nameField, audioField]
-  );
 
   const loadOptions = useCallback(
     (cards: Card[], currentCard: number) => {
