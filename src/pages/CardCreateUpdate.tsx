@@ -24,6 +24,7 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  TextField,
   Typography,
 } from "@mui/material";
 
@@ -363,7 +364,6 @@ const CardCreateUpdate = () => {
             autoComplete="off"
             onChange={handleChange}
             value={data.image}
-            className={classes.input}
             InputProps={{ inputProps: { tabIndex: 1005 } }}
           />
 
@@ -389,7 +389,7 @@ const CardCreateUpdate = () => {
         </div>
         <div>
           <div
-            className={classes.image}
+            className="bg-black bg-no-repeat bg-center bg-auto-100 h-100 w-190"
             style={{ backgroundImage: `url(${data.image})` }}
           ></div>
         </div>

@@ -1,6 +1,5 @@
 import EditIcon from "@mui/icons-material/Edit";
 import VolumeOffIcon from "@mui/icons-material/VolumeOff";
-import React from "react";
 import { Link } from "react-router-dom";
 import ShowCategory from "../category/ShowCategory";
 import {
@@ -30,44 +29,44 @@ const headCells = [
 ];
 
 const Initial = (props: any) => {
-  const [order, setOrder] = React.useState<"asc" | "desc">("asc");
-  const [orderBy, setOrderBy] = React.useState("nameEn");
+  // const [order, setOrder] = React.useState<"asc" | "desc">("asc");
+  // const [orderBy, setOrderBy] = React.useState("nameEn");
 
-  const handleRequestSort = (property: string) => {
-    const isAsc = orderBy === property && order === "asc";
-    setOrder(isAsc ? "desc" : "asc");
-    setOrderBy(property);
-  };
+  // const handleRequestSort = (property: string) => {
+  //   const isAsc = orderBy === property && order === "asc";
+  //   setOrder(isAsc ? "desc" : "asc");
+  //   setOrderBy(property);
+  // };
 
-  const createSortHandler = (property: any) => () => {
-    handleRequestSort(property);
-  };
+  // const createSortHandler = (property: any) => () => {
+  //   handleRequestSort(property);
+  // };
 
-  function descendingComparator(a: any, b: any, orderBy: any) {
-    if (b[orderBy] < a[orderBy]) {
-      return -1;
-    }
-    if (b[orderBy] > a[orderBy]) {
-      return 1;
-    }
-    return 0;
-  }
+  // function descendingComparator(a: any, b: any, orderBy: any) {
+  //   if (b[orderBy] < a[orderBy]) {
+  //     return -1;
+  //   }
+  //   if (b[orderBy] > a[orderBy]) {
+  //     return 1;
+  //   }
+  //   return 0;
+  // }
 
-  function getComparator(order: string, orderBy: string) {
-    return order === "desc"
-      ? (a: any, b: any) => descendingComparator(a, b, orderBy)
-      : (a: any, b: any) => -descendingComparator(a, b, orderBy);
-  }
+  // function getComparator(order: string, orderBy: string) {
+  //   return order === "desc"
+  //     ? (a: any, b: any) => descendingComparator(a, b, orderBy)
+  //     : (a: any, b: any) => -descendingComparator(a, b, orderBy);
+  // }
 
-  function stableSort(array: any, comparator: any) {
-    const stabilizedThis = array.map((el: any, index: any) => [el, index]);
-    stabilizedThis.sort((a: any, b: any) => {
-      const order = comparator(a[0], b[0]);
-      if (order !== 0) return order;
-      return a[1] - b[1];
-    });
-    return stabilizedThis.map((el: any) => el[0]);
-  }
+  // function stableSort(array: any, comparator: any) {
+  //   const stabilizedThis = array.map((el: any, index: any) => [el, index]);
+  //   stabilizedThis.sort((a: any, b: any) => {
+  //     const order = comparator(a[0], b[0]);
+  //     if (order !== 0) return order;
+  //     return a[1] - b[1];
+  //   });
+  //   return stabilizedThis.map((el: any) => el[0]);
+  // }
 
   const { cards, categories, currentCategory, user } = props;
   return (
@@ -129,7 +128,7 @@ const Initial = (props: any) => {
                       <TableCell
                         key={headCell.id}
                         align={headCell.numeric ? "right" : "left"}
-                        sortDirection={orderBy === headCell.id ? order : false}
+                        // sortDirection={orderBy === headCell.id ? order : false}
                       >
                         {/* <TableSortLabel
                           active={orderBy === headCell.id}
@@ -152,59 +151,58 @@ const Initial = (props: any) => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {stableSort(cards, getComparator(order, orderBy)).map(
-                    (card: any) => (
-                      <TableRow key={card.id}>
-                        <TableCell component="th" scope="row">
-                          {card.nameEn}
-                          {!card.audioEn && (
-                            <VolumeOffIcon fontSize="small" color="error" />
-                          )}
-                        </TableCell>
-                        <TableCell>
-                          {card.namePt}
-                          {!card.audioPt && (
-                            <VolumeOffIcon fontSize="small" color="error" />
-                          )}
-                        </TableCell>
-                        <TableCell>
-                          {card.nameCht}{" "}
-                          {!card.audioCh && (
-                            <VolumeOffIcon fontSize="small" color="error" />
-                          )}
-                        </TableCell>
-                        <TableCell>{card.nameChs}</TableCell>
-                        <TableCell>{card.pinyin}</TableCell>
-                        <TableCell>
-                          {card.nameIt}
-                          {!card.audioIt && (
-                            <VolumeOffIcon fontSize="small" color="error" />
-                          )}
-                        </TableCell>
-                        <TableCell>
-                          {card.nameFr}
-                          {!card.audioFr && (
-                            <VolumeOffIcon fontSize="small" color="error" />
-                          )}
-                        </TableCell>
-                        <TableCell>
-                          {card.nameDe}
-                          {!card.audioDe && (
-                            <VolumeOffIcon fontSize="small" color="error" />
-                          )}
-                        </TableCell>
-                        <TableCell>
-                          <IconButton
-                            color="primary"
-                            component="a"
-                            href={`/card-update/${card.id}`}
-                          >
-                            <EditIcon />
-                          </IconButton>
-                        </TableCell>
-                      </TableRow>
-                    )
-                  )}
+                  {/* {stableSort(cards, getComparator(order, orderBy)).map( */}
+                  {cards.map((card: any) => (
+                    <TableRow key={card.id}>
+                      <TableCell component="th" scope="row">
+                        {card.nameEn}
+                        {!card.audioEn && (
+                          <VolumeOffIcon fontSize="small" color="error" />
+                        )}
+                      </TableCell>
+                      <TableCell>
+                        {card.namePt}
+                        {!card.audioPt && (
+                          <VolumeOffIcon fontSize="small" color="error" />
+                        )}
+                      </TableCell>
+                      <TableCell>
+                        {card.nameCht}{" "}
+                        {!card.audioCh && (
+                          <VolumeOffIcon fontSize="small" color="error" />
+                        )}
+                      </TableCell>
+                      <TableCell>{card.nameChs}</TableCell>
+                      <TableCell>{card.pinyin}</TableCell>
+                      <TableCell>
+                        {card.nameIt}
+                        {!card.audioIt && (
+                          <VolumeOffIcon fontSize="small" color="error" />
+                        )}
+                      </TableCell>
+                      <TableCell>
+                        {card.nameFr}
+                        {!card.audioFr && (
+                          <VolumeOffIcon fontSize="small" color="error" />
+                        )}
+                      </TableCell>
+                      <TableCell>
+                        {card.nameDe}
+                        {!card.audioDe && (
+                          <VolumeOffIcon fontSize="small" color="error" />
+                        )}
+                      </TableCell>
+                      <TableCell>
+                        <IconButton
+                          color="primary"
+                          component="a"
+                          href={`/card-update/${card.id}`}
+                        >
+                          <EditIcon />
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
+                  ))}
                 </TableBody>
               </Table>
             )}

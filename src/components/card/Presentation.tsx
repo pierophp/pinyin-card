@@ -76,9 +76,6 @@ const Presentation = (props: any) => {
     }
   }, []);
 
-  const orientation =
-    window.innerWidth > window.innerHeight ? "landscape" : "portrait";
-
   React.useEffect(() => {
     async function init() {
       setCards(shuffle(props.cards));
