@@ -340,8 +340,8 @@ const Game = (props: { cards: Card[] }) => {
 
   return (
     <div className={classes.container}>
-      <audio src="/audios/wrong-answer.mp3" id="wrong-audio"></audio>
-      <audio src="/audios/right-answer.mp3" id="right-audio"></audio>
+      <audio src="/audios/wrong-answer.mp3" id="wrong-audio" volume="0.5"></audio>
+      <audio src="/audios/right-answer.mp3" id="right-audio" volume="0.5"></audio>
 
       {appBarPortal &&
         ReactDOM.createPortal(
