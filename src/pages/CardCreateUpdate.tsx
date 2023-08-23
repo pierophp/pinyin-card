@@ -1,20 +1,5 @@
-import Backdrop from "@material-ui/core/Backdrop";
-import Button from "@material-ui/core/Button";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import MuiExpansionPanel from "@material-ui/core/ExpansionPanel";
-import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
-import MuiExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
-import FormControl from "@material-ui/core/FormControl";
-import FormHelperText from "@material-ui/core/FormHelperText";
-import IconButton from "@material-ui/core/IconButton";
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
-import Select from "@material-ui/core/Select";
-import { withStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-import Typography from "@material-ui/core/Typography";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import PhotoIcon from "@material-ui/icons/Photo";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import PhotoIcon from "@mui/icons-material/Photo";
 import axios from "axios";
 import upperFirst from "lodash/upperFirst";
 import React from "react";
@@ -25,43 +10,22 @@ import Italian from "../components/card/create-update/Italian";
 import German from "../components/card/create-update/German";
 import Portuguese from "../components/card/create-update/Portuguese";
 import config from "../config";
-import useStyles from "./CardCreateUpdate.css";
 import { useParams } from "react-router-dom";
-
-const ExpansionPanel = withStyles({
-  root: {
-    border: "1px solid rgba(0, 0, 0, .125)",
-    boxShadow: "none",
-    "&:not(:last-child)": {
-      borderBottom: 0,
-    },
-    "&:before": {
-      display: "none",
-    },
-    "&$expanded": {
-      margin: "auto",
-    },
-  },
-  expanded: {},
-})(MuiExpansionPanel);
-
-const ExpansionPanelSummary = withStyles({
-  root: {
-    backgroundColor: "rgba(0, 0, 0, .03)",
-    borderBottom: "1px solid rgba(0, 0, 0, .125)",
-    marginBottom: -1,
-    minHeight: 56,
-    "&$expanded": {
-      minHeight: 56,
-    },
-  },
-  content: {
-    "&$expanded": {
-      margin: "12px 0",
-    },
-  },
-  expanded: {},
-})(MuiExpansionPanelSummary);
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Backdrop,
+  Button,
+  CircularProgress,
+  FormControl,
+  FormHelperText,
+  IconButton,
+  InputLabel,
+  MenuItem,
+  Select,
+  Typography,
+} from "@mui/material";
 
 const defaultData = {
   nameEn: "",
@@ -91,8 +55,6 @@ const defaultData = {
 };
 
 const CardCreateUpdate = () => {
-  const classes = useStyles();
-
   const [data, setPartialData] = React.useReducer(
     (state: any, partialState: any) => {
       const stateCopy = JSON.parse(JSON.stringify(state));
@@ -267,7 +229,7 @@ const CardCreateUpdate = () => {
   };
 
   return (
-    <div className={classes.container}>
+    <div className="p-3">
       <Backdrop open={loading}>
         <CircularProgress color="inherit" />
       </Backdrop>
@@ -277,71 +239,56 @@ const CardCreateUpdate = () => {
           {!params.id && <>Add to "{category.nameEn}"</>}
           {params.id && <>Editing</>}:
         </Typography>
-        <ExpansionPanel
+        <Accordion
           square
           expanded={expanded === "en"}
           onChange={() => handleChangeExpanded("en")}
         >
-          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <img
-              src="/icons/icons8-usa-48.png"
-              height="25"
-              className={classes.flagIcon}
-            />
-            <Typography className={classes.heading}>Inglês</Typography>
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <img src="/icons/icons8-usa-48.png" height="25" />
+            <Typography>Inglês</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
             <English
-              classes={classes}
               handleChange={handleChange}
               handleBlurChange={handleBlurChange}
               handleForvo={handleForvo}
               setPartialData={setPartialData}
               data={data}
             />
-          </ExpansionPanelDetails>
-        </ExpansionPanel>
+          </AccordionDetails>
+        </Accordion>
 
-        <ExpansionPanel
+        <Accordion
           square
           expanded={expanded === "pt"}
           onChange={() => handleChangeExpanded("pt")}
         >
-          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <img
-              src="/icons/icons8-brazil-48.png"
-              height="25"
-              className={classes.flagIcon}
-            />
-            <Typography className={classes.heading}>Português</Typography>
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <img src="/icons/icons8-brazil-48.png" height="25" />
+            <Typography>Português</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
             <Portuguese
-              classes={classes}
               handleChange={handleChange}
               handleBlurChange={handleBlurChange}
               handleForvo={handleForvo}
               data={data}
             />
-          </ExpansionPanelDetails>
-        </ExpansionPanel>
+          </AccordionDetails>
+        </Accordion>
 
-        <ExpansionPanel
+        <Accordion
           square
           expanded={expanded === "ch"}
           onChange={() => handleChangeExpanded("ch")}
         >
-          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <img
-              src="/icons/icons8-china-48.png"
-              height="25"
-              className={classes.flagIcon}
-            />
-            <Typography className={classes.heading}>Chinês</Typography>
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <img src="/icons/icons8-china-48.png" height="25" />
+            <Typography>Chinês</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
             <Chinese
-              classes={classes}
               handleChange={handleChange}
               handleBlurChange={handleBlurChange}
               handleForvo={handleForvo}
@@ -349,80 +296,65 @@ const CardCreateUpdate = () => {
               data={data}
               setPartialData={setPartialData}
             />
-          </ExpansionPanelDetails>
-        </ExpansionPanel>
+          </AccordionDetails>
+        </Accordion>
 
-        <ExpansionPanel
+        <Accordion
           square
           expanded={expanded === "de"}
           onChange={() => handleChangeExpanded("de")}
         >
-          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <img
-              src="/icons/icons8-german-48.png"
-              height="25"
-              className={classes.flagIcon}
-            />
-            <Typography className={classes.heading}>Alemão</Typography>
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <img src="/icons/icons8-german-48.png" height="25" />
+            <Typography>Alemão</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
             <German
-              classes={classes}
               handleChange={handleChange}
               handleBlurChange={handleBlurChange}
               handleForvo={handleForvo}
               data={data}
             />
-          </ExpansionPanelDetails>
-        </ExpansionPanel>
+          </AccordionDetails>
+        </Accordion>
 
-        <ExpansionPanel
+        <Accordion
           square
           expanded={expanded === "it"}
           onChange={() => handleChangeExpanded("it")}
         >
-          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <img
-              src="/icons/icons8-italy-48.png"
-              height="25"
-              className={classes.flagIcon}
-            />
-            <Typography className={classes.heading}>Italiano</Typography>
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <img src="/icons/icons8-italy-48.png" height="25" />
+            <Typography>Italiano</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
             <Italian
-              classes={classes}
               handleChange={handleChange}
               handleBlurChange={handleBlurChange}
               handleForvo={handleForvo}
               data={data}
             />
-          </ExpansionPanelDetails>
-        </ExpansionPanel>
+          </AccordionDetails>
+        </Accordion>
 
-        <ExpansionPanel
+        <Accordion
           square
           expanded={expanded === "frs"}
           onChange={() => handleChangeExpanded("frs")}
         >
-          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <img
-              src="/icons/icons8-france-48.png"
-              height="25"
-              className={classes.flagIcon}
-            />
-            <Typography className={classes.heading}>Francês</Typography>
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <img src="/icons/icons8-france-48.png" height="25" />
+            <Typography>Francês</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
             <French
-              classes={classes}
               handleChange={handleChange}
               handleBlurChange={handleBlurChange}
               handleForvo={handleForvo}
               data={data}
             />
-          </ExpansionPanelDetails>
-        </ExpansionPanel>
+          </AccordionDetails>
+        </Accordion>
 
         <div>
           <TextField

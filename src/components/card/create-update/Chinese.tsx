@@ -1,12 +1,12 @@
-import IconButton from '@material-ui/core/IconButton';
-import TextField from '@material-ui/core/TextField';
-import GTranslateIcon from '@material-ui/icons/GTranslate';
-import LanguageIcon from '@material-ui/icons/Language';
-import MusicVideoIcon from '@material-ui/icons/MusicVideo';
-import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
-import axios from 'axios';
-import React from 'react';
-import config from '../../../config';
+import IconButton from "@mui/material/IconButton";
+import TextField from "@mui/material/TextField";
+import GTranslateIcon from "@mui/icons-material/GTranslate";
+import LanguageIcon from "@mui/icons-material/Language";
+import MusicVideoIcon from "@mui/icons-material/MusicVideo";
+import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
+import axios from "axios";
+import React from "react";
+import config from "../../../config";
 
 const Chinese = (props: any) => {
   const {
@@ -24,7 +24,7 @@ const Chinese = (props: any) => {
   const nameInputChsRef = React.createRef<any>();
 
   const getPinyin = async () => {
-    const url = await getForvo('Cht');
+    const url = await getForvo("Cht");
 
     const response = (
       await axios.get(
@@ -54,7 +54,7 @@ const Chinese = (props: any) => {
         label="Tradicional"
         autoComplete="off"
         onChange={handleChange}
-        onBlur={e => {
+        onBlur={(e) => {
           handleBlurChange(e);
           getPinyin();
         }}
@@ -82,9 +82,9 @@ const Chinese = (props: any) => {
         label="Simplificado"
         autoComplete="off"
         onChange={handleChange}
-        onBlur={e => {
+        onBlur={(e) => {
           handleBlurChange(e);
-          handleForvo('Chs');
+          handleForvo("Chs");
         }}
         value={data.nameChs}
         className={classes.inputChinese}

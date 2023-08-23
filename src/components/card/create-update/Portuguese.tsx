@@ -1,10 +1,10 @@
-import IconButton from '@material-ui/core/IconButton';
-import TextField from '@material-ui/core/TextField';
-import GTranslateIcon from '@material-ui/icons/GTranslate';
-import LanguageIcon from '@material-ui/icons/Language';
-import MusicVideoIcon from '@material-ui/icons/MusicVideo';
-import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
-import React from 'react';
+import IconButton from "@mui/material/IconButton";
+import TextField from "@mui/material/TextField";
+import GTranslateIcon from "@mui/icons-material/GTranslate";
+import LanguageIcon from "@mui/icons-material/Language";
+import MusicVideoIcon from "@mui/icons-material/MusicVideo";
+import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
+import React from "react";
 
 const Portuguese = (props: any) => {
   const { classes, handleChange, handleBlurChange, handleForvo, data } = props;
@@ -18,9 +18,9 @@ const Portuguese = (props: any) => {
         label="Nome"
         autoComplete="off"
         onChange={handleChange}
-        onBlur={e => {
+        onBlur={(e) => {
           handleBlurChange(e);
-          handleForvo('Pt');
+          handleForvo("Pt");
         }}
         value={data.namePt}
         className={classes.input}

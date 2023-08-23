@@ -1,29 +1,27 @@
-import Button from '@material-ui/core/Button';
-import FormControl from '@material-ui/core/FormControl';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import IconButton from '@material-ui/core/IconButton';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
-import GTranslateIcon from '@material-ui/icons/GTranslate';
-import axios from 'axios';
-import React from 'react';
-import config from '../config';
-import useStyles from './CategoryCreateUpdate.css';
+import Button from "@mui/material/Button";
+import FormControl from "@mui/material/FormControl";
+import FormHelperText from "@mui/material/FormHelperText";
+import IconButton from "@mui/material/IconButton";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import GTranslateIcon from "@mui/icons-material/GTranslate";
+import axios from "axios";
+import React from "react";
+import config from "../config";
 
 const CategoryCreateUpdate = (props: any) => {
-  const classes = useStyles();
   const [data, setData] = React.useState({
-    nameEn: '',
-    namePt: '',
-    nameCht: '',
-    nameChs: '',
-    nameIt: '',
-    nameFr: '',
-    nameDe: '',
-    parentCategoryId: '',
+    nameEn: "",
+    namePt: "",
+    nameCht: "",
+    nameChs: "",
+    nameIt: "",
+    nameFr: "",
+    nameDe: "",
+    parentCategoryId: "",
   });
 
   const [categories, setCategories] = React.useState<any[]>([]);
@@ -65,7 +63,7 @@ const CategoryCreateUpdate = (props: any) => {
   const getPinyin = async () => {
     const response = (
       await axios.get(
-        `${config.pinyinApiUrl}/cards/convert?ideogram=${data.nameCht}`,
+        `${config.pinyinApiUrl}/cards/convert?ideogram=${data.nameCht}`
       )
     ).data;
 
@@ -86,7 +84,7 @@ const CategoryCreateUpdate = (props: any) => {
     if (props.match.params.id) {
       await axios.put(
         `${config.apiUrl}/category/${props.match.params.id}`,
-        request,
+        request
       );
     } else {
       await axios.post(`${config.apiUrl}/category`, request);
@@ -96,7 +94,7 @@ const CategoryCreateUpdate = (props: any) => {
   };
 
   return (
-    <div className={classes.container}>
+    <div className="p-3">
       <form autoComplete="off">
         <Typography variant="h4" component="h4">
           Add category:
@@ -109,7 +107,6 @@ const CategoryCreateUpdate = (props: any) => {
             autoFocus
             onChange={handleChange}
             value={data.nameEn}
-            className={classes.input}
             InputProps={{ tabIndex: 1000 }}
           />
         </div>
@@ -120,7 +117,6 @@ const CategoryCreateUpdate = (props: any) => {
             autoComplete="off"
             onChange={handleChange}
             value={data.namePt}
-            className={classes.input}
             InputProps={{ tabIndex: 1001 }}
           />
 
@@ -141,7 +137,6 @@ const CategoryCreateUpdate = (props: any) => {
             autoComplete="off"
             onChange={handleChange}
             value={data.nameCht}
-            className={classes.input}
             onBlur={() => {
               getPinyin();
             }}
@@ -163,7 +158,6 @@ const CategoryCreateUpdate = (props: any) => {
             autoComplete="off"
             onChange={handleChange}
             value={data.nameChs}
-            className={classes.input}
           />
           <IconButton
             color="primary"
@@ -183,7 +177,6 @@ const CategoryCreateUpdate = (props: any) => {
             autoComplete="off"
             onChange={handleChange}
             value={data.nameDe}
-            className={classes.input}
             InputProps={{ tabIndex: 1001 }}
           />
 
@@ -205,7 +198,6 @@ const CategoryCreateUpdate = (props: any) => {
             autoComplete="off"
             onChange={handleChange}
             value={data.nameIt}
-            className={classes.input}
             InputProps={{ tabIndex: 1001 }}
           />
 
@@ -227,7 +219,6 @@ const CategoryCreateUpdate = (props: any) => {
             autoComplete="off"
             onChange={handleChange}
             value={data.nameFr}
-            className={classes.input}
             InputProps={{ tabIndex: 1001 }}
           />
 
@@ -252,7 +243,7 @@ const CategoryCreateUpdate = (props: any) => {
               name="parentCategoryId"
               onChange={handleChange}
             >
-              <MenuItem value={''}>-</MenuItem>
+              <MenuItem value={""}>-</MenuItem>
               {categories.map((category) => (
                 <MenuItem key={category.id} value={category.id}>
                   {category.nameEn}

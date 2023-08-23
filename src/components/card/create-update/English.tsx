@@ -1,11 +1,11 @@
-import IconButton from '@material-ui/core/IconButton';
-import TextField from '@material-ui/core/TextField';
-import LanguageIcon from '@material-ui/icons/Language';
-import MusicVideoIcon from '@material-ui/icons/MusicVideo';
-import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
-import axios from 'axios';
-import React from 'react';
-import config from '../../../config';
+import IconButton from "@mui/material/IconButton";
+import TextField from "@mui/material/TextField";
+import LanguageIcon from "@mui/icons-material/Language";
+import MusicVideoIcon from "@mui/icons-material/MusicVideo";
+import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
+import axios from "axios";
+import React from "react";
+import config from "../../../config";
 
 const English = (props: any) => {
   const {
@@ -32,7 +32,7 @@ const English = (props: any) => {
       await axios.get(`${config.apiUrl}/wiktionary/ipa/en/${data.nameEn}`)
     ).data;
 
-    setPartialData({ 'extraEn.pronunciation': response.ipa });
+    setPartialData({ "extraEn.pronunciation": response.ipa });
   };
 
   return (
@@ -43,9 +43,9 @@ const English = (props: any) => {
         autoComplete="off"
         autoFocus
         onChange={handleChange}
-        onBlur={e => {
+        onBlur={(e) => {
           handleBlurChange(e);
-          handleForvo('En');
+          handleForvo("En");
           handleIpa();
         }}
         value={data.nameEn}

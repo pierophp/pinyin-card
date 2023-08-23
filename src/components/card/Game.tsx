@@ -1,6 +1,7 @@
-import IconButton from "@material-ui/core/IconButton";
-import EditIcon from "@material-ui/icons/Edit";
-import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
+import EditIcon from "@mui/icons-material/Edit";
+import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import ErrorIcon from "@mui/icons-material/Error";
 import shuffle from "lodash/shuffle";
 import upperFirst from "lodash/upperFirst";
 import React, {
@@ -13,17 +14,17 @@ import React, {
 import ReactDOM from "react-dom";
 import getConfiguration from "../../helpers/get.configuration";
 import getUser from "../../helpers/get.user";
-import useStyles from "./Game.css";
 import usePartialState from "../../hooks/usePartialState";
-import Dialog from "@material-ui/core/Dialog";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogActions from "@material-ui/core/DialogActions";
 
-import Button from "@material-ui/core/Button";
-import CheckCircleIcon from "@material-ui/icons/CheckCircle";
-import ErrorIcon from "@material-ui/icons/Error";
 import { filterVoices } from "../../helpers/filter.voices";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+} from "@mui/material";
 
 type AudioField =
   | "audioCh"
@@ -105,6 +106,22 @@ const genders: Genders = {
   de_n: "Das",
 };
 
+const CardComponent = ({
+  card,
+  onClick,
+}: {
+  card: Card;
+  onClick?: () => void;
+}) => {
+  return (
+    <div
+      className="bg-white bg-no-repeat bg-center portrait:bg-[length:50vw_auto] landscape:bg-[length:auto_50vh] w-[calc(50%-4px)] h-[calc(50vh-(56px/2)-4px)] relative mx-auto border-2 border-solid border-black hover:border-blue-500"
+      style={{ backgroundImage: `url(${card.image})` }}
+      onClick={onClick}
+    ></div>
+  );
+};
+
 const Game = (props: { cards: Card[] }) => {
   const [cards, setCards] = useState<Card[]>([]);
   const [speaker, setSpeaker] = useState("");
@@ -136,8 +153,6 @@ const Game = (props: { cards: Card[] }) => {
   const [currentCard, dispatchCurrentCard] = useReducer<
     Reducer<number, "previous" | "next">
   >(currentCardReducer, 0);
-
-  const classes = useStyles();
 
   const configuration = useMemo(() => getConfiguration(), []);
 
@@ -282,9 +297,6 @@ const Game = (props: { cards: Card[] }) => {
     [props]
   );
 
-  const orientation =
-    window.innerWidth > window.innerHeight ? "landscape" : "portrait";
-
   React.useEffect(() => {
     window.speechSynthesis.getVoices();
   }, []);
@@ -338,13 +350,20 @@ const Game = (props: { cards: Card[] }) => {
     const gender: GenderClass = `gender${card[
       extraField
     ].gender?.toUpperCase()}` as GenderClass;
-    if (classes[gender]) {
-      genderClass = classes[gender];
+
+    const genderClasses = {
+      genderM: "text-blue-500",
+      genderF: "text-red-500",
+      genderN: "text-green-300",
+    };
+
+    if (genderClasses[gender]) {
+      genderClass = genderClasses[gender];
     }
   }
 
   return (
-    <div className={classes.container}>
+    <div>
       <audio src="/audios/wrong-answer.mp3" id="wrong-audio"></audio>
       <audio src="/audios/right-answer.mp3" id="right-audio"></audio>
 
@@ -370,9 +389,7 @@ const Game = (props: { cards: Card[] }) => {
         <Dialog onClose={goToNextCard} open={showAnswer} fullWidth={true}>
           <DialogTitle
             className={
-              answers[card.id].correct
-                ? classes.rightAnswer
-                : classes.wrongAnswer
+              answers[card.id].correct ? "text-green-500" : "text-red-500"
             }
           >
             {answers[card.id].correct ? (
@@ -389,22 +406,20 @@ const Game = (props: { cards: Card[] }) => {
           </DialogTitle>
           <DialogContent dividers>
             <div
-              className={[
-                classes.cardContainer,
-                classes[orientation],
-                classes.cardContainerAnswer,
-              ].join(" ")}
+              className="w-full bg-white bg-no-repeat h-[calc(50vh-(56px/2)-4px)] w-[calc(50%-4px)] relative mx-auto bg-cover portrait:h-[50vh] landscape:h-[50vh]"
               style={{ backgroundImage: `url(${card.image})` }}
             ></div>
 
-            <div className={classes.informationContainer}>
+            <div className="bg-black bg-opacity-50 w-180 min-h-75 text-center mx-auto">
               {showTranslation && (
-                <div className={classes.translationTitle}>
+                <div className="w-full text-center text-white text-25">
                   {card[translatedField] ? card[translatedField] : card.nameEn}
                 </div>
               )}
 
-              <div className={`${classes.title} ${genderClass}`}>
+              <div
+                className={`w-full text-center text-white text-25 ${genderClass}`}
+              >
                 {card[extraField] && card[extraField].gender && (
                   <span>({genders[genderLanguage]}) </span>
                 )}
@@ -413,10 +428,12 @@ const Game = (props: { cards: Card[] }) => {
               </div>
 
               {isChinese && (
-                <div className={classes.pronunciation}>{card.pinyin}</div>
+                <div className="w-full text-center text-white text-25">
+                  {card.pinyin}
+                </div>
               )}
               {card[extraField] && card[extraField].pronunciation && (
-                <div className={classes.pronunciation}>
+                <div className="w-full text-center text-white text-25">
                   {card[extraField].pronunciation}
                 </div>
               )}
@@ -444,19 +461,14 @@ const Game = (props: { cards: Card[] }) => {
           </DialogActions>
         </Dialog>
       )}
-      <div className={classes.optionsContainer}>
+      <div className="flex flex-wrap">
         {cardOptions.map((cardOption) => {
           return (
-            <div
-              className={[
-                classes.cardContainer,
-                classes[orientation],
-                classes.cardContainerOption,
-              ].join(" ")}
-              style={{ backgroundImage: `url(${cardOption.image})` }}
-              onClick={() => selectAnswer(cardOption)}
+            <CardComponent
+              card={cardOption}
               key={cardOption.id}
-            ></div>
+              onClick={() => selectAnswer(cardOption)}
+            />
           );
         })}
       </div>

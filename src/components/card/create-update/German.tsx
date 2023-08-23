@@ -1,15 +1,15 @@
-import IconButton from '@material-ui/core/IconButton';
-import TextField from '@material-ui/core/TextField';
-import GTranslateIcon from '@material-ui/icons/GTranslate';
-import LanguageIcon from '@material-ui/icons/Language';
-import MusicVideoIcon from '@material-ui/icons/MusicVideo';
-import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
-import React from 'react';
-import FormControl from '@material-ui/core/FormControl';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
+import IconButton from "@mui/material/IconButton";
+import TextField from "@mui/material/TextField";
+import GTranslateIcon from "@mui/icons-material/GTranslate";
+import LanguageIcon from "@mui/icons-material/Language";
+import MusicVideoIcon from "@mui/icons-material/MusicVideo";
+import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
+import React from "react";
+import FormControl from "@mui/material/FormControl";
+import FormHelperText from "@mui/material/FormHelperText";
+import Select from "@mui/material/Select";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
 
 const German = (props: any) => {
   const { classes, handleChange, handleBlurChange, handleForvo, data } = props;
@@ -25,7 +25,7 @@ const German = (props: any) => {
         onChange={handleChange}
         onBlur={(e) => {
           handleBlurChange(e);
-          handleForvo('De');
+          handleForvo("De");
         }}
         value={data.nameDe}
         className={classes.input}
@@ -92,7 +92,7 @@ const German = (props: any) => {
         <Select
           labelId="german-gender-label"
           id="german-gender"
-          value={data.extraDe?.gender || ''}
+          value={data.extraDe?.gender || ""}
           name="extraDe.gender"
           onChange={handleChange}
         >

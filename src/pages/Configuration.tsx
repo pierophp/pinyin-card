@@ -1,63 +1,78 @@
-import Button from "@material-ui/core/Button";
-import FormControl from "@material-ui/core/FormControl";
-import FormHelperText from "@material-ui/core/FormHelperText";
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
-import Select from "@material-ui/core/Select";
-import Typography from "@material-ui/core/Typography";
-import React, { useEffect } from "react";
+import Button from "@mui/material/Button";
+import FormControl from "@mui/material/FormControl";
+import FormHelperText from "@mui/material/FormHelperText";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+import Typography from "@mui/material/Typography";
+import React, { useCallback, useEffect, useMemo } from "react";
 import getConfiguration from "../helpers/get.configuration";
 import getLanguages from "../helpers/get.languages";
-import useStyles from "./Configuration.css";
-import Snackbar from "@material-ui/core/Snackbar";
+import Snackbar from "@mui/material/Snackbar";
 import { filterVoices } from "../helpers/filter.voices";
+import orderBy from "lodash/orderBy";
 // @ts-ignore
 import EasySpeech from "easy-speech";
+
+import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
+import { IconButton } from "@mui/material";
 
 const languages = getLanguages();
 
 const Configuration = () => {
-  const classes = useStyles();
-
   const [data, setData] = React.useState(getConfiguration());
   const [voices, setVoices] = React.useState<SpeechSynthesisVoice[]>([]);
 
   const [snackbarOpen, setSnackbarOpen] = React.useState(false);
 
-  const handleChange = (e: any) => {
+  const handleChange = (e: any): void => {
     const { name, value } = e.target;
 
     const dataCopy = JSON.parse(JSON.stringify(data));
 
-    dataCopy[name] = value;
+    dataCopy[name!] = value;
 
     setData(dataCopy);
   };
 
   useEffect(() => {
     EasySpeech.init({ maxTimeout: 5000, interval: 250 }).then(() => {
-      setVoices(EasySpeech.voices());
+      setVoices(orderBy(EasySpeech.voices(), ["name"]));
     });
   }, []);
 
-  const save = async () => {
+  const save = useCallback(async () => {
     localStorage.setItem("configuration", JSON.stringify(data));
 
     if (localStorage.getItem("configuration")) {
       setSnackbarOpen(true);
     }
-  };
+  }, [data]);
 
   const filteredVoices = filterVoices(voices, data.learningLanguage);
 
+  const testMessage = useMemo(() => {
+    return (
+      languages.find((lang) => lang.code === data.learningLanguage)
+        ?.testMessage ?? "This is a test message"
+    );
+  }, [data.learningLanguage]);
+
+  const play = useCallback(async () => {
+    EasySpeech.speak({
+      text: testMessage,
+      voice: filteredVoices.find((voice) => voice.name === data.voice),
+    });
+  }, [data, filteredVoices, testMessage]);
+
   return (
-    <div className={classes.container}>
+    <div className="p-3">
       <form autoComplete="off">
         <Typography variant="h4" component="h4">
           Configuração:
         </Typography>
         <div>
-          <FormControl className={classes.formControl}>
+          <FormControl className="w-64">
             <InputLabel id="learning-language-label">
               Idioma que estou aprendendo
             </InputLabel>
@@ -76,8 +91,9 @@ const Configuration = () => {
             </Select>
             <FormHelperText></FormHelperText>
           </FormControl>
-
-          <FormControl className={classes.formControl}>
+        </div>
+        <div>
+          <FormControl className="w-64">
             <InputLabel id="voice-label">Voz preferencial</InputLabel>
             <Select
               labelId="voice-label"
@@ -92,25 +108,14 @@ const Configuration = () => {
                 </MenuItem>
               ))}
             </Select>
+
             <FormHelperText></FormHelperText>
           </FormControl>
-        </div>
 
-        <pre>
-          {JSON.stringify(
-            filteredVoices.map((voice) => {
-              return {
-                default: voice.default,
-                lang: voice.lang,
-                localService: voice.localService,
-                name: voice.name,
-                voiceURI: voice.voiceURI,
-              };
-            }),
-            null,
-            2
-          )}
-        </pre>
+          <IconButton onClick={() => play()}>
+            <PlayCircleOutlineIcon style={{ color: "#fff" }} />
+          </IconButton>
+        </div>
 
         <div>
           <br />

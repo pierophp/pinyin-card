@@ -1,6 +1,5 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import AppBarDrawer from "./components/template/AppBarDrawer";
-import useStyles from "./App.css";
 import CardCreateUpdate from "./pages/CardCreateUpdate";
 import Categories from "./pages/Categories";
 import CategoryCreateUpdate from "./pages/CategoryCreateUpdate";
@@ -9,8 +8,6 @@ import EnglishPortugueseIpa from "./pages/EnglishPortugueseIpa";
 import Login from "./pages/Login";
 
 function App() {
-  const classes = useStyles();
-
   const router = createBrowserRouter([
     {
       path: "/",
@@ -54,8 +51,10 @@ function App() {
   return (
     <div>
       <AppBarDrawer />
-      <div className={classes.container}>
-        <RouterProvider router={router} />
+      <div className="pt-[64px]">
+        <div>
+          <RouterProvider router={router} />
+        </div>
       </div>
     </div>
   );

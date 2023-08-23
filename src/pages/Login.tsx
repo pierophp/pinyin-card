@@ -1,15 +1,12 @@
-import Button from "@material-ui/core/Button";
-import FormControl from "@material-ui/core/FormControl";
-import Snackbar from "@material-ui/core/Snackbar";
-import TextField from "@material-ui/core/TextField";
-import Typography from "@material-ui/core/Typography";
+import Button from "@mui/material/Button";
+import FormControl from "@mui/material/FormControl";
+import Snackbar from "@mui/material/Snackbar";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
 import React from "react";
 import getUser from "../helpers/get.user";
-import useStyles from "./Login.css";
 
 const Login = () => {
-  const classes = useStyles();
-
   const [data, setData] = React.useState({
     username: "",
     password: "",
@@ -55,14 +52,14 @@ const Login = () => {
   };
 
   return (
-    <div className={classes.container}>
+    <div className="p-3">
       <form autoComplete="off">
         <Typography variant="h4" component="h4">
           Login:
         </Typography>
         <div>{user.username && `Logged as ${user.username}`}</div>
         <div>
-          <FormControl className={classes.formControl}>
+          <FormControl className="w-64">
             <TextField
               name="username"
               label="Username"

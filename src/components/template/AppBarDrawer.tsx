@@ -1,17 +1,19 @@
-import AppBar from "@material-ui/core/AppBar";
-import Divider from "@material-ui/core/Divider";
-import Drawer from "@material-ui/core/Drawer";
-import IconButton from "@material-ui/core/IconButton";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import Toolbar from "@material-ui/core/Toolbar";
-import AccountBoxIcon from "@material-ui/icons/AccountBox";
-import ChromeReaderModeIcon from "@material-ui/icons/ChromeReaderMode";
-import DescriptionIcon from "@material-ui/icons/Description";
-import MenuIcon from "@material-ui/icons/Menu";
-import SettingsApplicationsIcon from "@material-ui/icons/SettingsApplications";
+import AccountBoxIcon from "@mui/icons-material/AccountBox";
+import ChromeReaderModeIcon from "@mui/icons-material/ChromeReaderMode";
+import DescriptionIcon from "@mui/icons-material/Description";
+import MenuIcon from "@mui/icons-material/Menu";
+import SettingsApplicationsIcon from "@mui/icons-material/SettingsApplications";
+import {
+  AppBar,
+  Divider,
+  Drawer,
+  IconButton,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Toolbar,
+} from "@mui/material";
 import React from "react";
 
 const AppBarDrawer = () => {

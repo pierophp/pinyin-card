@@ -1,11 +1,10 @@
-import IconButton from "@material-ui/core/IconButton";
-import EditIcon from "@material-ui/icons/Edit";
-import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
+import IconButton from "@mui/material/IconButton";
+import EditIcon from "@mui/icons-material/Edit";
+import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
 import shuffle from "lodash/shuffle";
 import upperFirst from "lodash/upperFirst";
 import React from "react";
 import getConfiguration from "../../helpers/get.configuration";
-import useStyles from "./Presentation.css";
 
 const Presentation = (props: any) => {
   const [cards, setCards] = React.useState<any[]>([]);
@@ -31,8 +30,6 @@ const Presentation = (props: any) => {
     currentCardReducer,
     0
   );
-
-  const classes = useStyles();
 
   const configuration = getConfiguration();
 
@@ -116,24 +113,21 @@ const Presentation = (props: any) => {
   return (
     <div>
       {card && (
-        <div
-          className={[classes.cardContainer, classes[orientation]].join(" ")}
-          style={{ backgroundImage: `url(${card.image})` }}
-        >
-          <div className={classes.containerClick}>
-            <div className={classes.leftClick} onClick={previousCard}></div>
-            <div className={classes.rightClick} onClick={nextCard}></div>
+        <div style={{ backgroundImage: `url(${card.image})` }}>
+          <div>
+            <div onClick={previousCard}></div>
+            <div onClick={nextCard}></div>
           </div>
-          <div className={classes.informationContainer}>
+          <div>
             {showTranslation && (
-              <div className={classes.translationTitle}>
+              <div>
                 {card[`name${upperFirst(language)}`]
                   ? card[`name${upperFirst(language)}`]
                   : card.nameEn}
               </div>
             )}
 
-            <div className={`${classes.title} ${genderClass}`}>
+            <div className={`${genderClass}`}>
               {card[extraField] && card[extraField].gender && (
                 <span>
                   (
@@ -149,13 +143,9 @@ const Presentation = (props: any) => {
               {card[nameField]}
             </div>
 
-            {isChinese && (
-              <div className={classes.pronunciation}>{card.pinyin}</div>
-            )}
+            {isChinese && <div>{card.pinyin}</div>}
             {card[extraField] && card[extraField].pronunciation && (
-              <div className={classes.pronunciation}>
-                {card[extraField].pronunciation}
-              </div>
+              <div>{card[extraField].pronunciation}</div>
             )}
 
             <IconButton color="primary" onClick={play}>

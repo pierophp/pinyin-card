@@ -1,18 +1,18 @@
-import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import TableSortLabel from "@material-ui/core/TableSortLabel";
-import Typography from "@material-ui/core/Typography";
-import EditIcon from "@material-ui/icons/Edit";
-import VolumeOffIcon from "@material-ui/icons/VolumeOff";
+import EditIcon from "@mui/icons-material/Edit";
+import VolumeOffIcon from "@mui/icons-material/VolumeOff";
 import React from "react";
 import { Link } from "react-router-dom";
 import ShowCategory from "../category/ShowCategory";
-import useStyles from "./Initial.css";
+import {
+  Button,
+  IconButton,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  Typography,
+} from "@mui/material";
 
 const headCells = [
   {
@@ -32,7 +32,6 @@ const headCells = [
 const Initial = (props: any) => {
   const [order, setOrder] = React.useState<"asc" | "desc">("asc");
   const [orderBy, setOrderBy] = React.useState("nameEn");
-  const classes = useStyles();
 
   const handleRequestSort = (property: string) => {
     const isAsc = orderBy === property && order === "asc";
@@ -72,7 +71,7 @@ const Initial = (props: any) => {
 
   const { cards, categories, currentCategory, user } = props;
   return (
-    <div className={classes.container}>
+    <div className="p-3">
       {currentCategory && (
         <Typography variant="h4" component="h4">
           {currentCategory.namePt} {`(${cards.length})`}
@@ -89,7 +88,7 @@ const Initial = (props: any) => {
             </Link>
           )}
 
-          <div className={classes.categoriesContainer}>
+          <div className="flex">
             {categories.map((category: any) => (
               <ShowCategory category={category} user={user} key={category.id} />
             ))}
@@ -132,7 +131,7 @@ const Initial = (props: any) => {
                         align={headCell.numeric ? "right" : "left"}
                         sortDirection={orderBy === headCell.id ? order : false}
                       >
-                        <TableSortLabel
+                        {/* <TableSortLabel
                           active={orderBy === headCell.id}
                           direction={orderBy === headCell.id ? order : "asc"}
                           onClick={createSortHandler(headCell.id)}
@@ -145,7 +144,7 @@ const Initial = (props: any) => {
                                 : "sorted ascending"}
                             </span>
                           ) : null}
-                        </TableSortLabel>
+                        </TableSortLabel> */}
                       </TableCell>
                     ))}
 
