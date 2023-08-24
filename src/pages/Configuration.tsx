@@ -22,24 +22,59 @@ const languages = getLanguages();
 const Configuration = () => {
   const [data, setData] = React.useState(getConfiguration());
   const [voices, setVoices] = React.useState<SpeechSynthesisVoice[]>([]);
+  const [filteredVoices, setFilteredVoices] = React.useState<
+    SpeechSynthesisVoice[]
+  >([]);
 
   const [snackbarOpen, setSnackbarOpen] = React.useState(false);
 
-  const handleChange = (e: any): void => {
-    const { name, value } = e.target;
+  const updateData = useCallback(
+    (key: string, value: string): void => {
+      const dataCopy = JSON.parse(JSON.stringify(data));
 
-    const dataCopy = JSON.parse(JSON.stringify(data));
+      dataCopy[key!] = value;
 
-    dataCopy[name!] = value;
+      setData(dataCopy);
+    },
+    [data]
+  );
 
-    setData(dataCopy);
-  };
+  const handleChange = useCallback(
+    (e: any): void => {
+      const { name, value } = e.target;
+
+      updateData(name, value);
+    },
+    [updateData]
+  );
 
   useEffect(() => {
     EasySpeech.init({ maxTimeout: 5000, interval: 250 }).then(() => {
       setVoices(orderBy(EasySpeech.voices(), ["name"]));
     });
   }, []);
+
+  useEffect(() => {
+    setFilteredVoices(filterVoices(voices, data.learningLanguage));
+  }, [voices, data.learningLanguage]);
+
+  useEffect(() => {
+    if (filteredVoices.length === 0) {
+      return;
+    }
+
+    if (data.voice) {
+      const filteredVoice = filteredVoices.find(
+        (voice) => voice.name === data.voice
+      );
+
+      if (!filteredVoice) {
+        updateData("voice", filteredVoices[0].name);
+      }
+    } else {
+      updateData("voice", filteredVoices[0].name);
+    }
+  }, [filteredVoices, data.voice, updateData]);
 
   const save = useCallback(async () => {
     localStorage.setItem("configuration", JSON.stringify(data));
@@ -48,8 +83,6 @@ const Configuration = () => {
       setSnackbarOpen(true);
     }
   }, [data]);
-
-  const filteredVoices = filterVoices(voices, data.learningLanguage);
 
   const testMessage = useMemo(() => {
     return (
@@ -71,7 +104,7 @@ const Configuration = () => {
         <Typography variant="h4" component="h4">
           Configuração:
         </Typography>
-        <div>
+        <div className="py-2">
           <FormControl className="w-64">
             <InputLabel id="learning-language-label">
               Idioma que estou aprendendo
@@ -92,29 +125,32 @@ const Configuration = () => {
             <FormHelperText></FormHelperText>
           </FormControl>
         </div>
-        <div>
-          <FormControl className="w-64">
-            <InputLabel id="voice-label">Voz preferencial</InputLabel>
-            <Select
-              labelId="voice-label"
-              id="voice"
-              value={data.voice}
-              name="voice"
-              onChange={handleChange}
-            >
-              {filteredVoices.map((voice) => (
-                <MenuItem key={voice.name} value={voice.name}>
-                  {voice.name}
-                </MenuItem>
-              ))}
-            </Select>
+        <div className="py-2 flex items-center">
+          <div>
+            <FormControl className="w-64">
+              <InputLabel id="voice-label">Voz preferencial</InputLabel>
+              <Select
+                labelId="voice-label"
+                id="voice"
+                value={data.voice ?? undefined}
+                name="voice"
+                onChange={handleChange}
+              >
+                {filteredVoices.map((voice) => (
+                  <MenuItem key={voice.name} value={voice.name}>
+                    {voice.name}
+                  </MenuItem>
+                ))}
+              </Select>
 
-            <FormHelperText></FormHelperText>
-          </FormControl>
-
-          <IconButton onClick={() => play()}>
-            <PlayCircleOutlineIcon style={{ color: "#fff" }} />
-          </IconButton>
+              <FormHelperText></FormHelperText>
+            </FormControl>
+          </div>
+          <div>
+            <IconButton color="primary" onClick={() => play()}>
+              <PlayCircleOutlineIcon />
+            </IconButton>
+          </div>
         </div>
 
         <div>
