@@ -109,13 +109,22 @@ const genders: Genders = {
 const CardComponent = ({
   card,
   onClick,
+  border = true,
 }: {
   card: Card;
   onClick?: () => void;
+  border?: boolean;
 }) => {
+  const borderClass = border
+    ? "border-2 border-solid border-black hover:border-blue-500"
+    : "";
+
   return (
     <div
-      className="bg-white bg-no-repeat bg-center portrait:bg-[length:50vw_auto] landscape:bg-[length:auto_50vh] w-[calc(50%-4px)] h-[calc(50vh-(56px/2)-4px)] relative mx-auto border-2 border-solid border-black hover:border-blue-500"
+      className={
+        "bg-white bg-no-repeat bg-center portrait:bg-[length:50vw_auto] landscape:bg-[length:auto_50vh] w-[calc(50%-4px)] h-[calc(50vh-(56px/2)-4px)] relative mx-auto " +
+        borderClass
+      }
       style={{ backgroundImage: `url(${card.image})` }}
       onClick={onClick}
     ></div>
@@ -405,20 +414,21 @@ const Game = (props: { cards: Card[] }) => {
             )}
           </DialogTitle>
           <DialogContent dividers>
-            <div
-              className="w-full bg-white bg-no-repeat h-[calc(50vh-(56px/2)-4px)] w-[calc(50%-4px)] relative mx-auto bg-cover portrait:h-[50vh] landscape:h-[50vh]"
+            <CardComponent card={card} border={false} />
+            {/* <div
+              className="bg-center w-full bg-white bg-no-repeat h-[calc(50vh-(56px/2)-4px)] w-[calc(50%-4px)] relative mx-auto  portrait:h-[50vh] landscape:h-[50vh]"
               style={{ backgroundImage: `url(${card.image})` }}
-            ></div>
+            ></div> */}
 
             <div className="bg-black bg-opacity-50 w-180 min-h-75 text-center mx-auto">
               {showTranslation && (
-                <div className="w-full text-center text-white text-25">
+                <div className="w-full text-center text-white text-2xl">
                   {card[translatedField] ? card[translatedField] : card.nameEn}
                 </div>
               )}
 
               <div
-                className={`w-full text-center text-white text-25 ${genderClass}`}
+                className={`w-full text-center text-white text-2xl ${genderClass}`}
               >
                 {card[extraField] && card[extraField].gender && (
                   <span>({genders[genderLanguage]}) </span>
@@ -428,12 +438,12 @@ const Game = (props: { cards: Card[] }) => {
               </div>
 
               {isChinese && (
-                <div className="w-full text-center text-white text-25">
+                <div className="w-full text-center text-white text-2xl">
                   {card.pinyin}
                 </div>
               )}
               {card[extraField] && card[extraField].pronunciation && (
-                <div className="w-full text-center text-white text-25">
+                <div className="w-full text-center text-white text-2xl">
                   {card[extraField].pronunciation}
                 </div>
               )}
@@ -468,6 +478,7 @@ const Game = (props: { cards: Card[] }) => {
               card={cardOption}
               key={cardOption.id}
               onClick={() => selectAnswer(cardOption)}
+              border={true}
             />
           );
         })}

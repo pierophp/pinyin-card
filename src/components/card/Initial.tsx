@@ -87,7 +87,7 @@ const Initial = (props: any) => {
             </Link>
           )}
 
-          <div className="flex">
+          <div className="flex flex-wrap">
             {categories.map((category: any) => (
               <ShowCategory category={category} user={user} key={category.id} />
             ))}
