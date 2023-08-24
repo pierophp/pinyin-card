@@ -27,4 +27,4 @@ If you are developing a production application, we recommend updating the config
 - Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
 
 
-npx pwa-asset-generator public/vite.svg -i ./index.html public/pwa
+npx pwa-asset-generator public/logo.png public/pwa
