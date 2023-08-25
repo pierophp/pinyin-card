@@ -9,11 +9,14 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import GTranslateIcon from "@mui/icons-material/GTranslate";
 import axios from "axios";
-import React from "react";
+import { useEffect, useState } from "react";
 import config from "../config";
+import { useParams } from "react-router-dom";
 
 const CategoryCreateUpdate = (props: any) => {
-  const [data, setData] = React.useState({
+  const params = useParams();
+
+  const [data, setData] = useState({
     nameEn: "",
     namePt: "",
     nameCht: "",
@@ -24,9 +27,9 @@ const CategoryCreateUpdate = (props: any) => {
     parentCategoryId: "",
   });
 
-  const [categories, setCategories] = React.useState<any[]>([]);
+  const [categories, setCategories] = useState<any[]>([]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     async function loadCategories() {
       const categoriesResponse = (await axios.get(`${config.apiUrl}/category`))
         .data;
@@ -36,12 +39,12 @@ const CategoryCreateUpdate = (props: any) => {
     loadCategories();
 
     async function loadCard() {
-      if (!props.match.params.id) {
+      if (!params.id) {
         return;
       }
 
       const response = (
-        await axios.get(`${config.apiUrl}/category/${props.match.params.id}`)
+        await axios.get(`${config.apiUrl}/category/${params.id}`)
       ).data;
 
       setData(response);
@@ -81,11 +84,8 @@ const CategoryCreateUpdate = (props: any) => {
       request.parentCategoryId = null;
     }
 
-    if (props.match.params.id) {
-      await axios.put(
-        `${config.apiUrl}/category/${props.match.params.id}`,
-        request
-      );
+    if (params.id) {
+      await axios.put(`${config.apiUrl}/category/${params.id}`, request);
     } else {
       await axios.post(`${config.apiUrl}/category`, request);
     }
