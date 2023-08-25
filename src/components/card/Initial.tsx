@@ -1,5 +1,7 @@
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
+import VideogameAssetIcon from "@mui/icons-material/VideogameAsset";
+import SlideshowIcon from "@mui/icons-material/Slideshow";
 import VolumeOffIcon from "@mui/icons-material/VolumeOff";
 import { Link } from "react-router-dom";
 import ShowCategory from "../category/ShowCategory";
@@ -71,9 +73,13 @@ const Initial = (props: any) => {
   // }
 
   const { cards, categories, currentCategory, user } = props;
+  const showCreateCardButton =
+    user?.admin && currentCategory && categories.length === 0;
+  const showCreateCategoryButton = user?.admin && cards.length === 0;
+
   return (
     <>
-      <div className="p-3">
+      <div className="p-3 pb-12">
         {currentCategory && (
           <Typography variant="h4" component="h4">
             {currentCategory.namePt} {`(${cards.length})`}
@@ -82,14 +88,6 @@ const Initial = (props: any) => {
 
         {categories && categories.length > 0 && (
           <>
-            {user && user.admin && (
-              <Link to={`/category-create`}>
-                <Button color="primary" variant="contained">
-                  Adicionar Categoria
-                </Button>
-              </Link>
-            )}
-
             <div className="flex flex-wrap">
               {categories.map((category: any) => (
                 <ShowCategory
@@ -104,23 +102,28 @@ const Initial = (props: any) => {
 
         {currentCategory && (
           <>
-            <div>
-              {cards.length > 0 && (
-                <Link to={`/category/${currentCategory.id}/presentation`}>
-                  <Button color="primary" variant="contained">
-                    Apresentação
-                  </Button>
-                </Link>
-              )}
-
+            <div className="flex gap-1">
               {cards.length > 0 && (
                 <Link to={`/category/${currentCategory.id}/game`}>
-                  <Button color="primary" variant="contained">
+                  <Button variant="outlined" startIcon={<VideogameAssetIcon />}>
                     Jogar
                   </Button>
                 </Link>
               )}
 
+              {cards.length > 0 && (
+                <Link to={`/category/${currentCategory.id}/presentation`}>
+                  <Button
+                    variant="outlined"
+                    color="success"
+                    startIcon={<SlideshowIcon />}
+                  >
+                    Apresentação
+                  </Button>
+                </Link>
+              )}
+            </div>
+            <div>
               {user && user.admin && cards.length > 0 && (
                 <Table aria-label="simple table">
                   <TableHead>
@@ -212,15 +215,30 @@ const Initial = (props: any) => {
         )}
       </div>
 
-      {currentCategory && user?.admin && (
-        // <Link to={`/card-create/${currentCategory.id}`}>
-        //   <Button variant="contained">Adicionar</Button>
-        // </Link>
-        <Link to={`/card-create/${currentCategory.id}`}>
-          <Fab color="primary" aria-label="add">
-            <AddIcon />
-          </Fab>
-        </Link>
+      {showCreateCardButton && (
+        <div className="fixed bottom-5 right-6">
+          <Link to={`/card-create/${currentCategory.id}`}>
+            <Fab color="primary" variant="extended" aria-label="add card">
+              <AddIcon sx={{ mr: 1 }} />
+              Card
+            </Fab>
+          </Link>
+        </div>
+      )}
+
+      {showCreateCategoryButton && (
+        <div
+          className={`fixed right-6 ${
+            showCreateCardButton ? "bottom-20" : "bottom-5"
+          }`}
+        >
+          <Link to={`/category-create`}>
+            <Fab color="secondary" variant="extended" aria-label="add category">
+              <AddIcon sx={{ mr: 1 }} />
+              Category
+            </Fab>
+          </Link>
+        </div>
       )}
     </>
   );
