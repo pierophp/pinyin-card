@@ -10,7 +10,6 @@ import config from "../../../config";
 
 const Chinese = (props: any) => {
   const {
-    classes,
     handleChange,
     handleBlurChange,
     handleForvo,
@@ -59,7 +58,6 @@ const Chinese = (props: any) => {
           getPinyin();
         }}
         value={data.nameCht}
-        className={classes.inputChinese}
         InputProps={{ inputProps: { tabIndex: 1002 } }}
         inputRef={nameInputChtRef}
       />
@@ -87,7 +85,6 @@ const Chinese = (props: any) => {
           handleForvo("Chs");
         }}
         value={data.nameChs}
-        className={classes.inputChinese}
         inputRef={nameInputChsRef}
       />
       <IconButton
@@ -109,7 +106,6 @@ const Chinese = (props: any) => {
         autoComplete="off"
         onChange={handleChange}
         value={data.pinyin}
-        className={classes.inputChinese}
       />
 
       <TextField
@@ -118,7 +114,6 @@ const Chinese = (props: any) => {
         autoComplete="off"
         onChange={handleChange}
         value={data.audioCh}
-        className={classes.input}
       />
 
       <IconButton

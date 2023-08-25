@@ -246,8 +246,10 @@ const CardCreateUpdate = () => {
           onChange={() => handleChangeExpanded("en")}
         >
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <img src="/icons/icons8-usa-48.png" height="25" />
-            <Typography>Inglês</Typography>
+            <div className="flex gap-1 items-center">
+              <img src="/icons/icons8-usa-48.png" height="25" />
+              <Typography>Inglês</Typography>
+            </div>
           </AccordionSummary>
           <AccordionDetails>
             <English
@@ -266,8 +268,10 @@ const CardCreateUpdate = () => {
           onChange={() => handleChangeExpanded("pt")}
         >
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <img src="/icons/icons8-brazil-48.png" height="25" />
-            <Typography>Português</Typography>
+            <div className="flex gap-1 items-center">
+              <img src="/icons/icons8-brazil-48.png" height="25" />
+              <Typography>Português</Typography>
+            </div>
           </AccordionSummary>
           <AccordionDetails>
             <Portuguese
@@ -285,8 +289,10 @@ const CardCreateUpdate = () => {
           onChange={() => handleChangeExpanded("ch")}
         >
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <img src="/icons/icons8-china-48.png" height="25" />
-            <Typography>Chinês</Typography>
+            <div className="flex gap-1 items-center">
+              <img src="/icons/icons8-china-48.png" height="25" />
+              <Typography>Chinês</Typography>
+            </div>
           </AccordionSummary>
           <AccordionDetails>
             <Chinese
@@ -306,8 +312,10 @@ const CardCreateUpdate = () => {
           onChange={() => handleChangeExpanded("de")}
         >
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <img src="/icons/icons8-german-48.png" height="25" />
-            <Typography>Alemão</Typography>
+            <div className="flex gap-1 items-center">
+              <img src="/icons/icons8-german-48.png" height="25" />
+              <Typography>Alemão</Typography>
+            </div>
           </AccordionSummary>
           <AccordionDetails>
             <German
@@ -325,8 +333,10 @@ const CardCreateUpdate = () => {
           onChange={() => handleChangeExpanded("it")}
         >
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <img src="/icons/icons8-italy-48.png" height="25" />
-            <Typography>Italiano</Typography>
+            <div className="flex gap-1 items-center">
+              <img src="/icons/icons8-italy-48.png" height="25" />
+              <Typography>Italiano</Typography>
+            </div>
           </AccordionSummary>
           <AccordionDetails>
             <Italian
@@ -344,8 +354,10 @@ const CardCreateUpdate = () => {
           onChange={() => handleChangeExpanded("frs")}
         >
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <img src="/icons/icons8-france-48.png" height="25" />
-            <Typography>Francês</Typography>
+            <div className="flex gap-1 items-center">
+              <img src="/icons/icons8-france-48.png" height="25" />
+              <Typography>Francês</Typography>
+            </div>
           </AccordionSummary>
           <AccordionDetails>
             <French

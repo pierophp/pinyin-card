@@ -8,14 +8,8 @@ import React from "react";
 import config from "../../../config";
 
 const English = (props: any) => {
-  const {
-    classes,
-    setPartialData,
-    handleChange,
-    handleBlurChange,
-    handleForvo,
-    data,
-  } = props;
+  const { setPartialData, handleChange, handleBlurChange, handleForvo, data } =
+    props;
 
   const audioRef = React.createRef<any>();
 
@@ -49,7 +43,6 @@ const English = (props: any) => {
           handleIpa();
         }}
         value={data.nameEn}
-        className={classes.input}
         InputProps={{ inputProps: { tabIndex: 1000 } }}
       />
 
@@ -59,7 +52,6 @@ const English = (props: any) => {
         autoComplete="off"
         onChange={handleChange}
         value={data.audioEn}
-        className={classes.input}
         InputProps={{ tabIndex: 1 }}
       />
 
@@ -102,7 +94,6 @@ const English = (props: any) => {
         autoComplete="off"
         onChange={handleChange}
         value={data.extraEn.pronunciation}
-        className={classes.input}
       />
 
       <IconButton

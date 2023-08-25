@@ -12,7 +12,7 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 
 const German = (props: any) => {
-  const { classes, handleChange, handleBlurChange, handleForvo, data } = props;
+  const { handleChange, handleBlurChange, handleForvo, data } = props;
 
   const audioRef = React.createRef<any>();
   const nameInputRef = React.createRef<any>();
@@ -28,7 +28,6 @@ const German = (props: any) => {
           handleForvo("De");
         }}
         value={data.nameDe}
-        className={classes.input}
         InputProps={{ inputProps: { tabIndex: 1004 } }}
         inputRef={nameInputRef}
       />
@@ -52,7 +51,6 @@ const German = (props: any) => {
         autoComplete="off"
         onChange={handleChange}
         value={data.audioDe}
-        className={classes.input}
         InputProps={{ tabIndex: 2 }}
       />
 
@@ -87,7 +85,7 @@ const German = (props: any) => {
         <LanguageIcon />
       </IconButton>
 
-      <FormControl className={classes.formControl}>
+      <FormControl>
         <InputLabel id="german-gender-label">Gênero</InputLabel>
         <Select
           labelId="german-gender-label"

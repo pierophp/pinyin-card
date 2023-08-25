@@ -1,10 +1,12 @@
 import EditIcon from "@mui/icons-material/Edit";
+import AddIcon from "@mui/icons-material/Add";
 import VolumeOffIcon from "@mui/icons-material/VolumeOff";
 import { Link } from "react-router-dom";
 import ShowCategory from "../category/ShowCategory";
 import {
   Button,
   IconButton,
+  Fab,
   Table,
   TableBody,
   TableCell,
@@ -70,67 +72,66 @@ const Initial = (props: any) => {
 
   const { cards, categories, currentCategory, user } = props;
   return (
-    <div className="p-3">
-      {currentCategory && (
-        <Typography variant="h4" component="h4">
-          {currentCategory.namePt} {`(${cards.length})`}
-        </Typography>
-      )}
+    <>
+      <div className="p-3">
+        {currentCategory && (
+          <Typography variant="h4" component="h4">
+            {currentCategory.namePt} {`(${cards.length})`}
+          </Typography>
+        )}
 
-      {categories && categories.length > 0 && (
-        <>
-          {user && user.admin && (
-            <Link to={`/category-create`}>
-              <Button color="primary" variant="contained">
-                Adicionar Categoria
-              </Button>
-            </Link>
-          )}
-
-          <div className="flex flex-wrap">
-            {categories.map((category: any) => (
-              <ShowCategory category={category} user={user} key={category.id} />
-            ))}
-          </div>
-        </>
-      )}
-
-      {currentCategory && (
-        <>
-          <div>
-            {cards.length > 0 && (
-              <Link to={`/category/${currentCategory.id}/presentation`}>
-                <Button color="primary" variant="contained">
-                  Apresentação
-                </Button>
-              </Link>
-            )}
-
-            {cards.length > 0 && (
-              <Link to={`/category/${currentCategory.id}/game`}>
-                <Button color="primary" variant="contained">
-                  Jogar
-                </Button>
-              </Link>
-            )}
-
+        {categories && categories.length > 0 && (
+          <>
             {user && user.admin && (
-              <Link to={`/card-create/${currentCategory.id}`}>
-                <Button variant="contained">Adicionar</Button>
+              <Link to={`/category-create`}>
+                <Button color="primary" variant="contained">
+                  Adicionar Categoria
+                </Button>
               </Link>
             )}
 
-            {user && user.admin && cards.length > 0 && (
-              <Table aria-label="simple table">
-                <TableHead>
-                  <TableRow>
-                    {headCells.map((headCell) => (
-                      <TableCell
-                        key={headCell.id}
-                        align={headCell.numeric ? "right" : "left"}
-                        // sortDirection={orderBy === headCell.id ? order : false}
-                      >
-                        {/* <TableSortLabel
+            <div className="flex flex-wrap">
+              {categories.map((category: any) => (
+                <ShowCategory
+                  category={category}
+                  user={user}
+                  key={category.id}
+                />
+              ))}
+            </div>
+          </>
+        )}
+
+        {currentCategory && (
+          <>
+            <div>
+              {cards.length > 0 && (
+                <Link to={`/category/${currentCategory.id}/presentation`}>
+                  <Button color="primary" variant="contained">
+                    Apresentação
+                  </Button>
+                </Link>
+              )}
+
+              {cards.length > 0 && (
+                <Link to={`/category/${currentCategory.id}/game`}>
+                  <Button color="primary" variant="contained">
+                    Jogar
+                  </Button>
+                </Link>
+              )}
+
+              {user && user.admin && cards.length > 0 && (
+                <Table aria-label="simple table">
+                  <TableHead>
+                    <TableRow>
+                      {headCells.map((headCell) => (
+                        <TableCell
+                          key={headCell.id}
+                          align={headCell.numeric ? "right" : "left"}
+                          // sortDirection={orderBy === headCell.id ? order : false}
+                        >
+                          {/* <TableSortLabel
                           active={orderBy === headCell.id}
                           direction={orderBy === headCell.id ? order : "asc"}
                           onClick={createSortHandler(headCell.id)}
@@ -144,72 +145,84 @@ const Initial = (props: any) => {
                             </span>
                           ) : null}
                         </TableSortLabel> */}
-                      </TableCell>
-                    ))}
+                        </TableCell>
+                      ))}
 
-                    <TableCell></TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {/* {stableSort(cards, getComparator(order, orderBy)).map( */}
-                  {cards.map((card: any) => (
-                    <TableRow key={card.id}>
-                      <TableCell component="th" scope="row">
-                        {card.nameEn}
-                        {!card.audioEn && (
-                          <VolumeOffIcon fontSize="small" color="error" />
-                        )}
-                      </TableCell>
-                      <TableCell>
-                        {card.namePt}
-                        {!card.audioPt && (
-                          <VolumeOffIcon fontSize="small" color="error" />
-                        )}
-                      </TableCell>
-                      <TableCell>
-                        {card.nameCht}{" "}
-                        {!card.audioCh && (
-                          <VolumeOffIcon fontSize="small" color="error" />
-                        )}
-                      </TableCell>
-                      <TableCell>{card.nameChs}</TableCell>
-                      <TableCell>{card.pinyin}</TableCell>
-                      <TableCell>
-                        {card.nameIt}
-                        {!card.audioIt && (
-                          <VolumeOffIcon fontSize="small" color="error" />
-                        )}
-                      </TableCell>
-                      <TableCell>
-                        {card.nameFr}
-                        {!card.audioFr && (
-                          <VolumeOffIcon fontSize="small" color="error" />
-                        )}
-                      </TableCell>
-                      <TableCell>
-                        {card.nameDe}
-                        {!card.audioDe && (
-                          <VolumeOffIcon fontSize="small" color="error" />
-                        )}
-                      </TableCell>
-                      <TableCell>
-                        <IconButton
-                          color="primary"
-                          component="a"
-                          href={`/card-update/${card.id}`}
-                        >
-                          <EditIcon />
-                        </IconButton>
-                      </TableCell>
+                      <TableCell></TableCell>
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            )}
-          </div>
-        </>
+                  </TableHead>
+                  <TableBody>
+                    {/* {stableSort(cards, getComparator(order, orderBy)).map( */}
+                    {cards.map((card: any) => (
+                      <TableRow key={card.id}>
+                        <TableCell component="th" scope="row">
+                          {card.nameEn}
+                          {!card.audioEn && (
+                            <VolumeOffIcon fontSize="small" color="error" />
+                          )}
+                        </TableCell>
+                        <TableCell>
+                          {card.namePt}
+                          {!card.audioPt && (
+                            <VolumeOffIcon fontSize="small" color="error" />
+                          )}
+                        </TableCell>
+                        <TableCell>
+                          {card.nameCht}{" "}
+                          {!card.audioCh && (
+                            <VolumeOffIcon fontSize="small" color="error" />
+                          )}
+                        </TableCell>
+                        <TableCell>{card.nameChs}</TableCell>
+                        <TableCell>{card.pinyin}</TableCell>
+                        <TableCell>
+                          {card.nameIt}
+                          {!card.audioIt && (
+                            <VolumeOffIcon fontSize="small" color="error" />
+                          )}
+                        </TableCell>
+                        <TableCell>
+                          {card.nameFr}
+                          {!card.audioFr && (
+                            <VolumeOffIcon fontSize="small" color="error" />
+                          )}
+                        </TableCell>
+                        <TableCell>
+                          {card.nameDe}
+                          {!card.audioDe && (
+                            <VolumeOffIcon fontSize="small" color="error" />
+                          )}
+                        </TableCell>
+                        <TableCell>
+                          <IconButton
+                            color="primary"
+                            component="a"
+                            href={`/card-update/${card.id}`}
+                          >
+                            <EditIcon />
+                          </IconButton>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              )}
+            </div>
+          </>
+        )}
+      </div>
+
+      {currentCategory && user?.admin && (
+        // <Link to={`/card-create/${currentCategory.id}`}>
+        //   <Button variant="contained">Adicionar</Button>
+        // </Link>
+        <Link to={`/card-create/${currentCategory.id}`}>
+          <Fab color="primary" aria-label="add">
+            <AddIcon />
+          </Fab>
+        </Link>
       )}
-    </div>
+    </>
   );
 };
 

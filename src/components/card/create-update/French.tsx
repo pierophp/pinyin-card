@@ -7,7 +7,7 @@ import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
 import React from "react";
 
 const French = (props: any) => {
-  const { classes, handleChange, handleBlurChange, handleForvo, data } = props;
+  const { handleChange, handleBlurChange, handleForvo, data } = props;
 
   const audioRef = React.createRef<any>();
   const nameInputRef = React.createRef<any>();
@@ -23,7 +23,6 @@ const French = (props: any) => {
           handleForvo("Fr");
         }}
         value={data.nameFr}
-        className={classes.input}
         InputProps={{ inputProps: { tabIndex: 1004 } }}
         inputRef={nameInputRef}
       />
@@ -47,7 +46,6 @@ const French = (props: any) => {
         autoComplete="off"
         onChange={handleChange}
         value={data.audioFr}
-        className={classes.input}
         InputProps={{ tabIndex: 2 }}
       />
 
