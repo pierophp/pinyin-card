@@ -28,3 +28,7 @@ If you are developing a production application, we recommend updating the config
 
 
 npx pwa-asset-generator public/logo.png public/pwa
+
+## Ícones:
+
+https://mui.com/material-ui/material-icons/

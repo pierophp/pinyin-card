@@ -244,7 +244,7 @@ const Game = (props: { cards: Card[] }) => {
       const audioAnswerElement: HTMLAudioElement = document.getElementById(
         selectedCard.id === card.id ? "right-audio" : "wrong-audio"
       ) as HTMLAudioElement;
-      audioAnswerElement.volume = 0.05;
+      audioAnswerElement.volume = 0.02;
       audioAnswerElement.play();
 
       setTimeout(() => {

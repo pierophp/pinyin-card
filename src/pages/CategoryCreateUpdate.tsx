@@ -12,8 +12,9 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import config from "../config";
 import { useParams } from "react-router-dom";
+import SaveIcon from "@mui/icons-material/Save";
 
-const CategoryCreateUpdate = (props: any) => {
+const CategoryCreateUpdate = () => {
   const params = useParams();
 
   const [data, setData] = useState({
@@ -254,9 +255,13 @@ const CategoryCreateUpdate = (props: any) => {
           </FormControl>
         </div>
 
-        <div>
-          <br />
-          <Button variant="contained" onClick={save}>
+        <div className="py-10">
+          <Button
+            variant="contained"
+            color="secondary"
+            startIcon={<SaveIcon />}
+            onClick={save}
+          >
             Save
           </Button>
         </div>

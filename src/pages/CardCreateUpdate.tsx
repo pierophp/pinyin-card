@@ -8,6 +8,7 @@ import English from "../components/card/create-update/English";
 import French from "../components/card/create-update/French";
 import Italian from "../components/card/create-update/Italian";
 import German from "../components/card/create-update/German";
+import Russian from "../components/card/create-update/Russian";
 import Portuguese from "../components/card/create-update/Portuguese";
 import config from "../config";
 import { useParams } from "react-router-dom";
@@ -51,6 +52,9 @@ const defaultData = {
   nameDe: "",
   audioDe: "",
   extraDe: {},
+  nameRu: "",
+  audioRu: "",
+  extraRu: {},
   image: "",
   categoryId: "",
 };
@@ -302,6 +306,27 @@ const CardCreateUpdate = () => {
               getForvo={getForvo}
               data={data}
               setPartialData={setPartialData}
+            />
+          </AccordionDetails>
+        </Accordion>
+
+        <Accordion
+          square
+          expanded={expanded === "ru"}
+          onChange={() => handleChangeExpanded("ry")}
+        >
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <div className="flex gap-1 items-center">
+              <img src="/icons/icons8-russia-48.png" height="25" />
+              <Typography>Russo</Typography>
+            </div>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Russian
+              handleChange={handleChange}
+              handleBlurChange={handleBlurChange}
+              handleForvo={handleForvo}
+              data={data}
             />
           </AccordionDetails>
         </Accordion>

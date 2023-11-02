@@ -42,5 +42,11 @@ export default function getLanguages() {
       namePt: "Português",
       testMessage: "Essa é uma mensagem de teste",
     },
+    {
+      code: "ru",
+      nameEn: "Russian",
+      namePt: "Russo",
+      testMessage: "Это тестовое сообщение",
+    },
   ];
 }
