@@ -25,6 +25,7 @@ import {
   DialogTitle,
   IconButton,
 } from "@mui/material";
+import { CardDTO } from "~/types/CardDTO";
 
 type AudioField =
   | "audioCh"
@@ -64,32 +65,32 @@ type Extra = {
   pronunciation?: string;
 };
 
-type Card = {
-  id: number;
-  image: string;
-  pinyin: string;
-  audioCh: string;
-  audioDe: string;
-  audioEn: string;
-  audioFr: string;
-  audioIt: string;
-  audioPt: string;
+// type Card = {
+//   id: number;
+//   image: string;
+//   pinyin: string;
+//   audioCh: string;
+//   audioDe: string;
+//   audioEn: string;
+//   audioFr: string;
+//   audioIt: string;
+//   audioPt: string;
 
-  extraCh: Extra;
-  extraDe: Extra;
-  extraEn: Extra;
-  extraFr: Extra;
-  extraIt: Extra;
-  extraPt: Extra;
+//   extraCh: Extra;
+//   extraDe: Extra;
+//   extraEn: Extra;
+//   extraFr: Extra;
+//   extraIt: Extra;
+//   extraPt: Extra;
 
-  nameChs: string;
-  nameCht: string;
-  nameDe: string;
-  nameEn: string;
-  nameFr: string;
-  nameIt: string;
-  namePt: string;
-};
+//   nameChs: string;
+//   nameCht: string;
+//   nameDe: string;
+//   nameEn: string;
+//   nameFr: string;
+//   nameIt: string;
+//   namePt: string;
+// };
 
 type Answers = {
   [cardId: number]: {
@@ -131,10 +132,10 @@ const CardComponent = ({
   );
 };
 
-const Game = (props: { cards: Card[] }) => {
-  const [cards, setCards] = useState<Card[]>([]);
+const Game = (props: { cards: CardDTO[] }) => {
+  const [cards, setCards] = useState<CardDTO[]>([]);
   const [speaker, setSpeaker] = useState("");
-  const [cardOptions, setCardOptions] = useState<Card[]>([]);
+  const [cardOptions, setCardOptions] = useState<CardDTO[]>([]);
   const [answers, setAnswers] = usePartialState({});
   const [showAnswer, setShowAnswer] = useState(false);
   const [appBarPortal, setAppBarPortal] = useState<HTMLElement | undefined>(
@@ -230,7 +231,7 @@ const Game = (props: { cards: Card[] }) => {
   );
 
   const selectAnswer = useCallback(
-    (selectedCard: Card) => {
+    (selectedCard: CardDTO) => {
       const answer: Answers = {
         [card.id]: {
           id: card.id,
@@ -286,7 +287,7 @@ const Game = (props: { cards: Card[] }) => {
   }, []);
 
   const loadOptions = useCallback(
-    (cards: Card[], currentCard: number) => {
+    (cards: CardDTO[], currentCard: number) => {
       if (!cards || cards.length === 0) {
         return;
       }
@@ -295,7 +296,7 @@ const Game = (props: { cards: Card[] }) => {
         return;
       }
 
-      const tempCards: Card[] = shuffle(props.cards)
+      const tempCards: CardDTO[] = shuffle(props.cards)
         .slice(0, 4)
         .filter((card) => card.id !== cards[currentCard].id)
         .slice(0, 3);

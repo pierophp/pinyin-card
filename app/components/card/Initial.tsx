@@ -1,12 +1,10 @@
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
-import VideogameAssetIcon from "@mui/icons-material/VideogameAsset";
 import SlideshowIcon from "@mui/icons-material/Slideshow";
 import VolumeOffIcon from "@mui/icons-material/VolumeOff";
 import { Link } from "react-router";
 import ShowCategory from "../category/ShowCategory";
 import {
-  Button,
   IconButton,
   Fab,
   Table,
@@ -17,6 +15,9 @@ import {
   Typography,
 } from "@mui/material";
 import { CategoryDTO } from "~/types/CategoryDTO";
+import { CardDTO } from "~/types/CardDTO";
+import { Button } from "../ui/button";
+import { Gamepad2Icon } from "lucide-react";
 
 const headCells = [
   {
@@ -34,9 +35,9 @@ const headCells = [
 ];
 
 type Props = {
-  cards: any[];
+  cards: CardDTO[];
   categories: CategoryDTO[];
-  currentCategory?: CategoryDTO;
+  currentCategory: CategoryDTO | null;
   user: any;
 };
 
@@ -88,41 +89,37 @@ const Initial = (props: Props) => {
   return (
     <>
       <div className="p-3 pb-12">
-        {/* {currentCategory && (
-          <Typography variant="h4" component="h4">
-            {currentCategory.namePt} {`(${cards.length})`}
-          </Typography>
-        )} */}
+        <div className="container mx-auto py-8">
+          {currentCategory && (
+            <h1 className="text-3xl font-bold mb-6 text-center">
+              {currentCategory.translatedtitle} {`(${cards.length})`}
+            </h1>
+          )}
 
-        {categories && categories.length > 0 && (
-          <>
-            <div className="container mx-auto py-8">
-              <h1 className="text-3xl font-bold mb-6 text-center">
-                Language Learning Categories
-              </h1>
-              <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-6">
-                {categories.map((category: any) => (
-                  <ShowCategory
-                    category={category}
-                    user={user}
-                    key={category.id}
-                  />
-                ))}
-              </div>
+          {categories && categories.length > 0 && (
+            <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-6">
+              {categories.map((category: any) => (
+                <ShowCategory
+                  category={category}
+                  user={user}
+                  key={category.id}
+                />
+              ))}
             </div>
-          </>
-        )}
+          )}
+        </div>
 
         {currentCategory && (
           <>
             <div className="flex gap-1">
-              {/* {cards.length > 0 && (
-                <Link to={`/category/${currentCategory.id}/game`}>
-                  <Button variant="outlined" startIcon={<VideogameAssetIcon />}>
+              {cards.length > 0 && (
+                <Button asChild>
+                  <Link to={`/category/${currentCategory.id}/game`}>
+                    <Gamepad2Icon />
                     Jogar
-                  </Button>
-                </Link>
-              )} */}
+                  </Link>
+                </Button>
+              )}
 
               {/* {cards.length > 0 && (
                 <Link to={`/category/${currentCategory.id}/presentation`}>
