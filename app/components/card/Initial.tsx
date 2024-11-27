@@ -16,6 +16,7 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
+import { CategoryDTO } from "~/types/CategoryDTO";
 
 const headCells = [
   {
@@ -32,7 +33,14 @@ const headCells = [
   { id: "nameDe", numeric: false, label: "Alemão" },
 ];
 
-const Initial = (props: any) => {
+type Props = {
+  cards: any[];
+  categories: CategoryDTO[];
+  currentCategory?: CategoryDTO;
+  user: any;
+};
+
+const Initial = (props: Props) => {
   // const [order, setOrder] = React.useState<"asc" | "desc">("asc");
   // const [orderBy, setOrderBy] = React.useState("nameEn");
 
@@ -80,22 +88,27 @@ const Initial = (props: any) => {
   return (
     <>
       <div className="p-3 pb-12">
-        {currentCategory && (
+        {/* {currentCategory && (
           <Typography variant="h4" component="h4">
             {currentCategory.namePt} {`(${cards.length})`}
           </Typography>
-        )}
+        )} */}
 
         {categories && categories.length > 0 && (
           <>
-            <div className="flex flex-wrap">
-              {categories.map((category: any) => (
-                <ShowCategory
-                  category={category}
-                  user={user}
-                  key={category.id}
-                />
-              ))}
+            <div className="container mx-auto py-8">
+              <h1 className="text-3xl font-bold mb-6 text-center">
+                Language Learning Categories
+              </h1>
+              <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-6">
+                {categories.map((category: any) => (
+                  <ShowCategory
+                    category={category}
+                    user={user}
+                    key={category.id}
+                  />
+                ))}
+              </div>
             </div>
           </>
         )}
@@ -103,15 +116,15 @@ const Initial = (props: any) => {
         {currentCategory && (
           <>
             <div className="flex gap-1">
-              {cards.length > 0 && (
+              {/* {cards.length > 0 && (
                 <Link to={`/category/${currentCategory.id}/game`}>
                   <Button variant="outlined" startIcon={<VideogameAssetIcon />}>
                     Jogar
                   </Button>
                 </Link>
-              )}
+              )} */}
 
-              {cards.length > 0 && (
+              {/* {cards.length > 0 && (
                 <Link to={`/category/${currentCategory.id}/presentation`}>
                   <Button
                     variant="outlined"
@@ -121,10 +134,10 @@ const Initial = (props: any) => {
                     Apresentação
                   </Button>
                 </Link>
-              )}
+              )} */}
             </div>
             <div>
-              {user && user.admin && cards.length > 0 && (
+              {/* {user && user.admin && cards.length > 0 && (
                 <Table aria-label="simple table">
                   <TableHead>
                     <TableRow>
@@ -132,22 +145,9 @@ const Initial = (props: any) => {
                         <TableCell
                           key={headCell.id}
                           align={headCell.numeric ? "right" : "left"}
-                          // sortDirection={orderBy === headCell.id ? order : false}
+                         
                         >
-                          {/* <TableSortLabel
-                          active={orderBy === headCell.id}
-                          direction={orderBy === headCell.id ? order : "asc"}
-                          onClick={createSortHandler(headCell.id)}
-                        >
-                          {headCell.label}
-                          {orderBy === headCell.id ? (
-                            <span className={classes.visuallyHidden}>
-                              {order === "desc"
-                                ? "sorted descending"
-                                : "sorted ascending"}
-                            </span>
-                          ) : null}
-                        </TableSortLabel> */}
+                         
                         </TableCell>
                       ))}
 
@@ -155,7 +155,7 @@ const Initial = (props: any) => {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {/* {stableSort(cards, getComparator(order, orderBy)).map( */}
+
                     {cards.map((card: any) => (
                       <TableRow key={card.id}>
                         <TableCell component="th" scope="row">
@@ -209,13 +209,13 @@ const Initial = (props: any) => {
                     ))}
                   </TableBody>
                 </Table>
-              )}
+              )} */}
             </div>
           </>
         )}
       </div>
 
-      {showCreateCardButton && (
+      {/* {showCreateCardButton && (
         <div className="fixed bottom-5 right-6">
           <Link to={`/card-create/${currentCategory.id}`}>
             <Fab color="primary" variant="extended" aria-label="add card">
@@ -224,9 +224,9 @@ const Initial = (props: any) => {
             </Fab>
           </Link>
         </div>
-      )}
+      )} */}
 
-      {showCreateCategoryButton && (
+      {/* {showCreateCategoryButton && (
         <div
           className={`fixed right-6 ${
             showCreateCardButton ? "bottom-20" : "bottom-5"
@@ -239,7 +239,7 @@ const Initial = (props: any) => {
             </Fab>
           </Link>
         </div>
-      )}
+      )} */}
     </>
   );
 };

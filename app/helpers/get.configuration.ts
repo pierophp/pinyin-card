@@ -11,9 +11,10 @@ const defaultConfiguration: Configuration = {
 };
 
 export default function getConfiguration(): Configuration {
-  const configuration = localStorage.getItem("configuration")
-    ? JSON.parse(localStorage.getItem("configuration") as string)
-    : {};
+  // const configuration = localStorage.getItem("configuration")
+  //   ? JSON.parse(localStorage.getItem("configuration") as string)
+  //   : {};
+  const configuration = {};
 
   return {
     ...defaultConfiguration,

@@ -1,14 +1,15 @@
 import type { Route } from "./+types/home";
 // import axios from "axios";
 import React from "react";
-import { useParams } from "react-router";
+import { useLoaderData, useParams } from "react-router";
 import Game from "../components/card/Game";
 import Initial from "../components/card/Initial";
 import Presentation from "../components/card/Presentation";
 import getUser from "../helpers/get.user";
 import { Button } from "../components/ui/button";
 
-const user = getUser();
+import { CategoryDTO } from "~/types/CategoryDTO";
+import { getPrisma } from "~/lib/getPrisma";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -17,10 +18,33 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
+export async function loader() {
+  const myLanguage = "pt";
+  const learningLanguage = "en";
+
+  const prisma = getPrisma();
+  const categories = (
+    await prisma.category.findMany({
+      where: {
+        parent_category_id: null,
+      },
+    })
+  ).map<CategoryDTO>((c) => {
+    return {
+      id: c.id,
+      translatedtitle: c[`name_${myLanguage}`]!,
+      learningTitle: c[`name_${learningLanguage}`]!,
+    };
+  });
+
+  return { user: getUser(), categories };
+}
+
 export default function Home() {
   const params = useParams();
+  const { categories, user } = useLoaderData<typeof loader>();
 
-  const [categories, setCategories] = React.useState([]);
+  // const [categories, setCategories] = React.useState([]);
   const [currentCategory, setCurrentCategory] = React.useState<any>(null);
   const [cards, setCards] = React.useState<any>([]);
 
@@ -65,16 +89,15 @@ export default function Home() {
 
   return (
     <div>
-      {/* {type === "initial" && (
+      {type === "initial" && (
         <Initial
           currentCategory={currentCategory}
           user={user}
           cards={cards}
           categories={categories}
         />
-      )} */}
+      )}
       {/* <VolumeOffIcon /> */}
-      <Button>Button</Button>
       {/* <Button variant="contained">Hello world</Button> */}
       {/* {type === "presentation" && <Presentation cards={cards} user={user} />} */}
       {/* {type === "game" && <Game cards={cards} />} */}
