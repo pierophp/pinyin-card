@@ -1,5 +1,11 @@
+import {
+  EditIcon,
+  CirclePlayIcon,
+  CheckCircleIcon,
+  CircleXIcon,
+} from "lucide-react";
+
 import shuffle from "lodash/shuffle";
-import upperFirst from "lodash/upperFirst";
 import React, {
   Reducer,
   useCallback,
@@ -18,20 +24,12 @@ import { CardDTO } from "~/types/CardDTO";
 import { Button } from "../ui/button";
 import { Link } from "react-router";
 import {
-  PencilIcon,
-  CirclePlayIcon,
-  CircleCheckIcon,
-  CircleXIcon,
-} from "lucide-react";
-import { Dialog, DialogContent, DialogTitle } from "@radix-ui/react-dialog";
-import { DialogFooter, DialogHeader } from "../ui/dialog";
-type AudioField =
-  | "audioCh"
-  | "audioDe"
-  | "audioEn"
-  | "audioFr"
-  | "audioIt"
-  | "audioPt";
+  Dialog,
+  DialogHeader,
+  DialogTitle,
+  DialogContent,
+  DialogFooter,
+} from "../ui/dialog";
 
 type ExtraField =
   | "extraCh"
@@ -40,15 +38,6 @@ type ExtraField =
   | "extraFr"
   | "extraIt"
   | "extraPt";
-
-type NameField =
-  | "nameChs"
-  | "nameCht"
-  | "nameDe"
-  | "nameEn"
-  | "nameFr"
-  | "nameIt"
-  | "namePt";
 
 type Genders = {
   de_m: string;
@@ -62,33 +51,6 @@ type Extra = {
   gender?: string;
   pronunciation?: string;
 };
-
-// type Card = {
-//   id: number;
-//   image: string;
-//   pinyin: string;
-//   audioCh: string;
-//   audioDe: string;
-//   audioEn: string;
-//   audioFr: string;
-//   audioIt: string;
-//   audioPt: string;
-
-//   extraCh: Extra;
-//   extraDe: Extra;
-//   extraEn: Extra;
-//   extraFr: Extra;
-//   extraIt: Extra;
-//   extraPt: Extra;
-
-//   nameChs: string;
-//   nameCht: string;
-//   nameDe: string;
-//   nameEn: string;
-//   nameFr: string;
-//   nameIt: string;
-//   namePt: string;
-// };
 
 type Answers = {
   [cardId: number]: {
@@ -110,7 +72,7 @@ const CardComponent = ({
   onClick,
   border = true,
 }: {
-  card: Card;
+  card: CardDTO;
   onClick?: () => void;
   border?: boolean;
 }) => {
@@ -130,7 +92,7 @@ const CardComponent = ({
   );
 };
 
-export function Game(props: { cards: CardDTO[] }) {
+const Game = (props: { cards: CardDTO[] }) => {
   const [cards, setCards] = useState<CardDTO[]>([]);
   const [speaker, setSpeaker] = useState("");
   const [cardOptions, setCardOptions] = useState<CardDTO[]>([]);
@@ -169,26 +131,13 @@ export function Game(props: { cards: CardDTO[] }) {
     [configuration.learningLanguage]
   );
 
-  const nameField: NameField = useMemo(
-    () => `name${upperFirst(configuration.learningLanguage)}` as NameField,
-    [configuration.learningLanguage]
-  );
-
-  const audioField: AudioField = useMemo(
-    () =>
-      isChinese
-        ? "audioCh"
-        : (`audio${upperFirst(configuration.learningLanguage)}` as AudioField),
-    [isChinese, configuration.learningLanguage]
-  );
-
-  const extraField: ExtraField = useMemo(
-    () =>
-      isChinese
-        ? "extraCh"
-        : (`extra${upperFirst(configuration.learningLanguage)}` as ExtraField),
-    [isChinese, configuration.learningLanguage]
-  );
+  // const extraField: ExtraField = useMemo(
+  //   () =>
+  //     isChinese
+  //       ? "extraCh"
+  //       : (`extra${upperFirst(configuration.learningLanguage)}` as ExtraField),
+  //   [isChinese, configuration.learningLanguage]
+  // );
 
   const card = useMemo(() => cards[currentCard], [cards, currentCard]);
 
@@ -198,12 +147,12 @@ export function Game(props: { cards: CardDTO[] }) {
   }, []);
 
   const play = useCallback(
-    (card: Card, forceSynthesis = false) => {
+    (card: CardDTO, forceSynthesis = false) => {
       if (!card) {
         return;
       }
 
-      if (card[audioField] && !forceSynthesis) {
+      if (card.audio && !forceSynthesis) {
         setSpeaker("");
         const audioElement: HTMLAudioElement = document.getElementById(
           "audio"
@@ -217,7 +166,7 @@ export function Game(props: { cards: CardDTO[] }) {
       let learningVoices = filterVoices(voices, configuration.learningLanguage);
       learningVoices = shuffle(learningVoices);
 
-      const utterance = new SpeechSynthesisUtterance(card[nameField]);
+      const utterance = new SpeechSynthesisUtterance(card.learningTitle);
       if (learningVoices.length > 0) {
         utterance.voice = learningVoices[0];
         setSpeaker(learningVoices[0].name);
@@ -225,7 +174,7 @@ export function Game(props: { cards: CardDTO[] }) {
 
       window.speechSynthesis.speak(utterance);
     },
-    [configuration.learningLanguage, nameField, audioField]
+    [configuration.learningLanguage]
   );
 
   const selectAnswer = useCallback(
@@ -253,28 +202,33 @@ export function Game(props: { cards: CardDTO[] }) {
     [card, setAnswers, play]
   );
 
-  const preloadAudios = useCallback(
-    async (cards: Card[]) => {
-      for (const card of cards) {
-        await new Promise((resolve) => {
-          const audio = new Audio();
-          audio.addEventListener(
-            "canplaythrough",
-            () => {
-              resolve(undefined);
-            },
-            false
-          );
-          audio.src = card[audioField];
-        });
-      }
-    },
-    [audioField]
-  );
-
-  const preloadImages = useCallback(async (cards: Card[]) => {
+  const preloadAudios = useCallback(async (cards: CardDTO[]) => {
     for (const card of cards) {
       await new Promise((resolve) => {
+        if (!card.audio) {
+          return;
+        }
+
+        const audio = new Audio();
+        audio.addEventListener(
+          "canplaythrough",
+          () => {
+            resolve(undefined);
+          },
+          false
+        );
+        audio.src = card.audio;
+      });
+    }
+  }, []);
+
+  const preloadImages = useCallback(async (cards: CardDTO[]) => {
+    for (const card of cards) {
+      await new Promise((resolve) => {
+        if (!card.image) {
+          return;
+        }
+
         const image = new Image();
         image.onload = () => {
           resolve(undefined);
@@ -310,19 +264,19 @@ export function Game(props: { cards: CardDTO[] }) {
   }, []);
 
   React.useEffect(() => {
-    if (card?.[audioField]) {
+    if (card?.audio) {
       return;
     }
 
     play(card);
-  }, [card, audioField, play]);
+  }, [card, play]);
 
   React.useEffect(() => {
-    const tempCards = shuffle(props.cards.filter((card) => card[nameField]));
+    const tempCards = shuffle(props.cards.filter((card) => card.learningTitle));
     setCards(tempCards);
     preloadAudios(tempCards);
     preloadImages(tempCards);
-  }, [props, nameField, loadOptions, preloadAudios, preloadImages]);
+  }, [props, loadOptions, preloadAudios, preloadImages]);
 
   React.useEffect(() => {
     function loadPortal() {
@@ -348,27 +302,26 @@ export function Game(props: { cards: CardDTO[] }) {
   }, [currentCard, cards, loadOptions]);
 
   const showTranslation = false;
-  const language = "pt";
-  const translatedField: NameField = `name${upperFirst(language)}` as NameField;
-  const genderLanguage: keyof Genders =
-    `${configuration.learningLanguage}_${card?.[extraField]?.gender}` as keyof Genders;
+
+  // const genderLanguage: keyof Genders =
+  //   `${configuration.learningLanguage}_${card?.[extraField]?.gender}` as keyof Genders;
 
   let genderClass = "";
-  if (card && card[extraField]?.gender) {
-    const gender: GenderClass = `gender${card[
-      extraField
-    ].gender?.toUpperCase()}` as GenderClass;
+  // if (card && card[extraField]?.gender) {
+  //   const gender: GenderClass = `gender${card[
+  //     extraField
+  //   ].gender?.toUpperCase()}` as GenderClass;
 
-    const genderClasses = {
-      genderM: "text-blue-500",
-      genderF: "text-red-500",
-      genderN: "text-green-300",
-    };
+  //   const genderClasses = {
+  //     genderM: "text-blue-500",
+  //     genderF: "text-red-500",
+  //     genderN: "text-green-300",
+  //   };
 
-    if (genderClasses[gender]) {
-      genderClass = genderClasses[gender];
-    }
-  }
+  //   if (genderClasses[gender]) {
+  //     genderClass = genderClasses[gender];
+  //   }
+  // }
 
   return (
     <div>
@@ -390,8 +343,8 @@ export function Game(props: { cards: CardDTO[] }) {
           appBarPortal
         )}
 
-      {card && card[audioField] && (
-        <audio src={card[audioField]} autoPlay id="audio"></audio>
+      {card && card.audio && (
+        <audio src={card.audio} autoPlay id="audio"></audio>
       )}
       {card && answers[card.id] && (
         <Dialog
@@ -402,7 +355,7 @@ export function Game(props: { cards: CardDTO[] }) {
           }}
           open={showAnswer}
         >
-          <DialogContent>
+          <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
               <DialogTitle
                 className={
@@ -411,7 +364,7 @@ export function Game(props: { cards: CardDTO[] }) {
               >
                 {answers[card.id].correct ? (
                   <>
-                    <CircleCheckIcon fontSize="large" />
+                    <CheckCircleIcon fontSize="large" />
                     Resposta correta
                   </>
                 ) : (
@@ -431,30 +384,30 @@ export function Game(props: { cards: CardDTO[] }) {
             <div className="bg-black bg-opacity-50 w-180 min-h-75 text-center mx-auto">
               {showTranslation && (
                 <div className="w-full text-center text-white text-2xl">
-                  {card[translatedField] ? card[translatedField] : card.nameEn}
+                  {card.translatedtitle}
                 </div>
               )}
 
               <div
                 className={`w-full text-center text-white text-2xl ${genderClass}`}
               >
-                {card[extraField] && card[extraField].gender && (
+                {/* {card[extraField] && card[extraField].gender && (
                   <span>({genders[genderLanguage]}) </span>
-                )}
+                )} */}
 
-                {card[nameField]}
+                {card.learningTitle}
               </div>
 
               {isChinese && (
                 <div className="w-full text-center text-white text-2xl">
-                  {card.pinyin}
+                  {card.pronunciation}
                 </div>
               )}
-              {card[extraField] && card[extraField].pronunciation && (
+              {/* {card[extraField] && card[extraField].pronunciation && (
                 <div className="w-full text-center text-white text-2xl">
                   {card[extraField].pronunciation}
                 </div>
-              )}
+              )} */}
 
               <Button color="primary" onClick={() => play(card)}>
                 <CirclePlayIcon />
@@ -463,12 +416,13 @@ export function Game(props: { cards: CardDTO[] }) {
               {user && user.admin && (
                 <Button color="primary" asChild>
                   <Link to={`/card-update/${card.id}`} target="_blank">
-                    <PencilIcon />
+                    <EditIcon />
                   </Link>
                 </Button>
               )}
             </div>
           </DialogContent>
+
           <DialogFooter>
             <Button onClick={goToNextCard} color="primary">
               Continuar
@@ -490,4 +444,6 @@ export function Game(props: { cards: CardDTO[] }) {
       </div>
     </div>
   );
-}
+};
+
+export default Game;

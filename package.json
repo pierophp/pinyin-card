@@ -1,5 +1,5 @@
 {
-  "name": "pinyin-card",
+  "name": "luca-card",
   "private": true,
   "type": "module",
   "scripts": {
@@ -12,6 +12,7 @@
   "dependencies": {
     "@prisma/client": "5.22.0",
     "@radix-ui/react-dialog": "^1.1.2",
+    "@radix-ui/react-separator": "^1.1.0",
     "@radix-ui/react-slot": "^1.1.0",
     "@react-router/node": "^7.0.1",
     "@react-router/serve": "^7.0.1",

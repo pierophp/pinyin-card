@@ -1,104 +1,79 @@
-import AccountBoxIcon from "@mui/icons-material/AccountBox";
-import ChromeReaderModeIcon from "@mui/icons-material/ChromeReaderMode";
-import DescriptionIcon from "@mui/icons-material/Description";
-import MenuIcon from "@mui/icons-material/Menu";
-import SettingsApplicationsIcon from "@mui/icons-material/SettingsApplications";
-import {
-  AppBar,
-  Divider,
-  Drawer,
-  IconButton,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Toolbar,
-} from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
+import { Button } from "~/components/ui/button";
+import { Sheet, SheetContent, SheetTrigger } from "~/components/ui/sheet";
+import { Separator } from "~/components/ui/separator";
+import { Home, Settings, FileText, LogIn, Menu } from "lucide-react"; // Replace with desired icons from lucide-react
 
 const AppBarDrawer = () => {
-  const [drawerOpen, setDrawerOpen] = React.useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
-  const toggleDrawer = (open: any) => (event: any) => {
-    if (
-      event.type === "keydown" &&
-      (event.key === "Tab" || event.key === "Shift")
-    ) {
-      return;
-    }
-
+  const toggleDrawer = (open: boolean) => () => {
     setDrawerOpen(open);
   };
 
   return (
     <>
-      <AppBar>
-        <Toolbar>
-          <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            onClick={toggleDrawer(true)}
-          >
-            <MenuIcon />
-          </IconButton>
-
-          <div>
-            <div id="app-bar-portal"></div>
-          </div>
-        </Toolbar>
-      </AppBar>
-      {
-        <Drawer open={drawerOpen} onClose={toggleDrawer(false)}>
-          <div
-            role="presentation"
-            onClick={toggleDrawer(false)}
-            onKeyDown={toggleDrawer(false)}
-          >
-            <List>
-              <ListItem button onClick={() => (window.location.href = "/")}>
-                <ListItemIcon>
-                  <ChromeReaderModeIcon />
-                </ListItemIcon>
-                <ListItemText primary="Categorias" />
-              </ListItem>
-              <Divider />
-              <ListItem
-                button
-                onClick={() => (window.location.href = "/configuration")}
+      <div className="fixed w-full bg-gray-800 text-white">
+        <div className="flex items-center justify-between px-4 py-2">
+          <Sheet open={drawerOpen} onOpenChange={setDrawerOpen}>
+            <SheetTrigger asChild>
+              <Button variant="ghost" onClick={toggleDrawer(true)}>
+                <Menu className="h-6 w-6" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-64">
+              Luca's Card
+            </SheetContent>
+            <SheetContent side="left" className="w-64">
+              <div
+                role="presentation"
+                className="flex flex-col gap-2"
+                onClick={toggleDrawer(false)}
               >
-                <ListItemIcon>
-                  <SettingsApplicationsIcon />
-                </ListItemIcon>
-                <ListItemText primary="Configurações" />
-              </ListItem>
-              <Divider />
-              <ListItem
-                button
-                onClick={() =>
-                  (window.location.href = "/english-portuguese-ipa")
-                }
-              >
-                <ListItemIcon>
-                  <DescriptionIcon />
-                </ListItemIcon>
-                <ListItemText primary="IPA (tabela de pronúncias)" />
-              </ListItem>
-              <Divider />
-              <ListItem
-                button
-                onClick={() => (window.location.href = "/login")}
-              >
-                <ListItemIcon>
-                  <AccountBoxIcon />
-                </ListItemIcon>
-                <ListItemText primary="Entrar" />
-              </ListItem>
-              <Divider />
-            </List>
-          </div>
-        </Drawer>
-      }
+                <Button
+                  variant="ghost"
+                  className="justify-start"
+                  onClick={() => (window.location.href = "/")}
+                >
+                  <Home className="mr-2 h-5 w-5" />
+                  Categorias
+                </Button>
+                <Separator />
+                <Button
+                  variant="ghost"
+                  className="justify-start"
+                  onClick={() => (window.location.href = "/configuration")}
+                >
+                  <Settings className="mr-2 h-5 w-5" />
+                  Configurações
+                </Button>
+                <Separator />
+                <Button
+                  variant="ghost"
+                  className="justify-start"
+                  onClick={() =>
+                    (window.location.href = "/english-portuguese-ipa")
+                  }
+                >
+                  <FileText className="mr-2 h-5 w-5" />
+                  IPA (tabela de pronúncias)
+                </Button>
+                <Separator />
+                <Button
+                  variant="ghost"
+                  className="justify-start"
+                  onClick={() => (window.location.href = "/login")}
+                >
+                  <LogIn className="mr-2 h-5 w-5" />
+                  Entrar
+                </Button>
+                <Separator />
+              </div>
+            </SheetContent>
+          </Sheet>
+          <div id="app-bar-portal"></div>
+        </div>
+      </div>
     </>
   );
 };

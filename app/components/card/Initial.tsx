@@ -1,6 +1,6 @@
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
-import SlideshowIcon from "@mui/icons-material/Slideshow";
+
 import VolumeOffIcon from "@mui/icons-material/VolumeOff";
 import { Link } from "react-router";
 import ShowCategory from "../category/ShowCategory";
@@ -17,7 +17,7 @@ import {
 import { CategoryDTO } from "~/types/CategoryDTO";
 import { CardDTO } from "~/types/CardDTO";
 import { Button } from "../ui/button";
-import { Gamepad2Icon } from "lucide-react";
+import { Gamepad2Icon, ImagesIcon } from "lucide-react";
 
 const headCells = [
   {
@@ -121,17 +121,14 @@ const Initial = (props: Props) => {
                 </Button>
               )}
 
-              {/* {cards.length > 0 && (
-                <Link to={`/category/${currentCategory.id}/presentation`}>
-                  <Button
-                    variant="outlined"
-                    color="success"
-                    startIcon={<SlideshowIcon />}
-                  >
+              {cards.length > 0 && (
+                <Button color="success" asChild>
+                  <Link to={`/category/${currentCategory.id}/presentation`}>
+                    <ImagesIcon />
                     Apresentação
-                  </Button>
-                </Link>
-              )} */}
+                  </Link>
+                </Button>
+              )}
             </div>
             <div>
               {/* {user && user.admin && cards.length > 0 && (
