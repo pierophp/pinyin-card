@@ -21,9 +21,7 @@ const AppBarDrawer = () => {
                 <Menu className="h-6 w-6" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-64">
-              Luca's Card
-            </SheetContent>
+
             <SheetContent side="left" className="w-64">
               <div
                 role="presentation"
@@ -71,6 +69,7 @@ const AppBarDrawer = () => {
               </div>
             </SheetContent>
           </Sheet>
+          <div>Luca's Cards</div>
           <div id="app-bar-portal"></div>
         </div>
       </div>

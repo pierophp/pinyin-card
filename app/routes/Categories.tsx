@@ -12,8 +12,8 @@ import { CardRepository } from "~/repositories/CardRepository";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "New React Router App" },
-    { name: "description", content: "Welcome to React Router!" },
+    { title: "Luca's cards" },
+    { name: "description", content: "Learn languages playing!" },
   ];
 }
 

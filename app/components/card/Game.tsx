@@ -355,7 +355,7 @@ const Game = (props: { cards: CardDTO[] }) => {
           }}
           open={showAnswer}
         >
-          <DialogContent className="sm:max-w-[425px]">
+          <DialogContent className="max-w-screen h-screen ">
             <DialogHeader>
               <DialogTitle
                 className={
