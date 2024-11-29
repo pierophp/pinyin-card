@@ -5,4 +5,5 @@ export default [
   route("category/:id/:type?", "routes/Categories.tsx", {
     id: "category/:id/:type?",
   }),
+  route("v0", "routes/V0.tsx"),
 ] satisfies RouteConfig;
