@@ -1,7 +1,3 @@
-import EditIcon from "@mui/icons-material/Edit";
-import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import ErrorIcon from "@mui/icons-material/Error";
 import shuffle from "lodash/shuffle";
 import upperFirst from "lodash/upperFirst";
 import React, {
@@ -17,16 +13,18 @@ import getUser from "../../helpers/get.user";
 import usePartialState from "../../hooks/usePartialState";
 
 import { filterVoices } from "../../helpers/filter.voices";
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-} from "@mui/material";
-import { CardDTO } from "~/types/CardDTO";
 
+import { CardDTO } from "~/types/CardDTO";
+import { Button } from "../ui/button";
+import { Link } from "react-router";
+import {
+  PencilIcon,
+  CirclePlayIcon,
+  CircleCheckIcon,
+  CircleXIcon,
+} from "lucide-react";
+import { Dialog, DialogContent, DialogTitle } from "@radix-ui/react-dialog";
+import { DialogFooter, DialogHeader } from "../ui/dialog";
 type AudioField =
   | "audioCh"
   | "audioDe"
@@ -132,7 +130,7 @@ const CardComponent = ({
   );
 };
 
-const Game = (props: { cards: CardDTO[] }) => {
+export function Game(props: { cards: CardDTO[] }) {
   const [cards, setCards] = useState<CardDTO[]>([]);
   const [speaker, setSpeaker] = useState("");
   const [cardOptions, setCardOptions] = useState<CardDTO[]>([]);
@@ -380,13 +378,13 @@ const Game = (props: { cards: CardDTO[] }) => {
       {appBarPortal &&
         ReactDOM.createPortal(
           <div className="flex">
-            <IconButton onClick={() => play(card)}>
-              <PlayCircleOutlineIcon style={{ color: "#fff" }} />
-            </IconButton>
+            <Button onClick={() => play(card)}>
+              <CirclePlayIcon style={{ color: "#fff" }} />
+            </Button>
 
-            <IconButton onClick={() => play(card, true)}>
-              <PlayCircleOutlineIcon style={{ color: "#fff" }} />
-            </IconButton>
+            <Button onClick={() => play(card, true)}>
+              <CirclePlayIcon style={{ color: "#fff" }} />
+            </Button>
             <div className="flex items-center">{speaker}</div>
           </div>,
           appBarPortal
@@ -396,25 +394,34 @@ const Game = (props: { cards: CardDTO[] }) => {
         <audio src={card[audioField]} autoPlay id="audio"></audio>
       )}
       {card && answers[card.id] && (
-        <Dialog onClose={goToNextCard} open={showAnswer} fullWidth={true}>
-          <DialogTitle
-            className={
-              answers[card.id].correct ? "text-green-500" : "text-red-500"
+        <Dialog
+          onOpenChange={(open) => {
+            if (!open) {
+              goToNextCard();
             }
-          >
-            {answers[card.id].correct ? (
-              <>
-                <CheckCircleIcon fontSize="large" />
-                Resposta correta
-              </>
-            ) : (
-              <>
-                <ErrorIcon fontSize="large" />
-                Resposta errada
-              </>
-            )}
-          </DialogTitle>
-          <DialogContent dividers>
+          }}
+          open={showAnswer}
+        >
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle
+                className={
+                  answers[card.id].correct ? "text-green-500" : "text-red-500"
+                }
+              >
+                {answers[card.id].correct ? (
+                  <>
+                    <CircleCheckIcon fontSize="large" />
+                    Resposta correta
+                  </>
+                ) : (
+                  <>
+                    <CircleXIcon fontSize="large" />
+                    Resposta errada
+                  </>
+                )}
+              </DialogTitle>
+            </DialogHeader>
             <CardComponent card={card} border={false} />
             {/* <div
               className="bg-center w-full bg-white bg-no-repeat h-[calc(50vh-(56px/2)-4px)] w-[calc(50%-4px)] relative mx-auto  portrait:h-[50vh] landscape:h-[50vh]"
@@ -449,27 +456,24 @@ const Game = (props: { cards: CardDTO[] }) => {
                 </div>
               )}
 
-              <IconButton color="primary" onClick={() => play(card)}>
-                <PlayCircleOutlineIcon />
-              </IconButton>
+              <Button color="primary" onClick={() => play(card)}>
+                <CirclePlayIcon />
+              </Button>
 
               {user && user.admin && (
-                <IconButton
-                  color="primary"
-                  component="a"
-                  href={`/card-update/${card.id}`}
-                  target="_blank"
-                >
-                  <EditIcon />
-                </IconButton>
+                <Button color="primary" asChild>
+                  <Link to={`/card-update/${card.id}`} target="_blank">
+                    <PencilIcon />
+                  </Link>
+                </Button>
               )}
             </div>
           </DialogContent>
-          <DialogActions>
+          <DialogFooter>
             <Button onClick={goToNextCard} color="primary">
               Continuar
             </Button>
-          </DialogActions>
+          </DialogFooter>
         </Dialog>
       )}
       <div className="flex flex-wrap">
@@ -486,6 +490,4 @@ const Game = (props: { cards: CardDTO[] }) => {
       </div>
     </div>
   );
-};
-
-export default Game;
+}
